@@ -8,7 +8,7 @@
 SaveGame save_game;
 
 bool StageSaveData::isLocked()
-{return false;
+{
     if (isFullyCompleted())
         return false;
     if (!previous)

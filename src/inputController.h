@@ -7,21 +7,21 @@ class InputController
 {
 public:
     InputController(int index)
-    : left(sp::string(index) + "_left", sf::Keyboard::A)
-    , right(sp::string(index) + "_right", sf::Keyboard::D)
-    , up(sp::string(index) + "_up", sf::Keyboard::W)
-    , down(sp::string(index) + "_down", sf::Keyboard::S)
-    , running(sp::string(index) + "_running", sf::Keyboard::LShift)
+    : left(sp::string(index) + "_left", sf::Keyboard::Left)
+    , right(sp::string(index) + "_right", sf::Keyboard::Right)
+    , up(sp::string(index) + "_up", sf::Keyboard::Up)
+    , down(sp::string(index) + "_down", sf::Keyboard::Down)
+    , running(sp::string(index) + "_running", sf::Keyboard::Z)
     , jump(sp::string(index) + "_jump", sf::Keyboard::Space)
     {
         if (index == 1)
         {
-            left.setKey(sf::Keyboard::Left);
-            right.setKey(sf::Keyboard::Right);
-            up.setKey(sf::Keyboard::Up);
-            down.setKey(sf::Keyboard::Down);
-            running.setKey(sf::Keyboard::RShift);
-            jump.setKey(sf::Keyboard::Return);
+            left.setKey(sf::Keyboard::A);
+            right.setKey(sf::Keyboard::D);
+            up.setKey(sf::Keyboard::W);
+            down.setKey(sf::Keyboard::S);
+            running.setKey(sf::Keyboard::Q);
+            jump.setKey(sf::Keyboard::E);
         }
     }
     

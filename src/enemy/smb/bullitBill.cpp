@@ -49,7 +49,9 @@ void BullitGenerator::onUpdate(float delta)
         return;
 
     if (spawn_delay > 0)
+    {
         spawn_delay -= delta;
+    }
     else
     {
         new BullitBill(getParent(), x, y);
