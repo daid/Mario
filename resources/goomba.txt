@@ -1,0 +1,17 @@
+{
+    texture: enemies.png
+    texture_size: 256, 128
+    {
+        size: 1, 1
+        frame_size: 16, 16
+        [Walk] {
+            position: 0, 0
+            delay: 0.2
+            frame_count: 2
+            loop: true
+        }
+        [Death] {
+            position: 32, 0
+        }
+    }
+}

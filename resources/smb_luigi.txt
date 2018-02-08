@@ -1,0 +1,97 @@
+{
+    texture: smb_players.png
+    texture_size: 256, 256
+    margin: 1, 1
+    {
+        size: 1, 1
+        frame_size: 16, 16
+        delay: 0.1
+        [Stand] {
+            position: 0, 182
+        }
+        [Walk] {
+            position: 17, 182
+            frame_count: 3
+            loop: true
+        }
+        [Jump] {
+            position: 85, 182
+        }
+        [Death] {
+            position: 102, 182
+        }
+        [Skid] {
+            position: 68, 182
+        }
+        [Climb] {
+            position: 119, 182
+            frame_count: 2
+            loop: true
+        }
+        [Swim] {
+            position: 153, 182
+            frame_count: 5
+            loop: true
+        }
+
+        {
+            size: 1, 2
+            frame_size: 16, 32
+            [LargeStand] {
+                position: 0, 149
+            }
+            [LargeWalk] {
+                position: 17, 149
+                frame_count: 3
+                loop: true
+            }
+            [LargeJump] {
+                position: 85, 149
+            }
+            [LargeDuck] {
+                position: 102, 149
+            }
+            [LargeSkid] {
+                position: 68, 149
+            }
+            [LargeClimb] {
+                position: 119, 149
+                frame_count: 2
+                loop: true
+            }
+            [LargeSwim] {
+                position: 153, 149
+                frame_count: 6
+                loop: true
+            }
+
+            [FireStand] {
+                position: 0, 50
+            }
+            [FireWalk] {
+                position: 17, 50
+                frame_count: 3
+                loop: true
+            }
+            [FireJump] {
+                position: 85, 50
+            }
+            [FireDuck] {
+                position: 102, 50
+            }
+            [FireSkid] {
+                position: 68, 50
+            }
+            [FireClimb] {
+                position: 119, 50
+                frame_count: 2
+                loop: true
+            }
+            [FireSwim] {
+                position: 153, 50
+                frame_count: 6
+                loop: true
+            }
+        }
+    }
+}

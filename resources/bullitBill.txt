@@ -1,0 +1,11 @@
+{
+    texture: enemies.png
+    texture_size: 256, 128
+    {
+        size: 1, 1
+        frame_size: 16, 16
+        [Default] {
+            position: 176, 0
+        }
+    }
+}

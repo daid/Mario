@@ -1,0 +1,21 @@
+{
+    texture: items.png
+    texture_size: 256, 256
+    {
+        size: 1, 1.5
+        frame_size: 16, 24
+        offset: 0, 4
+        [Toad] {
+            position: 0, 96
+        }
+        [Princess] {
+            position: 16, 96
+        }
+        [Flag] {
+            size: 1, 1
+            frame_size: 16, 16
+            offset: 0, 0
+            position: 128, 32
+        }
+    }
+}

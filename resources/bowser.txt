@@ -1,0 +1,23 @@
+{
+    texture: enemies.png
+    texture_size: 256, 128
+    {
+        size: 2, 2
+        frame_size: 32, 32
+        [Walk] {
+            position: 48, 72
+            delay: 1.5
+            frame_count: 2
+            loop: true
+        }
+        [PreFire] {
+            position: 112, 72
+            delay: 1.5
+            frame_count: 2
+            loop: true
+        }
+        [Death] {
+            position: 112, 72
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+    texture: enemies.png
+    texture_size: 256, 128
+    {
+        size: 1, 1.5
+        frame_size: 16, 24
+        [Default] {
+            position: 144, 0
+            delay: 0.3
+            frame_count: 2
+            loop: true
+        }
+    }
+}

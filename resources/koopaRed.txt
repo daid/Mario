@@ -1,0 +1,24 @@
+{
+    texture: enemies.png
+    texture_size: 256, 128
+    {
+        size: 1, 1.5
+        frame_size: 16, 24
+        offset: 0, 4
+        [Walk] {
+            position: 48, 48
+            delay: 0.2
+            frame_count: 2
+            loop: true
+        }
+        [ParatroopaWalk] {
+            position: 80, 48
+            delay: 0.2
+            frame_count: 2
+            loop: true
+        }
+        [Death] {
+            position: 112, 48
+        }
+    }
+}

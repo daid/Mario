@@ -1,0 +1,17 @@
+{
+    texture: items.png
+    texture_size: 256, 256
+    {
+        size: 1, 2
+        frame_size: 16, 32
+        [Default] {
+            position: 80, 0
+        }
+        [Partial] {
+            position: 96, 0
+        }
+        [Compressed] {
+            position: 112, 0
+        }
+    }
+}

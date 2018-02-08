@@ -1,0 +1,26 @@
+{
+    texture: items.png
+    texture_size: 256, 256
+    {
+        size: 1, 1
+        frame_size: 16, 16
+        [Default] {
+            position: 16, 0
+            delay: 0.4, 0.1, 0.1, 0.1
+            frames:  0,   1,   2,   1
+            loop: true
+        }
+        [Empty] {
+            position: 64, 16
+        }
+        [Brick] {
+            position: 144, 0
+        }
+        [BrickUnderground] {
+            position: 144, 16
+        }
+        [BrickCastle] {
+            position: 144, 32
+        }
+    }
+}

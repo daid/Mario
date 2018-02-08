@@ -1,0 +1,89 @@
+{
+    texture: smb2_players.png
+    texture_size: 256, 256
+
+    size: 1, 2
+    frame_size: 16, 32
+    delay: 0.1
+    {
+        offset: 0, 8
+        [Stand] {
+            position: 80, 96
+        }
+        [Walk] {
+            position: 64, 96
+            frame_count: 2
+            loop: true
+        }
+        [Jump] {
+            position: 80, 96
+        }
+        [Death] {
+            position: 112, 96
+        }
+        [Skid] {
+            position: 80, 96
+        }
+        [Climb] {
+            position: 96, 96
+        }
+        [Swim] {
+            position: 64, 96
+            frame_count: 2
+            loop: true
+        }
+    }
+    {
+        [LargeStand] {
+            position: 16, 96
+        }
+        [LargeWalk] {
+            position: 0, 96
+            frame_count: 2
+            loop: true
+        }
+        [LargeJump] {
+            position: 16, 96
+        }
+        [LargeDuck] {
+            position: 48, 96
+        }
+        [LargeSkid] {
+            position: 16, 96
+        }
+        [LargeClimb] {
+            position: 32, 96
+        }
+        [LargeSwim] {
+            position: 0, 96
+            frame_count: 2
+            loop: true
+        }
+
+        [FireStand] {
+            position: 160, 96
+        }
+        [FireWalk] {
+            position: 144, 96
+            frame_count: 2
+            loop: true
+        }
+        [FireJump] {
+            position: 160, 96
+        }
+        [FireDuck] {
+            position: 192, 96
+        }
+        [FireSkid] {
+            position: 160, 96
+        }
+        [FireClimb] {
+            position: 176, 96
+        }
+        [FireSwim] {
+            position: 144, 96
+            frame_count: 2
+            loop: true
+        }
+    }
+}

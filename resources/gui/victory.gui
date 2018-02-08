@@ -1,0 +1,6 @@
+[VICTORY] {
+    type: label
+    caption: STAGE COMPLETE
+    stretch: true
+    text.size: 15
+}

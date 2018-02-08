@@ -1,0 +1,6 @@
+[GAMEOVER] {
+    type: label
+    caption: GAME OVER
+    stretch: true
+    text.size: 20
+}

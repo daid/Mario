@@ -1,0 +1,14 @@
+{
+    texture: items.png
+    texture_size: 256, 256
+    {
+        size: 1, 1
+        frame_size: 16, 16
+        [Default] {
+            position: 0, 64
+            delay: 0.2
+            frame_count: 4
+            loop: true
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    texture: items.png
+    texture_size: 256, 256
+    {
+        [Default] {
+            size: 3, 0.5
+            position: 64, 80
+            frame_size: 48, 8
+        }
+        [Small] {
+            size: 2, 0.5
+            position: 64, 80
+            frame_size: 32, 8
+        }
+        [Tiny] {
+            size: 1.5, 0.5
+            position: 64, 80
+            frame_size: 24, 8
+        }
+    }
+}

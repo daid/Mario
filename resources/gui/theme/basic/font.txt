@@ -1,0 +1,10 @@
+texture: gui/theme/basic/font.png
+texture_size: 256, 96
+glyph_size: 16, 16
+
+line: _!"#$%&'()*+,-./
+line: 0123456789:;<=>?
+line: @ABCDEFGHIJKLMNO
+line: PQRSTUVWXYZ[\]^_
+line: `abcdefghijklmno
+line: pqrstuvwzyz{|}~

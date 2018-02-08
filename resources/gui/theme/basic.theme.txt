@@ -1,0 +1,40 @@
+{
+    color: #FFFFFF
+    //font: gui/theme/basic/forque.ttf
+    font: gui/theme/basic/font.txt
+    text.size: 4
+
+    [button.label] {
+        color.disabled: #808080
+        color.hovered: #808080
+    }
+    [button.background] {
+        image: gui/theme/basic/background.png
+        color: #ffffffc0
+        color.hovered: #ffffff80
+    }
+    [panel] {
+        image: gui/theme/basic/background.png
+        color: #ffffffc0
+    }
+    [label] {
+    }
+    [image] {
+    }
+    [progressbar.background] {
+        image: gui/theme/basic/progressbar_background.png
+    }
+    [progressbar.forground] {
+        image: gui/theme/basic/progressbar_fill.png
+    }
+    [slider.background] {
+        image: gui/theme/basic/background.png
+        color: #ffffffc0
+        color.hovered: #ffffff80
+    }
+    [slider.forground] {
+        image: gui/theme/basic/background.png
+        color: #ffffffc0
+        color.hovered: #ffffff80
+    }
+}

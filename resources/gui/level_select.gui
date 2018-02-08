@@ -1,0 +1,150 @@
+[LEVEL_SELECT] {
+    stretch: true
+    [NAME] {
+        type: label
+        caption: SELECT A STAGE
+        alignment: topleft
+        margin: 10, 0, 0, 0
+        size: 200, 20
+        text.size: 10
+        text_alignment: left
+    }
+    [WORLDS] {
+        position: 5, 20
+        layout: vertical
+        stretch: true
+        alignment: topleft
+        {
+            @ref: WORLD_ROW world=1
+        }
+        {
+            @ref: WORLD_ROW world=2
+        }
+        {
+            @ref: WORLD_ROW world=3
+        }
+        {
+            @ref: WORLD_ROW world=4
+        }
+        {
+            @ref: WORLD_ROW world=5
+        }
+        {
+            @ref: WORLD_ROW world=6
+        }
+        {
+            @ref: WORLD_ROW world=7
+        }
+        {
+            @ref: WORLD_ROW world=8
+        }
+    }
+    [INDICATOR] {
+        type: image
+        texture: gui/indicator.png
+        size: 8, 8
+        alignment: center
+        margin: 8
+    }
+    {
+        type: panel
+        position: 205, 20
+        size: 50, 150
+        {
+            layout: vertical
+            margin: 7, 15
+            stretch: true
+            
+            [STAGE_LOCKED] {
+                @ref: INFO_LABEL
+                caption: LOCKED
+            }
+            [STAGE_INFO_TODO] {
+                @ref: INFO_LABEL
+                caption: TO DO
+            }
+            [STAGE_INFO_DONE] {
+                @ref: INFO_LABEL
+                caption: FINISHED
+            }
+            [STAGE_INFO_TIME] {
+                @ref: INFO_LABEL
+                caption: BEST: XX:XX
+                text_alignment: topleft
+            }
+            [STAGE_INFO_FLAWLESS] {
+                @ref: INFO_ROW image=gui/flawless.png caption=Flawless
+            }
+            [STAGE_INFO_PACIFIST] {
+                @ref: INFO_ROW image=gui/pacifist.png caption=Pacifist
+            }
+            [STAGE_INFO_GENOCIDE] {
+                @ref: INFO_ROW image=gui/genocide.png caption=Genocide
+            }
+        }
+    }
+}
+
+[@WORLD_ROW] {
+    layout: horizontal
+    size: 0, 20
+    fill_width: true
+    [STAGE_{world}-1] {
+        @ref: STAGE stage=1
+    }
+    [STAGE_{world}-2] {
+        @ref: STAGE stage=2
+    }
+    [STAGE_{world}-3] {
+        @ref: STAGE stage=3
+    }
+    [STAGE_{world}-4] {
+        @ref: STAGE stage=4
+    }
+}
+[@STAGE] {
+    type: button
+    size: 50, 20
+    text.size: 10
+    margin: 0, 2
+    caption: {world}-{stage}
+    tag: {world},{stage}
+
+    [LOCK] {
+        type: image
+        texture: gui/lock.png
+        size: 8, 8
+        alignment: center
+    }
+    [CHECK] {
+        type: image
+        texture: gui/check.png
+        size: 8, 8
+        margin: 6
+        alignment: right
+    }
+}
+[@INFO_LABEL] {
+    type: label
+    size: 0, 8
+    fill_width: true
+    text_alignment: topleft
+}
+[@INFO_ROW] {
+    layout: horizontal
+    size: 0, 10
+    fill_width: true
+    {
+        type: image
+        texture: {image}
+        size: 6, 6
+    }
+    {
+        type: label
+        caption: {caption}
+        text_alignment: topleft
+        size: 0, 8
+        fill_width: true
+        margin: 2, 0
+    }
+}

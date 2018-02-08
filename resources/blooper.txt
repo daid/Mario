@@ -1,0 +1,15 @@
+{
+    texture: enemies.png
+    texture_size: 256, 128
+    {
+        size: 1, 1.5
+        frame_size: 16, 24
+        offset: 0, -4
+        [Idle] {
+            position: 128, 104
+        }
+        [Compress] {
+            position: 112, 104
+        }
+    }
+}
