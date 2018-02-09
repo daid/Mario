@@ -31,11 +31,11 @@ void Camera::onUpdate(float delta)
                 average += position_x[n + position_x.size() / 4];
             average /= position_x.size() / 2;
             
-            target = std::max(max_x - max_forward_distance, average);
+            target = std::max(max_x - max_forward_distance, average + default_forward_view);
         }
         else
         {
-            target = position_x[0];
+            target = position_x[0] + default_forward_view;
         }
         
         target = std::min(target, global_area_data.view_limit - 8.0);

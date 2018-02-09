@@ -10,7 +10,8 @@ public:
     
     virtual void onUpdate(float delta) override;
     
-    static constexpr double max_forward_distance = 6.0;
+    static constexpr double max_forward_distance = 5.0;
+    static constexpr double default_forward_view = 2.0;
     static constexpr double maximum_move_speed = 12.0;
 
 private:
