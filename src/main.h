@@ -20,6 +20,7 @@ enum class GameMode
 extern GlobalAreaData global_area_data;
 
 extern InputController controller[2];
+extern sp::io::Keybinding escape_key;
 
 extern GameMode game_mode;
 

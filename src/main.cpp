@@ -32,6 +32,7 @@
 #include "main.h"
 
 InputController controller[2]{{0}, {1}};
+sp::io::Keybinding escape_key{"exit", sf::Keyboard::Escape};
 
 GameMode game_mode = GameMode::MoreAndMore;
 
@@ -64,6 +65,9 @@ public:
     
     void onUpdate(float delta) override
     {
+        if (escape_key.getDown())
+            handleGameOver(delta);
+            
         play_time += delta;
         if (PlayerPawn::all.size() < 1)
         {
@@ -349,6 +353,9 @@ int main(int argc, char** argv)
 
     //Create a window to render on, and our engine.
     sp::P<sp::Window> window = new sp::Window(4.0/3.0);
+#ifndef DEBUG
+    window->setFullScreen(true);
+#endif
     sp::P<sp::Engine> engine = new sp::Engine();
     
     sp::gui::Theme::loadTheme("default", "gui/theme/basic.theme.txt");

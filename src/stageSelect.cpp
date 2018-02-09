@@ -11,6 +11,7 @@
 #include <sp2/graphics/fontManager.h>
 #include <sp2/audio/music.h>
 #include <sp2/window.h>
+#include <sp2/engine.h>
 
 StageSelectScene::StageSelectScene()
 : sp::Scene("stage_select")
@@ -98,6 +99,9 @@ void StageSelectScene::onUpdate(float delta)
         changeSelection(sp::Vector2d(selection->getGlobalPosition2D()) + sp::Vector2d(selection->getRenderSize().x * 0.5, -selection->getRenderSize().y * 0.5));
     if (controller[0].running.getDown() && selection->isEnabled())
         selection->onPointerUp(sp::Vector2d(1, 1), -1);
+
+    if (escape_key.getDown())
+        sp::Engine::getInstance()->shutdown();
 }
 
 void StageSelectScene::changeSelection(sp::Vector2d position)
