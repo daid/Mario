@@ -1,5 +1,6 @@
 #include "coin.h"
 #include "main.h"
+#include "savegame.h"
 #include "playerPawn.h"
 
 #include <sp2/collision/2d/box.h>
@@ -28,6 +29,7 @@ void Coin::onCollision(sp::CollisionInfo& info)
     if (player)
     {
         sp::audio::Sound::play("sfx/smb_coin.wav");
+        save_game.addCoin();
         delete this;
     }
 }

@@ -1,6 +1,7 @@
 #include "life.h"
 
 #include "../../playerPawn.h"
+#include "../../main.h"
 
 #include <sp2/graphics/spriteAnimation.h>
 #include <sp2/audio/sound.h>
@@ -16,5 +17,6 @@ LifePickup::LifePickup(sp::P<sp::Node> parent)
 bool LifePickup::onPickup(sp::P<PlayerPawn> player)
 {
     sp::audio::Sound::play("sfx/smb_1-up.wav");
+    //respawnPlayer();
     return true;
 }

@@ -1,6 +1,7 @@
 #include "questionBlock.h"
 
 #include "playerPawn.h"
+#include "savegame.h"
 #include "pickup/smb/upgrade.h"
 #include "pickup/smb/life.h"
 #include "pickup/smb/star.h"
@@ -85,10 +86,12 @@ void QuestionBlock::onCollision(sp::CollisionInfo& info)
             case Contents::Coin:
                 (new CoinEffect(getParent()))->setPosition(getPosition2D() + sp::Vector2d(0, 1));
                 sp::audio::Sound::play("sfx/smb_coin.wav");
+                save_game.addCoin();
                 break;
             case Contents::MultiCoin:
                 (new CoinEffect(getParent()))->setPosition(getPosition2D() + sp::Vector2d(0, 1));
                 sp::audio::Sound::play("sfx/smb_coin.wav");
+                save_game.addCoin();
                 break;
             case Contents::Upgrade:
                 if (player->getUpgradeLevel() == 0)

@@ -27,6 +27,7 @@ extern GameMode game_mode;
 void loadStage(int world, int stage);
 void createPlayers(sp::P<sp::Scene> scene);
 void destroyPlayers(sp::P<sp::Scene> scene);
+bool respawnPlayer();
 
 static constexpr int collision_category_world = 0;
 static constexpr int collision_category_player = 1;

@@ -13,9 +13,22 @@ bool StageSaveData::isLocked()
         return false;
     if (!previous)
         return false;
-    if (!world_previous)
-        return !previous->finished;
-    return !previous->finished && !world_previous->isFullyCompleted();
+    if (world_previous)
+    {
+        if (world_previous->isFullyCompleted())
+            return false;
+    }
+    if (previous->finished >= save_game.getPlayerCount())
+        return false;
+    if (previous->previous)
+    {
+        if (previous->finished > 0 && previous->previous->finished >= save_game.getPlayerCount())
+            return false;
+    }else{
+        if (previous->finished > 0)
+            return false;
+    }
+    return true;
 }
 
 bool StageSaveData::isVisible()
@@ -37,6 +50,18 @@ bool StageSaveData::isFullyCompleted()
         return all_recordings.size() / save_game.getPlayerCount() >= required_more_and_more_runs_for_completion;
     }
     return false;
+}
+
+int StageSaveData::completedCount()
+{
+    switch(game_mode)
+    {
+    case GameMode::Basic:
+        return finished >= save_game.getPlayerCount() ? 1 : 0;
+    case GameMode::MoreAndMore:
+        return all_recordings.size() / save_game.getPlayerCount();
+    }
+    return 0;
 }
 
 SaveGame::SaveGame()
@@ -63,6 +88,16 @@ StageSaveData& SaveGame::getStage(int world, int stage)
 int SaveGame::getPlayerCount()
 {
     return player_count;
+}
+
+void SaveGame::addCoin()
+{
+    coin_count++;
+}
+
+int SaveGame::getCoins()
+{
+    return coin_count;
 }
 
 void SaveGame::load(int player_count)

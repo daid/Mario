@@ -7,4 +7,4 @@ line: 0123456789:;<=>?
 line: @ABCDEFGHIJKLMNO
 line: PQRSTUVWXYZ[\]^_
 line: `abcdefghijklmno
-line: pqrstuvwzyz{|}~
+line: pqrstuvwxyz{|}~

@@ -20,8 +20,8 @@ public:
             right.setKey(sf::Keyboard::D);
             up.setKey(sf::Keyboard::W);
             down.setKey(sf::Keyboard::S);
-            running.setKey(sf::Keyboard::Q);
-            jump.setKey(sf::Keyboard::E);
+            running.setKey(sf::Keyboard::E);
+            jump.setKey(sf::Keyboard::Q);
         }
     }
     

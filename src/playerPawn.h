@@ -43,6 +43,8 @@ public:
 
     static sp::P<PlayerPawn> getClosestTo(sp::Vector2d);
     static sp::PList<PlayerPawn> all;
+
+    InputController& controller;
 private:
     void die();
     void setupCollisionShape();
@@ -63,7 +65,6 @@ private:
     bool invincibility_auto_kill = false;
     sp::string animation_prefix;
     
-    InputController& controller;
     sp::string animation_name;
 };
 

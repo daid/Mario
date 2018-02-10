@@ -73,7 +73,8 @@ void StageSelectScene::onEnable()
             else
                 button->enable();
             button->getWidgetWithID("LOCK")->setVisible(save.isLocked());
-            button->getWidgetWithID("CHECK")->setVisible(save.isFullyCompleted());
+            for(int n=1; button->getWidgetWithID("CHECK" + sp::string(n)); n++)
+                button->getWidgetWithID("CHECK" + sp::string(n))->setVisible(save.completedCount() >= n);
         }
     }
     
@@ -123,7 +124,7 @@ void StageSelectScene::changeSelection(sp::Vector2d position)
             unlock_info += sp::string(world_stage.x) + "-" + sp::string(SaveGame::stage_count);
         unlock_info += "\nto unlock";
         if (world_stage.x > 0)
-            unlock_info += "\n\n\nComplete\n" + sp::string(world_stage.x) + "-" + sp::string(world_stage.y + 1) + "\nto unlock";
+            unlock_info += "\n\n\nFinish:\n" + sp::string(world_stage.x) + "-" + sp::string(world_stage.y + 1) + " x3\nto unlock";
         gui->getWidgetWithID("STAGE_LOCKED")->setAttribute("caption", unlock_info);
         gui->getWidgetWithID("STAGE_INFO_TODO")->hide();
         gui->getWidgetWithID("STAGE_INFO_DONE")->hide();

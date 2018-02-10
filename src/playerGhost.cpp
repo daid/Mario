@@ -158,7 +158,7 @@ void GhostReplay::updateCollisionShape()
         shape.fixed_rotation = true;
         setCollisionShape(shape);
     }else{
-        sp::collision::Box2D shape(12.0/16.0, 1.0+14.0/16.0, 0, -1.0/16.0);
+        sp::collision::Box2D shape(12.0/16.0, 1.0+12.0/16.0, 0, -2.0/16.0);
         shape.type = sp::collision::Shape::Type::Dynamic;
         shape.setFilterCategory(collision_category_ghost);
         shape.setMaskFilterCategory(collision_category_enemy);

@@ -12,6 +12,7 @@ public:
     bool isLocked();
     bool isVisible();
     bool isFullyCompleted(); //True if we completed this stage with all players alive
+    int completedCount();
 
     int finished = 0;      //maximum amount of players that finished in a single run
     bool pacifist = false; //finished without a kill
@@ -40,10 +41,14 @@ public:
     StageSaveData& getStage(int world, int stage);
     int getPlayerCount();
     
+    void addCoin();
+    int getCoins();
+    
     void load(int player_count);
     void store();
 private:
     int player_count;
+    int coin_count;
     std::vector<StageSaveData> stages;
 };
 

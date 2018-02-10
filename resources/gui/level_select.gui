@@ -116,12 +116,20 @@
         size: 8, 8
         alignment: center
     }
-    [CHECK] {
-        type: image
-        texture: gui/check.png
-        size: 8, 8
-        margin: 6
-        alignment: right
+    [CHECK1] {
+        @ref: CHECK_MARK x=6
+    }
+    [CHECK2] {
+        @ref: CHECK_MARK x=12
+    }
+    [CHECK3] {
+        @ref: CHECK_MARK x=18
+    }
+    [CHECK4] {
+        @ref: CHECK_MARK x=24
+    }
+    [CHECK5] {
+        @ref: CHECK_MARK x=30
     }
 }
 [@INFO_LABEL] {
@@ -147,4 +155,11 @@
         fill_width: true
         margin: 2, 0
     }
+}
+[@CHECK_MARK] {
+    type: image
+    texture: gui/check.png
+    size: 8, 8
+    margin: {x}, 3
+    alignment: bottomleft
 }

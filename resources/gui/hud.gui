@@ -1,0 +1,12 @@
+[HUD] {
+    stretch: true
+    
+    [TIME] {
+        type: label
+        caption: TIME: XXX
+        alignment: topright
+        text_alignment: right
+        margin: 10
+        text.size: 8
+    }
+}

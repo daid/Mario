@@ -9,7 +9,7 @@
 HammerBrother::HammerBrother(sp::P<sp::Node> parent, float x, float y)
 : Enemy(parent, x, y)
 {
-    sp::collision::Box2D shape(14.0/16.0, 0.5 + 14.0/16.0, 0, -1.0/16.0);
+    sp::collision::Box2D shape(12.0/16.0, 0.5 + 12.0/16.0, 0, -2.0/16.0);
     shape.type = sp::collision::Shape::Type::Dynamic;
     shape.setFilterCategory(collision_category_enemy);
     shape.fixed_rotation = true;

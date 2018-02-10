@@ -59,6 +59,7 @@ public:
     {
         gameover = sp::gui::Loader::load("gui/gameover.gui", "GAMEOVER");
         victory = sp::gui::Loader::load("gui/victory.gui", "VICTORY");
+        hud = sp::gui::Loader::load("gui/hud.gui", "HUD");
 
         disable();
     }
@@ -67,7 +68,15 @@ public:
     {
         if (escape_key.getDown())
             handleGameOver(delta);
-            
+        
+        hud->getWidgetWithID("TIME")->setAttribute("caption", "TIME: " + sp::string(int((max_play_time - play_time) / max_play_time * 400)));
+        if (play_time >= max_play_time)
+        {
+            play_time = max_play_time;
+            for(auto player : PlayerPawn::all)
+                player->takeDamage();
+        }
+        
         play_time += delta;
         if (PlayerPawn::all.size() < 1)
         {
@@ -115,6 +124,7 @@ public:
     {
         gameover->hide();
         victory->hide();
+        hud->hide();
         continue_delay = 0;
         if (recorder)
         {
@@ -132,6 +142,7 @@ public:
         clearAll();
         sp::Scene::get("stage_select")->disable();
         enable();
+        hud->show();
         switch(world)
         {
         case 0:
@@ -240,6 +251,7 @@ private:
             sp::audio::Music::stop();
             sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
             gameover->show();
+            hud->hide();
             continue_delay = 3.0;
         }
         else
@@ -257,6 +269,7 @@ private:
     {
         if (continue_delay == 0.0)
         {
+            hud->hide();
             victory->show();
             sp::audio::Music::stop();
             if (active_stage < 3)
@@ -306,11 +319,14 @@ private:
 
     sp::P<sp::gui::Widget> gameover;
     sp::P<sp::gui::Widget> victory;
+    sp::P<sp::gui::Widget> hud;
     float continue_delay;
     float play_time;
     int active_world;
     int active_stage;
     GhostRecorder* recorder = nullptr;
+    
+    static constexpr float max_play_time = 120;
 };
 
 void loadStage(int world, int stage)
@@ -329,6 +345,32 @@ void createPlayers(sp::P<sp::Scene> scene)
         sp::P<PlayerPawn> player = new PlayerPawn(scene->getRoot(), controller[n], animation_name);
         player->setPosition(global_area_data.start_position + sp::Vector2d(0.5, 0.5));
     }
+}
+
+bool respawnPlayer()
+{
+    for(int n=0; n<save_game.getPlayerCount(); n++)
+    {
+        bool player_alive = false;
+        for(auto player : PlayerPawn::all)
+        {
+            if (&player->controller == &controller[n])
+                player_alive = true;
+        }
+        if (!player_alive)
+        {
+            for(auto player : PlayerPawn::all)
+            {
+                if (player->getState() != PlayerPawn::State::Death)
+                {
+                    sp::P<PlayerPawn> new_player = new PlayerPawn(player->getParent(), controller[n], player_animation_names[sp::irandom(0, player_animation_names.size() -1)]);
+                    new_player->setPosition(player->getPosition2D() + sp::Vector2d(0, 1));
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 void destroyPlayers(sp::P<sp::Scene> scene)
