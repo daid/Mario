@@ -20,7 +20,6 @@
 #include <sp2/scene/camera.h>
 #include <sp2/collision/2d/box.h>
 #include <sp2/io/keybinding.h>
-#include <sp2/io/http/server.h>
 
 #include "smbLevelBuilder.h"
 #include "inputController.h"

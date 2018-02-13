@@ -466,6 +466,8 @@ bool PlayerPawn::takeDamage()
 {
     if (invincibility_time > 0.0)
         return false;
+    if (state == State::Death)
+        return false;
     setInvincibilityTime(1.0, false);
     if (animation_prefix != "")
     {
@@ -567,6 +569,8 @@ bool PlayerPawn::enterPipe(PipeEntrance::Type type)
 
 void PlayerPawn::die()
 {
+    if (state == State::Death)
+        return;
     sp::audio::Sound::play("sfx/smb_mariodie.wav");
     state = State::Death;
     death_velocity = 0.3;
