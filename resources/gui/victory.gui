@@ -1,6 +1,27 @@
 [VICTORY] {
+    alignment: center
+    match_content_size: true
+    layout: vertical
+    
+    {
+        type: label
+        caption: STAGE COMPLETE
+        alignment: center
+        text.size: 15
+        size: 0, 20
+    }
+    [MISSING_BROTHER] {
+        @ref: INFO
+        caption: But your brother did not make it...
+    }
+    [NO_PRINCESS] {
+        @ref: INFO
+        caption: But the princess is in another castle...
+    }
+}
+[@INFO] {
     type: label
-    caption: STAGE COMPLETE
-    stretch: true
-    text.size: 15
+    alignment: center
+    size: 0, 10
+    text.size: 5
 }

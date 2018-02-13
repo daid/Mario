@@ -35,13 +35,13 @@ void FireBar::onFixedUpdate()
     switch(type)
     {
     case Type::Left:
-        setRotation(getRotation2D() + 3.5);
+        setRotation(getRotation2D() + 2.5);
         break;
     case Type::Right:
-        setRotation(getRotation2D() - 3.5);
+        setRotation(getRotation2D() - 2.5);
         break;
     case Type::RightFast:
-        setRotation(getRotation2D() - 5);
+        setRotation(getRotation2D() - 4);
         break;
     }
 }

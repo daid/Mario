@@ -270,6 +270,8 @@ private:
         {
             hud->hide();
             victory->show();
+            victory->getWidgetWithID("MISSING_BROTHER")->setVisible(PlayerPawn::all.size() < save_game.getPlayerCount());
+            victory->getWidgetWithID("NO_PRINCESS")->setVisible(active_stage >= 3 && active_world < 7);
             sp::audio::Music::stop();
             if (active_stage < 3)
             {
