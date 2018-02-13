@@ -620,15 +620,15 @@ void SmbLevelBuilder::goomba2(int x, int y)
 {
     x += page_index * 16;
     new Goomba(tilemap->getParent(), x, y);
-    new Goomba(tilemap->getParent(), x + 1.5, y);
+    (new Goomba(tilemap->getParent(), x + 1.5, y))->extra_trigger_distance = 1.5;
 }
 
 void SmbLevelBuilder::goomba3(int x, int y)
 {
     x += page_index * 16;
     new Goomba(tilemap->getParent(), x, y);
-    new Goomba(tilemap->getParent(), x + 1.5, y);
-    new Goomba(tilemap->getParent(), x + 3, y);
+    (new Goomba(tilemap->getParent(), x + 1.5, y))->extra_trigger_distance = 1.5;
+    (new Goomba(tilemap->getParent(), x + 3, y))->extra_trigger_distance = 3.0;
 }
 
 void SmbLevelBuilder::koopa(int x, int y, Koopa::Type type, Koopa::Behaviour behaviour)
@@ -641,15 +641,15 @@ void SmbLevelBuilder::koopa2(int x, int y)
 {
     x += page_index * 16;
     new Koopa(tilemap->getParent(), x, y);
-    new Koopa(tilemap->getParent(), x + 1.5, y);
+    (new Koopa(tilemap->getParent(), x + 1.5, y))->extra_trigger_distance = 1.5;
 }
 
 void SmbLevelBuilder::koopa3(int x, int y)
 {
     x += page_index * 16;
     new Koopa(tilemap->getParent(), x, y);
-    new Koopa(tilemap->getParent(), x + 1.5, y);
-    new Koopa(tilemap->getParent(), x + 3, y);
+    (new Koopa(tilemap->getParent(), x + 1.5, y))->extra_trigger_distance = 1.5;
+    (new Koopa(tilemap->getParent(), x + 3, y))->extra_trigger_distance = 3.0;
 }
 
 void SmbLevelBuilder::blooper(int x, int y)

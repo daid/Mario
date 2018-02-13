@@ -28,7 +28,7 @@ void Enemy::onFixedUpdate()
         delete this;
         return;
     }
-    if (std::abs(position.x - camera_position.x) < 10)
+    if (std::abs(position.x - camera_position.x) < 10 + extra_trigger_distance)
         active = true;
     else if (!active)
         setLinearVelocity(sp::Vector2d(0, 0));

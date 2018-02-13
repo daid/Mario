@@ -22,6 +22,7 @@ public:
     virtual void kill();
     virtual void killByFireball() { kill(); }
 
+    double extra_trigger_distance = 0;
 private:
     bool killed = false;
     bool active = false;
