@@ -293,8 +293,11 @@ void PlayerPawn::onFixedUpdate()
     }
     else
     {
+        //Air control
         if (x_request > 0)
         {
+            if (velocity.x < subpixelToSpeed(0x0130))
+                velocity.x = subpixelToSpeed(0x0130);
             if (velocity.x > subpixelToSpeed(0x1900))
                 velocity.x += subpixelToAcceleration(0x00e4);
             else
@@ -302,6 +305,8 @@ void PlayerPawn::onFixedUpdate()
         }
         if (x_request < 0)
         {
+            if (velocity.x < subpixelToSpeed(0x0130))
+                velocity.x = 0.0;
             if (velocity.x > subpixelToSpeed(0x1900))
                 velocity.x -= subpixelToAcceleration(0x00e4);
             else if (jump_start_velocity_x > subpixelToSpeed(0x1d00))
