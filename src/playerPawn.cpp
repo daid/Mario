@@ -298,23 +298,23 @@ void PlayerPawn::onFixedUpdate()
         {
             if (velocity.x < subpixelToSpeed(0x0130))
                 velocity.x = subpixelToSpeed(0x0130);
-            if (velocity.x > subpixelToSpeed(0x1900))
-                velocity.x += subpixelToAcceleration(0x00e4);
-            else
-                velocity.x += subpixelToAcceleration(0x0098);
+            //if (velocity.x > subpixelToSpeed(0x1900))
+                velocity.x += subpixelToAcceleration(0x00e4) * 2.0;
+            //else
+            //    velocity.x += subpixelToAcceleration(0x0098);
         }
         if (x_request < 0)
         {
             if (velocity.x < subpixelToSpeed(0x0130))
                 velocity.x = 0.0;
-            if (velocity.x > subpixelToSpeed(0x1900))
-                velocity.x -= subpixelToAcceleration(0x00e4);
-            else if (jump_start_velocity_x > subpixelToSpeed(0x1d00))
-                velocity.x -= subpixelToAcceleration(0x00d0);
-            else
-                velocity.x -= subpixelToAcceleration(0x0098);
+            //if (velocity.x > subpixelToSpeed(0x1900))
+                velocity.x -= subpixelToAcceleration(0x00e4) * 2.0;
+            //else if (jump_start_velocity_x > subpixelToSpeed(0x1d00))
+            //    velocity.x -= subpixelToAcceleration(0x00d0);
+            //else
+            //    velocity.x -= subpixelToAcceleration(0x0098);
         }
-        if (velocity.x > subpixelToSpeed(0x1900) && jump_start_velocity_x <= subpixelToSpeed(0x1900))
+        if ((velocity.x > subpixelToSpeed(0x1900) && !controller.running.get()) || isInWater())
             velocity.x = subpixelToSpeed(0x1900);
         if (velocity.x > subpixelToSpeed(0x2900))
             velocity.x = subpixelToSpeed(0x2900);
@@ -598,6 +598,16 @@ void PlayerPawn::setupCollisionShape()
         shape.fixed_rotation = true;
         setCollisionShape(shape);
     }
+}
+
+double PlayerPawn::getBottomPosition()
+{
+    double result = getPosition2D().y;
+    if (animation_prefix == "")
+        result -= (14.0/16.0) / 2;
+    else
+        result -= (12.0/16.0 + 1.0) / 2;
+    return result;
 }
 
 bool PlayerPawn::isInWater()

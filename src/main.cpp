@@ -69,6 +69,7 @@ public:
             handleGameOver(delta);
         
         hud->getWidgetWithID("TIME")->setAttribute("caption", "TIME: " + sp::string(int((max_play_time - play_time) / max_play_time * 400)));
+        hud->getWidgetWithID("COINS")->setAttribute("caption", sp::string(save_game.getCoins()));
         if (play_time >= max_play_time)
         {
             play_time = max_play_time;

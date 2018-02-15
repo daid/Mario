@@ -44,7 +44,7 @@ void Enemy::onCollision(sp::CollisionInfo& info)
         if (player)
         {
             sp::Vector2d velocity_difference = getLinearVelocity2D() - player->getLinearVelocity2D();
-            if (velocity_difference.y > 0.1 || info.normal.y > 0.9)
+            if (velocity_difference.y > 0.1 || info.normal.y > 0.9 || player->getBottomPosition() > getPosition2D().y)
             {
                 if (!player->isInWater() && onPlayerHeadBump())
                     player->didHeadBump();

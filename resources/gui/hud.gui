@@ -9,4 +9,20 @@
         margin: 10
         text.size: 8
     }
+    
+    {
+        type: image
+        texture: gui/coin.png
+        size: 8, 8
+        alignment: topleft
+        margin: 10, 6
+    }
+    [COINS] {
+        type: label
+        caption: XXX
+        alignment: topleft
+        text_alignment: left
+        margin: 20, 10
+        text.size: 8
+    }
 }

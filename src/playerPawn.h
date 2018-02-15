@@ -23,6 +23,8 @@ public:
     virtual void onFixedUpdate();
     virtual void onCollision(sp::CollisionInfo& info);
 
+    double getBottomPosition();
+
     void didHeadBump();
     void trampolineFire();
     bool takeDamage();
