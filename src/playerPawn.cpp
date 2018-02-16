@@ -129,6 +129,8 @@ void PlayerPawn::onUpdate(float delta)
 void PlayerPawn::onFixedUpdate()
 {
     sp::Vector2d velocity = getLinearVelocity2D();
+    
+    if (still_running_timeout > 0) still_running_timeout--;
 
     if (state == State::Death)
     {
@@ -236,8 +238,10 @@ void PlayerPawn::onFixedUpdate()
             skidding = false;
             if (velocity.x < subpixelToSpeed(0x0130))
                 velocity.x = subpixelToSpeed(0x0130);
-            if (controller.running.get() && !isInWater())
+            if ((controller.running.get() || still_running_timeout > 0) && !isInWater())
             {
+                if (controller.running.get())
+                    still_running_timeout = 10;
                 velocity.x += subpixelToAcceleration(0x00E4);
                 if (velocity.x > subpixelToSpeed(0x2900))
                     velocity.x = subpixelToSpeed(0x2900);
@@ -325,7 +329,7 @@ void PlayerPawn::onFixedUpdate()
             //else
             //    velocity.x -= subpixelToAcceleration(0x0098);
         }
-        if ((velocity.x > subpixelToSpeed(0x1900) && !controller.running.get()) || isInWater())
+        if ((velocity.x > subpixelToSpeed(0x1900) && !(controller.running.get() || still_running_timeout > 0)) || isInWater())
             velocity.x = subpixelToSpeed(0x1900);
         if (velocity.x > subpixelToSpeed(0x2900))
             velocity.x = subpixelToSpeed(0x2900);

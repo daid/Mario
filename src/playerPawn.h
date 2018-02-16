@@ -66,6 +66,7 @@ private:
     bool wants_to_jump = false;
     float invincibility_time = 0;
     bool invincibility_auto_kill = false;
+    int still_running_timeout = 0;
     sp::string animation_prefix;
     
     sp::string animation_name;
