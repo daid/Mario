@@ -56,6 +56,7 @@ private:
     bool solid;
     unsigned int index = 0;
     int last_upgrade_level = 0;
+    static constexpr int start_collision_index = 60;
 };
 
 #endif//PLAYER_GHOST_H

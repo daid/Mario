@@ -53,9 +53,7 @@ GhostReplay::GhostReplay(sp::P<sp::Node> parent, PlayerGhostRecording& recording
 {
     animation = sp::SpriteAnimation::load(recording.animation_name);
     animation->play("Stand");
-    render_data.color = sf::Color(255, 255, 255, 192);
-
-    updateCollisionShape();
+    render_data.color = sf::Color(255, 255, 255, 128);
 }
 
 void GhostReplay::pipeEnterDone()
@@ -70,6 +68,8 @@ void GhostReplay::pipeEnterDone()
 
 void GhostReplay::onFixedUpdate()
 {
+    if (index == start_collision_index)
+        updateCollisionShape();
     if (index < recording.data.size())
     {
         auto& e = recording.data[index];
@@ -145,6 +145,9 @@ void GhostReplay::onFixedUpdate()
 
 void GhostReplay::updateCollisionShape()
 {
+    if (index < start_collision_index)
+        return;
+
     if (last_upgrade_level == 0)
     {
         sp::collision::Box2D shape(12.0/16.0, 14.0/16.0, 0, -1.0/16.0);
