@@ -2,7 +2,7 @@
 
 #include "../../playerPawn.h"
 #include "../../main.h"
-#include "../../saveGame.h"
+#include "../../savegame.h"
 
 #include <sp2/graphics/spriteAnimation.h>
 #include <sp2/audio/sound.h>
