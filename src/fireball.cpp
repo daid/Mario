@@ -1,5 +1,6 @@
 #include "fireball.h"
 #include "enemy/enemy.h"
+#include "main.h"
 
 #include <sp2/engine.h>
 #include <sp2/scene/scene.h>
@@ -14,6 +15,7 @@ Fireball::Fireball(sp::P<sp::Node> parent, bool left)
     sp::collision::Circle2D shape(0.25);
     shape.type = sp::collision::Shape::Type::Dynamic;
     shape.fixed_rotation = true;
+    shape.setMaskFilterCategory(collision_category_player);
     setCollisionShape(shape);
 
     animation = sp::SpriteAnimation::load("fireball.txt");
