@@ -267,8 +267,9 @@ void PlayerPawn::onFixedUpdate()
             }
         }
         
-        if (controller.jump.getDown())
+        if (controller.jump.getDown() || wants_to_jump)
         {
+            wants_to_jump = false;
             if (isInWater())
             {
                 sp::audio::Sound::play("sfx/smb_stomp.wav");
@@ -319,10 +320,18 @@ void PlayerPawn::onFixedUpdate()
         if (velocity.x > subpixelToSpeed(0x2900))
             velocity.x = subpixelToSpeed(0x2900);
 
-        if (controller.jump.getDown() && state == State::Swimming)
+        if (controller.jump.getDown())
         {
-            sp::audio::Sound::play("sfx/smb_stomp.wav");
-            velocity.y = subpixelToSpeed(0x1800);
+            if (state == State::Swimming)
+            {
+                sp::audio::Sound::play("sfx/smb_stomp.wav");
+                velocity.y = subpixelToSpeed(0x1800);
+                wants_to_jump = false;
+            }
+            else
+            {
+                wants_to_jump = true;
+            }
         }
     }
     if (flip)
@@ -347,9 +356,12 @@ void PlayerPawn::onFixedUpdate()
         {
             state = State::Jumping;
             velocity.y = subpixelToSpeed(0x4000);
+            wants_to_jump = false;
         }
         else
+        {
             state = State::Falling;
+        }
     }
     
     sp::P<sp::Camera> camera = getScene()->getCamera();

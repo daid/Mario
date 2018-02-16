@@ -63,6 +63,7 @@ private:
     double death_velocity = 0.0;
     bool skidding = false;
     bool left = false;
+    bool wants_to_jump = false;
     float invincibility_time = 0;
     bool invincibility_auto_kill = false;
     sp::string animation_prefix;
