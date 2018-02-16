@@ -1,4 +1,5 @@
 #include "hammerBrother.h"
+#include "../../hammer.h"
 #include "../../main.h"
 
 #include <sp2/engine.h>
@@ -26,14 +27,13 @@ void HammerBrother::onEnemyUpdate()
 {
     sp::Vector2d velocity = getLinearVelocity2D();
     velocity.x = 1.5;
-    velocity.y -= 0.3;
+    velocity.y -= 0.5;
     if (getPosition2D().x < start_x - 0.7)
         forward = false;
     if (getPosition2D().x > start_x + 1.0)
         forward = true;
     if (forward)
         velocity.x = -velocity.x;
-    setLinearVelocity(velocity);
     
     if (fire_delay < 10)
         animation->play("Walk");
@@ -46,7 +46,8 @@ void HammerBrother::onEnemyUpdate()
     }
     else
     {
-        fire_delay = 40;
+        new Hammer(getParent(), getPosition2D().x, getPosition2D().y);
+        fire_delay = 60;
     }
     if (jump_delay > 0)
     {
@@ -54,8 +55,13 @@ void HammerBrother::onEnemyUpdate()
     }
     else
     {
-        jump_delay = 200;
+        velocity.y = 10;
+        jump_delay = 250;
+        if (fire_delay > 10)
+            fire_delay += 60;
     }
+
+    setLinearVelocity(velocity);
 }
 
 void HammerBrother::onSideHit(bool left)
