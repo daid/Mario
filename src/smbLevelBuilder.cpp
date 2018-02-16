@@ -35,28 +35,28 @@ SmbLevelBuilder::SmbLevelBuilder(sp::P<sp::Tilemap> tilemap, BaseType base_type,
     switch(base_type)
     {
     case BaseType::Ground:
-        sp::audio::Music::play("music/Overworld.ogg");
+        global_area_data.music_name = "Overworld";
         brick_tile = 1;
         floor_tile = 0;
         basic_tile = 1;
         block_tile = 16;
         break;
     case BaseType::Underground:
-        sp::audio::Music::play("music/Underground.ogg");
+        global_area_data.music_name = "Underground";
         brick_tile = 19;
         floor_tile = 36;
         basic_tile = 19;
         block_tile = 35;
         break;
     case BaseType::Castle:
-        sp::audio::Music::play("music/Castle.ogg");
+        global_area_data.music_name = "Castle";
         brick_tile = 99;
         floor_tile = 97;
         block_tile = 97;
         basic_tile = 97;
         break;
     case BaseType::Water:
-        sp::audio::Music::play("music/Underwater.ogg");
+        global_area_data.music_name = "Underwater";
         brick_tile = 20;
         floor_tile = 20;
         block_tile = 20;
@@ -64,6 +64,7 @@ SmbLevelBuilder::SmbLevelBuilder(sp::P<sp::Tilemap> tilemap, BaseType base_type,
         global_area_data.water_level = 12;
         break;
     }
+    sp::audio::Music::play("music/" + global_area_data.music_name + ".ogg");
 }
 
 void SmbLevelBuilder::nextPage()

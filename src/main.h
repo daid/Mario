@@ -9,6 +9,7 @@ public:
     sp::Vector2d start_position;
     double view_limit;
     double water_level = 12;
+    sp::string music_name;
 };
 
 enum class GameMode

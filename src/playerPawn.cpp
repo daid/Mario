@@ -13,6 +13,7 @@
 #include <sp2/collision/2d/box.h>
 #include <sp2/audio/sound.h>
 #include <sp2/graphics/spriteAnimation.h>
+#include <sp2/audio/music.h>
 
 //Convert mario subpixel acceleration from subpixels at 60 ups to velocity delta at 30 ups.
 // http://photobucket.com/gallery/user/jdaster64/media/bWVkaWFJZDo5MzAyOTA2Nw==/?ref=
@@ -50,6 +51,15 @@ void PlayerPawn::onUpdate(float delta)
             render_data.color.a = 0;
         else
             render_data.color.a = 255;
+        if (invincibility_time <= 0.0)
+        {
+            bool stop_star_power_music = true;
+            for(auto player : PlayerPawn::all)
+                if (invincibility_time > 0 && player->invincibility_auto_kill)
+                    stop_star_power_music = false;
+            if (stop_star_power_music)
+                sp::audio::Music::play("music/" + global_area_data.music_name + ".ogg");
+        }
     }
     else
     {
@@ -556,6 +566,15 @@ bool PlayerPawn::setInvincibilityTime(float time, bool auto_kill)
     if (time > invincibility_time)
     {
         invincibility_time = time;
+        if (auto_kill)
+        {
+            bool play_star_power = true;
+            for(auto player : PlayerPawn::all)
+                if (invincibility_time > 0 && player->invincibility_auto_kill)
+                    play_star_power = false;
+            if (play_star_power)
+                sp::audio::Music::play("music/StarPower.ogg");
+        }
         invincibility_auto_kill = auto_kill;
         return true;
     }
