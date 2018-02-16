@@ -15,6 +15,7 @@ public:
     int completedCount();
 
     int finished = 0;      //maximum amount of players that finished in a single run
+    int attempts = 0;      //amount of times this level has been tried
     bool pacifist = false; //finished without a kill
     bool genocide = false; //finished with killing everything
     bool flawless = false; //finished without getting hit
@@ -44,11 +45,15 @@ public:
     void addCoin();
     int getCoins();
     
+    void addLife();
+    int getLives();
+    
     void load(int player_count);
     void store();
 private:
     int player_count;
-    int coin_count;
+    int coin_count = 0;
+    int life_count = 0;
     std::vector<StageSaveData> stages;
 };
 

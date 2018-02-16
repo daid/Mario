@@ -100,6 +100,16 @@ int SaveGame::getCoins()
     return coin_count;
 }
 
+void SaveGame::addLife()
+{
+    life_count++;
+}
+
+int SaveGame::getLives()
+{
+    return life_count;
+}
+
 void SaveGame::load(int player_count)
 {
     LOG(Info, "Loading save data for", player_count, "players");
@@ -128,6 +138,7 @@ void SaveGame::load(int player_count)
             StageSaveData& save = getStage(w, s);
             save.finished = data["finished"].int_value();
             save.best_time = data["best_time"].number_value();
+            save.attempts = data["attempts"].int_value();
             save.all_recordings.clear();
             for(auto& recording_data : data["all_recordings"].array_items())
             {
@@ -149,6 +160,8 @@ void SaveGame::load(int player_count)
             }
         }
     }
+    coin_count = json["coins"].int_value();
+    life_count = json["lives"].int_value();
 }
 
 void SaveGame::store()
@@ -164,6 +177,7 @@ void SaveGame::store()
             json11::Json::object data;
             data["finished"] = save.finished;
             data["best_time"] = save.best_time;
+            data["attempts"] = save.attempts;
             json11::Json::array all_recordings;
             for(auto& recording : save.all_recordings)
             {
@@ -189,6 +203,8 @@ void SaveGame::store()
             obj[sp::string(w) + "-" + sp::string(s)] = data;
         }
     }
+    obj["coins"] = coin_count;
+    obj["lives"] = life_count;
     json11::Json json = obj;
     
     std::ofstream file("save.json");

@@ -70,6 +70,7 @@ public:
         
         hud->getWidgetWithID("TIME")->setAttribute("caption", "TIME: " + sp::string(int((max_play_time - play_time) / max_play_time * 400)));
         hud->getWidgetWithID("COINS")->setAttribute("caption", sp::string(save_game.getCoins()));
+        hud->getWidgetWithID("1UP")->setAttribute("caption", sp::string(save_game.getLives()));
         if (play_time >= max_play_time)
         {
             play_time = max_play_time;
@@ -253,6 +254,10 @@ private:
             gameover->show();
             hud->hide();
             continue_delay = 3.0;
+
+            StageSaveData& save = save_game.getStage(active_world, active_stage);
+            save.attempts++;
+            save_game.store();
         }
         else
         {
@@ -286,6 +291,7 @@ private:
             }
             StageSaveData& save = save_game.getStage(active_world, active_stage);
             save.finished = std::max(save.finished, PlayerPawn::all.size());
+            save.attempts++;
             if (PlayerPawn::all.size() == save_game.getPlayerCount())
             {
                 switch(game_mode)

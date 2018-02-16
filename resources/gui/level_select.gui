@@ -72,6 +72,11 @@
                 caption: BEST: XX:XX
                 text_alignment: topleft
             }
+            [STAGE_INFO_ATTEMPTS] {
+                @ref: INFO_LABEL
+                caption: ATTEMPTS: XXX
+                text_alignment: topleft
+            }
             [STAGE_INFO_FLAWLESS] {
                 @ref: INFO_ROW image=gui/flawless.png caption=Flawless
             }

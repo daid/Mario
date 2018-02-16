@@ -25,4 +25,20 @@
         margin: 20, 10
         text.size: 8
     }
+
+    {
+        type: image
+        texture: gui/1up.png
+        size: 8, 8
+        alignment: topleft
+        margin: 10, 16
+    }
+    [1UP] {
+        type: label
+        caption: XXX
+        alignment: topleft
+        text_alignment: left
+        margin: 20, 20
+        text.size: 8
+    }
 }

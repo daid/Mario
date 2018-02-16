@@ -129,6 +129,7 @@ void StageSelectScene::changeSelection(sp::Vector2d position)
         gui->getWidgetWithID("STAGE_INFO_TODO")->hide();
         gui->getWidgetWithID("STAGE_INFO_DONE")->hide();
         gui->getWidgetWithID("STAGE_INFO_TIME")->hide();
+        gui->getWidgetWithID("STAGE_INFO_ATTEMPTS")->hide();
         gui->getWidgetWithID("STAGE_INFO_FLAWLESS")->hide();
         gui->getWidgetWithID("STAGE_INFO_PACIFIST")->hide();
         gui->getWidgetWithID("STAGE_INFO_GENOCIDE")->hide();
@@ -147,6 +148,8 @@ void StageSelectScene::changeSelection(sp::Vector2d position)
             gui->getWidgetWithID("STAGE_INFO_TIME")->setAttribute("caption", "RUNS " + sp::string(save.all_recordings.size() / save_game.getPlayerCount()));
             break;
         }
+        gui->getWidgetWithID("STAGE_INFO_ATTEMPTS")->setAttribute("caption", "TRIES " + sp::string(save.attempts));
+        gui->getWidgetWithID("STAGE_INFO_ATTEMPTS")->show();
         gui->getWidgetWithID("STAGE_INFO_FLAWLESS")->setVisible(save.flawless);
         gui->getWidgetWithID("STAGE_INFO_PACIFIST")->setVisible(save.pacifist);
         gui->getWidgetWithID("STAGE_INFO_GENOCIDE")->setVisible(save.genocide);
