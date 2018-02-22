@@ -1025,9 +1025,9 @@ void createArea3_1(sp::P<sp::Scene> scene)
     level.nextPage(); //7
     
     level.hole(0, 4);
-    level.horizontalBricks(0, 12 - 8, 4);
-    level.horizontalBricks(0, 12 - 5, 2);
-    level.questionBlock(2, 12 - 5, QuestionBlock::Type::Brick, QuestionBlock::Contents::Vine);
+    level.horizontalBricks(1, 12 - 3, 2);
+    level.horizontalBricks(1, 12 - 6, 3);
+    level.questionBlock(3, 12 - 3, QuestionBlock::Type::Brick, QuestionBlock::Contents::Vine);
     level.stairs(8, 2, 6);
     level.hole(14, 2);
     level.nextPage(); //8
@@ -1473,7 +1473,7 @@ void createArea4_1(sp::P<sp::Scene> scene)
     
     level.nextPage();
     //setRoomChange 0xc2:6
-    level.lakitu(14, 4);
+    level.lakitu(14, 11);
     level.skipToPage(7);
     level.lakitu(0, 11);
     level.skipToPage(12);

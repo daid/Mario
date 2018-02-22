@@ -16,6 +16,7 @@
 #include "enemy/smb/podoboo.h"
 #include "enemy/smb/buzzyBeetle.h"
 #include "enemy/smb/bullitBill.h"
+#include "enemy/smb/lakitu.h"
 
 #include <sp2/audio/music.h>
 
@@ -670,7 +671,7 @@ void SmbLevelBuilder::hammerBrother(int x, int y)
 void SmbLevelBuilder::lakitu(int x, int y)
 {
     x += page_index * 16;
-    //TODO
+    new Lakitu(tilemap->getParent(), x, y);
 }
 
 void SmbLevelBuilder::buzzyBeetle(int x, int y)
