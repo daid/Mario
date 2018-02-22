@@ -35,7 +35,7 @@ void Blooper::onEnemyUpdate()
     }
     else
     {
-        delay = 40;
+        delay = 80;
         sp::P<PlayerPawn> player = PlayerPawn::getClosestTo(getPosition2D());
         if (!player)
         {
@@ -57,11 +57,11 @@ void Blooper::onEnemyUpdate()
             else
             {
                 velocity.y = 2.0;
-                delay = 80;
+                delay = 160;
             }
         }
     }
-    if (delay < 20)
+    if (delay < 40)
         animation->play("Compress");
     else
         animation->play("Idle");

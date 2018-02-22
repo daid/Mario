@@ -16,7 +16,6 @@
 #include <sp2/audio/sound.h>
 #include <sp2/scene/scene.h>
 #include <sp2/scene/node.h>
-#include <sp2/scene/tilemap.h>
 #include <sp2/scene/camera.h>
 #include <sp2/collision/2d/box.h>
 #include <sp2/io/keybinding.h>
@@ -405,6 +404,7 @@ int main(int argc, char** argv)
     sp::P<sp::Window> window = new sp::Window(4.0/3.0);
 #ifndef DEBUG
     window->setFullScreen(true);
+    window->hideCursor();
 #endif
     sp::P<sp::Engine> engine = new sp::Engine();
     

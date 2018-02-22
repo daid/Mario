@@ -55,6 +55,8 @@ Koopa::Koopa(sp::P<sp::Node> parent, float x, float y, Type type, Behaviour beha
     state = State::Normal;
     
     flip = false;
+    if (behaviour == Behaviour::Walking || behaviour == Behaviour::WalkingNoEdge)
+        is_small_enemy = true;
 }
 
 void Koopa::onEnemyUpdate()

@@ -23,6 +23,8 @@ public:
     virtual void killByFireball() { kill(); }
 
     double extra_trigger_distance = 0;
+protected:
+    bool is_small_enemy = false;
 private:
     bool killed = false;
     bool active = false;

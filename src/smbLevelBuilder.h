@@ -81,7 +81,7 @@ public:
     void toad(int x, int y);
     void princess(int x, int y);
     
-    void goomba(int x, int y);
+    void goomba(int x, int y, int count=1);
     void goomba2(int x, int y);
     void goomba3(int x, int y);
     void koopa(int x, int y, Koopa::Type type=Koopa::Type::Green, Koopa::Behaviour behaviour=Koopa::Behaviour::Walking);

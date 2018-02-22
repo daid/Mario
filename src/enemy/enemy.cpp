@@ -18,7 +18,7 @@ void Enemy::onFixedUpdate()
     if (killed)
     {
         position.y += killed_velocity;
-        killed_velocity -= 0.05;
+        killed_velocity -= 0.025;
         setPosition(position);
     }
     
@@ -47,9 +47,15 @@ void Enemy::onCollision(sp::CollisionInfo& info)
             if (velocity_difference.y > 0.1 || info.normal.y > 0.9 || player->getBottomPosition() > getPosition2D().y)
             {
                 if (!player->isInWater() && onPlayerHeadBump())
-                    player->didHeadBump();
+                {
+                    player->didHeadBump(is_small_enemy);
+                    if (is_small_enemy)
+                        player->setPosition(sp::Vector2d(player->getPosition2D().x, getPosition2D().y + 1.0));
+                }
                 else
+                {
                     player->takeDamage();
+                }
             }
             else
             {

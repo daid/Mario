@@ -429,7 +429,7 @@ void PlayerPawn::onCollision(sp::CollisionInfo& info)
             if (sp::P<PlayerPawn>(info.other))
             {
                 //Jumped on top of another player. Bounce off.
-                didHeadBump();
+                didHeadBump(false);
             }
             else
             {
@@ -472,12 +472,15 @@ void PlayerPawn::onCollision(sp::CollisionInfo& info)
     }
 }
 
-void PlayerPawn::didHeadBump()
+void PlayerPawn::didHeadBump(bool small_bump)
 {
     if (state == State::Death || state == State::Finish || state == State::EnterPipe) return;
 
     sp::audio::Sound::play("sfx/smb_stomp.wav");
-    setLinearVelocity(sp::Vector2d(getLinearVelocity2D().x, subpixelToSpeed(0x4000)));
+    if (small_bump)
+        setLinearVelocity(sp::Vector2d(getLinearVelocity2D().x, subpixelToSpeed(0x3000)));
+    else
+        setLinearVelocity(sp::Vector2d(getLinearVelocity2D().x, subpixelToSpeed(0x4000)));
     if (isInWater())
         state = State::Swimming;
     else

@@ -13,6 +13,8 @@
 #include <sp2/window.h>
 #include <sp2/engine.h>
 
+bool debug_level = false;
+
 StageSelectScene::StageSelectScene()
 : sp::Scene("stage_select")
 {
@@ -20,6 +22,17 @@ StageSelectScene::StageSelectScene()
         setDefaultCamera(new Camera(getRoot()));
     }
 
+    if (debug_level)
+    {
+        sp::P<sp::Tilemap> tilemap = new sp::Tilemap(getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
+        SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Mountain);
+        level.horizontalBricks(5, 6, 5);
+        level.verticalBricks(5, 6, 5);
+        level.skipToPage(16);
+        level.resetPageIndex();
+        level.goomba(15, 2, 16 * 10);
+    }
+    else
     {
         sp::P<sp::Tilemap> tilemap = new sp::Tilemap(getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
         SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Mountain);
@@ -56,8 +69,17 @@ void StageSelectScene::onEnable()
     sp::audio::Music::stop();
     gui->show();
     sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
-    global_area_data.view_limit = 0;
-    global_area_data.start_position = sp::Vector2d(7.5, 12);
+    
+    if (debug_level)
+    {
+        global_area_data.view_limit = 16 * 16;
+        global_area_data.start_position = sp::Vector2d(2.5, 12);
+    }
+    else
+    {
+        global_area_data.view_limit = 0;
+        global_area_data.start_position = sp::Vector2d(7.5, 12);
+    }
 
     createPlayers(this);
 

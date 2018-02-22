@@ -35,7 +35,7 @@ void HammerBrother::onEnemyUpdate()
     if (forward)
         velocity.x = -velocity.x;
     
-    if (fire_delay < 10)
+    if (fire_delay < 20)
         animation->play("Walk");
     else
         animation->play("PreFire");
@@ -47,7 +47,7 @@ void HammerBrother::onEnemyUpdate()
     else
     {
         new Hammer(getParent(), getPosition2D().x, getPosition2D().y);
-        fire_delay = 60;
+        fire_delay = 120;
     }
     if (jump_delay > 0)
     {
@@ -56,9 +56,9 @@ void HammerBrother::onEnemyUpdate()
     else
     {
         velocity.y = 10;
-        jump_delay = 250;
+        jump_delay = 500;
         if (fire_delay > 10)
-            fire_delay += 60;
+            fire_delay += 120;
     }
 
     setLinearVelocity(velocity);

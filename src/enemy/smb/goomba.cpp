@@ -33,7 +33,8 @@ Goomba::Goomba(sp::P<sp::Node> parent, float x, float y)
     
     flip = false;
     state = State::Normal;
-    state_counter = 30;
+    state_counter = 60;
+    is_small_enemy = true;
 }
 
 void Goomba::onEnemyUpdate()

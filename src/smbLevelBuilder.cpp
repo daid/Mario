@@ -611,25 +611,21 @@ void SmbLevelBuilder::finalize()
 {
 }
 
-void SmbLevelBuilder::goomba(int x, int y)
+void SmbLevelBuilder::goomba(int x, int y, int count)
 {
     x += page_index * 16;
-    new Goomba(tilemap->getParent(), x, y);
+    for(int n=0; n<count; n++)
+        (new Goomba(tilemap->getParent(), x + 1.5 * n, y))->extra_trigger_distance = 1.5 * n;
 }
 
 void SmbLevelBuilder::goomba2(int x, int y)
 {
-    x += page_index * 16;
-    new Goomba(tilemap->getParent(), x, y);
-    (new Goomba(tilemap->getParent(), x + 1.5, y))->extra_trigger_distance = 1.5;
+    goomba(x, y, 2);
 }
 
 void SmbLevelBuilder::goomba3(int x, int y)
 {
-    x += page_index * 16;
-    new Goomba(tilemap->getParent(), x, y);
-    (new Goomba(tilemap->getParent(), x + 1.5, y))->extra_trigger_distance = 1.5;
-    (new Goomba(tilemap->getParent(), x + 3, y))->extra_trigger_distance = 3.0;
+    goomba(x, y, 3);
 }
 
 void SmbLevelBuilder::koopa(int x, int y, Koopa::Type type, Koopa::Behaviour behaviour)

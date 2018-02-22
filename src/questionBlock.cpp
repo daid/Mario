@@ -134,7 +134,7 @@ void QuestionBlock::onFixedUpdate()
     if (state == State::Bump)
     {
         sp::Vector2d position = getPosition2D();
-        position.y -= 1.0/16.0;
+        position.y -= 1.0/32.0;
         if (position.y <= start_position.y)
         {
             position = start_position;

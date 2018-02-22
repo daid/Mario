@@ -25,7 +25,7 @@ public:
 
     double getBottomPosition();
 
-    void didHeadBump();
+    void didHeadBump(bool small_bump);
     void trampolineFire();
     bool takeDamage();
     void gotFlagpole(double x);

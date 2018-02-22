@@ -116,97 +116,81 @@ void SaveGame::load(int player_count)
 
     this->player_count = player_count;
 
-    std::ifstream file("save.json");
-    if (!file.is_open())
-        return;
-    std::stringstream data;
-    data << file.rdbuf();
-    sp::string err;
+    sp::io::Serializer serializer("save.data");
+    if (!serializer.read("main", *this))
+    {
+        std::ifstream file("save.json");
+        if (!file.is_open())
+            return;
+        std::stringstream data;
+        data << file.rdbuf();
+        sp::string err;
 
-    json11::Json json = json11::Json::parse(data.str(), err);
-    if (err != "")
-    {
-        LOG(Warning, "Failed to load save data:", err);
-        return;
-    }
-    
-    for(int w=0; w<world_count; w++)
-    {
-        for(int s=0; s<stage_count; s++)
+        json11::Json json = json11::Json::parse(data.str(), err);
+        if (err != "")
         {
-            auto& data = json[sp::string(w) + "-" + sp::string(s)];
-            StageSaveData& save = getStage(w, s);
-            save.finished = data["finished"].int_value();
-            save.best_time = data["best_time"].number_value();
-            save.attempts = data["attempts"].int_value();
-            save.all_recordings.clear();
-            for(auto& recording_data : data["all_recordings"].array_items())
+            LOG(Warning, "Failed to load save data:", err);
+            return;
+        }
+        
+        for(int w=0; w<world_count; w++)
+        {
+            for(int s=0; s<stage_count; s++)
             {
-                save.all_recordings.emplace_back();
-                auto& recording = save.all_recordings.back();
-                recording.animation_name = recording_data["animation_name"].string_value();
-                for(auto& e : recording_data["data"].array_items())
+                auto& data = json[sp::string(w) + "-" + sp::string(s)];
+                StageSaveData& save = getStage(w, s);
+                save.finished = data["finished"].int_value();
+                save.best_time = data["best_time"].number_value();
+                save.attempts = data["attempts"].int_value();
+                save.all_recordings.clear();
+                for(auto& recording_data : data["all_recordings"].array_items())
                 {
-                    recording.data.emplace_back();
-                    auto& entry = recording.data.back();
-                    entry.type = PlayerGhostRecording::Entry::Type(e["type"].int_value());
-                    entry.position.x = e["x"].number_value();
-                    entry.position.y = e["y"].number_value();
-                    entry.velocity.x = e["vx"].number_value();
-                    entry.velocity.y = e["vy"].number_value();
-                    entry.upgrade_level = e["u"].int_value();
-                    entry.state = PlayerPawn::State(e["state"].int_value());
+                    save.all_recordings.emplace_back();
+                    auto& recording = save.all_recordings.back();
+                    recording.animation_name = recording_data["animation_name"].string_value();
+                    for(auto& e : recording_data["data"].array_items())
+                    {
+                        recording.data.emplace_back();
+                        auto& entry = recording.data.back();
+                        entry.type = PlayerGhostRecording::Entry::Type(e["type"].int_value());
+                        entry.position.x = e["x"].number_value();
+                        entry.position.y = e["y"].number_value();
+                        entry.velocity.x = e["vx"].number_value();
+                        entry.velocity.y = e["vy"].number_value();
+                        entry.upgrade_level = e["u"].int_value();
+                        entry.state = PlayerPawn::State(e["state"].int_value());
+                        recording.data.emplace_back();
+                        auto& entry2 = recording.data.back();
+                        entry2 = entry;
+                        entry2.position += entry.velocity * 1.0/30.0;
+                    }
                 }
             }
         }
+        coin_count = json["coins"].int_value();
+        life_count = json["lives"].int_value();
     }
-    coin_count = json["coins"].int_value();
-    life_count = json["lives"].int_value();
 }
 
 void SaveGame::store()
 {
     LOG(Info, "Saving result");
 
-    json11::Json::object obj;
-    for(int w=0; w<world_count; w++)
-    {
-        for(int s=0; s<stage_count; s++)
-        {
-            StageSaveData& save = getStage(w, s);
-            json11::Json::object data;
-            data["finished"] = save.finished;
-            data["best_time"] = save.best_time;
-            data["attempts"] = save.attempts;
-            json11::Json::array all_recordings;
-            for(auto& recording : save.all_recordings)
-            {
-                json11::Json::object rec;
-                rec["animation_name"] = recording.animation_name.c_str();
-                json11::Json::array rec_data;
-                for(auto& entry : recording.data)
-                {
-                    json11::Json::object e;
-                    e["type"] = int(entry.type);
-                    e["x"] = entry.position.x;
-                    e["y"] = entry.position.y;
-                    e["vx"] = entry.velocity.x;
-                    e["vy"] = entry.velocity.y;
-                    e["u"] = entry.upgrade_level;
-                    e["state"] = int(entry.state);
-                    rec_data.push_back(e);
-                }
-                rec["data"] = rec_data;
-                all_recordings.push_back(rec);
-            }
-            data["all_recordings"] = all_recordings;
-            obj[sp::string(w) + "-" + sp::string(s)] = data;
-        }
-    }
-    obj["coins"] = coin_count;
-    obj["lives"] = life_count;
-    json11::Json json = obj;
-    
-    std::ofstream file("save.json");
-    file << json.dump();
+    sp::io::Serializer serializer("save.data");
+    serializer.write("main", *this);
+}
+
+void SaveGame::serialize(sp::io::Serializer::Handler& handler)
+{
+    handler("stages", stages);
+    handler("lives", life_count);
+    handler("coins", coin_count);
+}
+
+void StageSaveData::serialize(sp::io::Serializer::Handler& handler)
+{
+    handler("finished", finished);
+    handler("attempts", attempts);
+    handler("best_time", best_time);
+    handler("all_recordings", all_recordings);
 }

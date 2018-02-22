@@ -41,13 +41,13 @@ void Lift::onFixedUpdate()
     {
     case Type::Up:
         if (position.y < 13)
-            setPosition(position + sp::Vector2d(0, 1.0/16.0));
+            setPosition(position + sp::Vector2d(0, 1.0/32.0));
         else
             setPosition(sp::Vector2d(position.x, -1.0));
         break;
     case Type::Down:
         if (position.y > -1)
-            setPosition(position - sp::Vector2d(0, 1.0/16.0));
+            setPosition(position - sp::Vector2d(0, 1.0/32.0));
         else
             setPosition(sp::Vector2d(position.x, 13.0));
         break;
