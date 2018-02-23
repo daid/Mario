@@ -281,7 +281,7 @@ void PlayerPawn::onFixedUpdate()
             }
         }
         
-        if (controller.jump.getDown() || wants_to_jump)
+        if (controller.jump.getDown() || (wants_to_jump && controller.jump.get()))
         {
             wants_to_jump = false;
             if (isInWater())

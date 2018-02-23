@@ -30,7 +30,7 @@ void Podoboo::onEnemyUpdate()
     sp::Vector2d velocity = getLinearVelocity2D();
     if (position.y < -1.5)
         velocity = sp::Vector2d(0, 13.5);
-    velocity.y += -0.3;
+    velocity.y += -0.15;
     if (velocity.y > 0)
         setRotation(0);
     else

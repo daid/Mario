@@ -25,6 +25,15 @@ Lakitu::Lakitu(sp::P<sp::Node> parent, float x, float y)
 
 void Lakitu::onEnemyUpdate()
 {
+    for(Node* node : getParent()->getChildren())
+    {
+        sp::P<Lakitu> lakitu = sp::P<sp::Node>(node);
+        if (lakitu && lakitu->getPosition2D().x < getPosition2D().x)
+        {
+            delete this;
+            return;
+        }
+    }
     double position_offset = getPosition2D().x - getScene()->getCamera()->getPosition2D().x;
     sp::Vector2d velocity = getLinearVelocity2D();
     if (position_offset > 6)
