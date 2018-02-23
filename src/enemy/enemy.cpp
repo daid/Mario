@@ -38,7 +38,7 @@ void Enemy::onFixedUpdate()
 
 void Enemy::onCollision(sp::CollisionInfo& info)
 {
-    if (active && bool(info.other) && info.other->isSolid())// && (info.force > 0 || !isSolid()))
+    if (active && bool(info.other) && info.other->isSolid() && (info.force > 0 || !isSolid()))
     {
         sp::P<PlayerPawn> player = info.other;
         if (player)

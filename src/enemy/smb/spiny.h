@@ -16,6 +16,8 @@ public:
     virtual bool onPlayerHeadBump() override;
 private:
     bool flip;
+    bool falling = true;
+    double velocity_y_min = 0;
 };
 
 #endif//ENEMY_SMB_LAKITU_H

@@ -14,6 +14,8 @@ public:
 
 private:
     sp::Vector2d start_position;
+    
+    bool playerNear();
 };
 
 #endif//ENEMY_SMB_PIRANHA_PLANT_H

@@ -9,6 +9,9 @@ SaveGame save_game;
 
 bool StageSaveData::isLocked()
 {
+#ifdef DEBUG
+    return false;
+#endif
     if (isFullyCompleted())
         return false;
     if (!previous)
@@ -162,7 +165,7 @@ void SaveGame::load(int player_count)
                         recording.data.emplace_back();
                         auto& entry2 = recording.data.back();
                         entry2 = entry;
-                        entry2.position += entry.velocity * 1.0/30.0;
+                        entry2.position += entry.velocity * 1.0/60.0;
                     }
                 }
             }

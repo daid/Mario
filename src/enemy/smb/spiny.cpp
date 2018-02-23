@@ -30,10 +30,11 @@ Spiny::Spiny(sp::P<sp::Node> parent, float x, float y)
     setCollisionShape(shape);
     
     animation = sp::SpriteAnimation::load("spiny.txt");
-    animation->play("Walk");
+    animation->play("Fall");
     
     setLinearVelocity(sp::Vector2d(0, subpixelToSpeed(0x4000)));
-    flip = false;
+    velocity_y_min = subpixelToSpeed(0x4000);
+    flip = (getPosition2D().x < getScene()->getCamera()->getPosition2D().x);
 }
 
 void Spiny::onEnemyUpdate()
@@ -41,14 +42,32 @@ void Spiny::onEnemyUpdate()
     sp::Vector2d velocity = getLinearVelocity2D();
 
     velocity.y -= subpixelToAcceleration(0x300);
+    if (falling)
+    {
+        if (velocity.y > velocity_y_min)
+        {
+            falling = false;
+            animation->play("Walk");
+            flip = (getPosition2D().x < getScene()->getCamera()->getPosition2D().x);
+        }
+        velocity_y_min = std::min(velocity_y_min, velocity.y);
+    }
     //Limit falling velocity.
     if (velocity.y < -subpixelToSpeed(0x4000))
         velocity.y = -subpixelToSpeed(0x4000);
 
-    if (flip)
-        velocity.x = subpixelToSpeed(0x800);
-    else
-        velocity.x = -subpixelToSpeed(0x800);
+    if (falling)
+    {
+        if (flip)
+            velocity.x = subpixelToSpeed(0xa00);
+        else
+            velocity.x = -subpixelToSpeed(0xa00);
+    }else{
+        if (flip)
+            velocity.x = subpixelToSpeed(0x800);
+        else
+            velocity.x = -subpixelToSpeed(0x800);
+    }
     setLinearVelocity(velocity);
     if (flip)
         animation->setFlags(sp::SpriteAnimation::FlipFlag);

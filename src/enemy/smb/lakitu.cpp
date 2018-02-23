@@ -14,7 +14,7 @@ Lakitu::Lakitu(sp::P<sp::Node> parent, float x, float y)
 : Enemy(parent, x, y)
 {
     sp::collision::Box2D shape(13.0/16.0, 13.0/16.0);
-    shape.type = sp::collision::Shape::Type::Kinematic;
+    shape.type = sp::collision::Shape::Type::Sensor;
     shape.setFilterCategory(collision_category_enemy);
     shape.fixed_rotation = true;
     setCollisionShape(shape);
