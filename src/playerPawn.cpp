@@ -51,7 +51,7 @@ void PlayerPawn::onUpdate(float delta)
             render_data.color.a = 0;
         else
             render_data.color.a = 255;
-        if (invincibility_time <= 0.0)
+        if (invincibility_time <= 0.0 && invincibility_auto_kill)
         {
             bool stop_star_power_music = true;
             for(auto player : PlayerPawn::all)
@@ -329,8 +329,11 @@ void PlayerPawn::onFixedUpdate()
             //else
             //    velocity.x -= subpixelToAcceleration(0x0098);
         }
-        if ((velocity.x > subpixelToSpeed(0x1900) && !(controller.running.get() || still_running_timeout > 0)) || isInWater())
-            velocity.x = subpixelToSpeed(0x1900);
+        if (velocity.x > subpixelToSpeed(0x1900))
+        {
+            if (!(controller.running.get() || still_running_timeout > 0) || isInWater())
+                velocity.x = subpixelToSpeed(0x1900);
+        }
         if (velocity.x > subpixelToSpeed(0x2900))
             velocity.x = subpixelToSpeed(0x2900);
 
@@ -665,7 +668,7 @@ sp::P<PlayerPawn> PlayerPawn::getClosestTo(sp::Vector2d position)
     sp::P<PlayerPawn> result;
     for(auto player : all)
     {
-        if (!result || sp::length(player->getPosition2D() - position) < sp::length(result->getPosition2D() - position))
+        if (!result || (player->getPosition2D() - position).length() < (result->getPosition2D() - position).length())
             result = player;
     }
     return result;

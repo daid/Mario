@@ -87,7 +87,7 @@ public:
         {
             for(auto player : PlayerPawn::all)
             {
-                if (sp::length(player->getPosition2D() - PipeEntrance::active_entrance->getPosition2D()) > 0.01)
+                if ((player->getPosition2D() - PipeEntrance::active_entrance->getPosition2D()).length() > 0.01)
                     return;
             }
             recorder->pipeEnterDone();

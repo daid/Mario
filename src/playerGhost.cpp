@@ -53,7 +53,7 @@ GhostReplay::GhostReplay(sp::P<sp::Node> parent, PlayerGhostRecording& recording
 {
     animation = sp::SpriteAnimation::load(recording.animation_name);
     animation->play("Stand");
-    render_data.color = sf::Color(255, 255, 255, 128);
+    render_data.color = sp::Color(1, 1, 1, 0.5);
 }
 
 void GhostReplay::pipeEnterDone()

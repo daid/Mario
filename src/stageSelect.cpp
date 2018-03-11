@@ -133,7 +133,7 @@ void StageSelectScene::changeSelection(sp::Vector2d position)
     if (new_selection)
         selection = new_selection;
     
-    sf::Vector2i world_stage = sp::stringutil::convert::toVector2i(selection->tag) - sf::Vector2i(1, 1);
+    sp::Vector2i world_stage = sp::stringutil::convert::toVector2i(selection->tag) - sp::Vector2i(1, 1);
     StageSaveData& save = save_game.getStage(world_stage.x, world_stage.y);
 
     gui->getWidgetWithID("STAGE_LOCKED")->setVisible(save.isLocked());
