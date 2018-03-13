@@ -30,7 +30,7 @@
 #include "main.h"
 
 InputController controller[2]{{0}, {1}};
-sp::io::Keybinding escape_key{"exit", sf::Keyboard::Escape};
+sp::io::Keybinding escape_key{"exit", "Escape"};
 
 GameMode game_mode = GameMode::MoreAndMore;
 

@@ -7,21 +7,21 @@ class InputController
 {
 public:
     InputController(int index)
-    : left(sp::string(index) + "_left", sf::Keyboard::Left)
-    , right(sp::string(index) + "_right", sf::Keyboard::Right)
-    , up(sp::string(index) + "_up", sf::Keyboard::Up)
-    , down(sp::string(index) + "_down", sf::Keyboard::Down)
-    , running(sp::string(index) + "_running", sf::Keyboard::Z)
-    , jump(sp::string(index) + "_jump", sf::Keyboard::Space)
+    : left(sp::string(index) + "_left", "Left")
+    , right(sp::string(index) + "_right", "Right")
+    , up(sp::string(index) + "_up", "Up")
+    , down(sp::string(index) + "_down", "Down")
+    , running(sp::string(index) + "_running", "Z")
+    , jump(sp::string(index) + "_jump", "Space")
     {
         if (index == 1)
         {
-            left.setKey(sf::Keyboard::A);
-            right.setKey(sf::Keyboard::D);
-            up.setKey(sf::Keyboard::W);
-            down.setKey(sf::Keyboard::S);
-            running.setKey(sf::Keyboard::E);
-            jump.setKey(sf::Keyboard::Q);
+            left.setKey("A");
+            right.setKey("D");
+            up.setKey("W");
+            down.setKey("S");
+            running.setKey("E");
+            jump.setKey("Q");
         }
     }
     
