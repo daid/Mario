@@ -396,7 +396,7 @@ int main(int argc, char** argv)
     new sp::io::DirectoryResourceProvider("resources");
     
 #ifndef DEBUG
-    sp::textureManager.setFallbackColors(sp::Color::Transparent, sp::Color::Transparent);
+    sp::textureManager.setFallbackColors(sp::Color(0,0,0,0), sp::Color::(0,0,0,0));
 #endif
     sp::textureManager.setDefaultSmoothFiltering(false);
 
