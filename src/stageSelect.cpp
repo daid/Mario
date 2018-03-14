@@ -68,7 +68,7 @@ void StageSelectScene::onEnable()
 {
     sp::audio::Music::stop();
     gui->show();
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     
     if (debug_level)
     {

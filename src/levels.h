@@ -9,7 +9,7 @@ void createArea1_1(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Mountain);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.nextPage(); //0
     
@@ -117,7 +117,7 @@ void createArea1_2(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.reverseLPipe(10, 2, 2, 2, SmbLevelBuilder::PipeColor::Green);
@@ -137,7 +137,7 @@ void createArea1_2a(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 13);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Underground, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+    sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
     level.setBasic(-1, SmbLevelBuilder::AllBricks);
     level.setBasic(0, 1);
     level.setBasic(5, 1, 1);
@@ -295,7 +295,7 @@ void createArea1_3(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.setBasic(15, 0);
@@ -386,7 +386,7 @@ void createArea1_4(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 8);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Castle, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+    sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
     level.setBasic(-1, 4, 3);
     level.horizontalBlock(0, 12 - 5, 3);
     level.horizontalBlock(0, 12 - 6, 4);
@@ -482,7 +482,7 @@ void createArea2_1(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Fence);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.largeCastle(-2, 2);
     //set background1(6, 0)
@@ -611,7 +611,7 @@ void createArea2_2(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.reverseLPipe(10, 2, 2, 2, SmbLevelBuilder::PipeColor::Green);
@@ -631,7 +631,7 @@ void createArea2_2a(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 13);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Water, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(66, 66, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(66/255.0f, 66/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.verticalSeaplant(11, 12 - 8, 3);
     level.coins(14, 12 - 10, 2);
@@ -747,7 +747,7 @@ void createArea2_3(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.setBasic(6, 0);
@@ -860,7 +860,7 @@ void createArea2_4(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 8);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Castle, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+    sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
     level.setBasic(-1, 4, 3);
     level.horizontalBlock(0, 12 - 5, 3);
     level.horizontalBlock(0, 12 - 6, 4);
@@ -969,11 +969,11 @@ void createArea3_1(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Fence);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.largeCastle(-2, 2);
     //night & snow (TODO: Snow)
-    sp::Window::getInstance()->setClearColor(sf::Color(20, 20, 20));
+    sp::Window::getInstance()->setClearColor(sp::Color(0.1, 0.1, 0.1));
     level.nextPage(); //0
     
     level.questionBlock(0, 12 - 7);
@@ -1105,7 +1105,7 @@ void createArea3_2(sp::P<sp::Scene> scene)
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Fence);
     //night & snow (TODO: Snow)
-    sp::Window::getInstance()->setClearColor(sf::Color(20, 20, 20));
+    sp::Window::getInstance()->setClearColor(sp::Color(0.1, 0.1, 0.1));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.skipToPage(3);
@@ -1185,7 +1185,7 @@ void createArea3_3(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.setBasic(15, 0);
@@ -1287,7 +1287,7 @@ void createArea3_4(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 8);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Castle, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+    sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
     level.setBasic(-1, 4, 3);
     level.horizontalBlock(0, 12 - 5, 3);
     level.horizontalBlock(0, 12 - 6, 4);
@@ -1396,7 +1396,7 @@ void createArea4_1(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Mountain);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.largeCastle(-2, 2);
     //set background1(6, 0)
@@ -1486,7 +1486,7 @@ void createArea4_2(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.reverseLPipe(10, 2, 2, 2, SmbLevelBuilder::PipeColor::Green);
@@ -1506,7 +1506,7 @@ void createArea4_2a(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 13);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Underground, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+    sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
     level.setBasic(-1, SmbLevelBuilder::AllBricks);
     level.setBasic(0, 1);
     level.setBasic(5, 1, 1);
@@ -1671,7 +1671,7 @@ void createArea4_3(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.setBasic(14, 0);
@@ -1771,7 +1771,7 @@ void createArea4_4(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 8);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Castle, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+    sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
     level.setBasic(-1, 4, 3);
     level.horizontalBlock(0, 12 - 5, 3);
     level.horizontalBlock(0, 12 - 6, 4);
@@ -1877,7 +1877,7 @@ void createArea5_1(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Fence);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.skipToPage(2);
@@ -1965,7 +1965,7 @@ void createArea5_2(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Fence);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.stairs(12, 2, 4);
@@ -2092,7 +2092,7 @@ void createArea5_3(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.setBasic(15, 0);
@@ -2185,7 +2185,7 @@ void createArea5_4(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 8);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Castle, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+    sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
     level.setBasic(-1, 4, 3);
     level.horizontalBlock(0, 12 - 5, 3);
     level.horizontalBlock(0, 12 - 6, 4);
@@ -2303,7 +2303,7 @@ void createArea6_1(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Mountain);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.largeCastle(-2, 2);
     //set background1(6, 4)
@@ -2400,7 +2400,7 @@ void createArea6_2(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Mountain);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.horizontalBricks(10, 12 - 7, 3);
@@ -2561,7 +2561,7 @@ void createArea6_3(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.setBasic(15, 0);
@@ -2663,7 +2663,7 @@ void createArea6_4(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 8);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Castle, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+    sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
     level.setBasic(-1, 4, 3);
     level.horizontalBlock(0, 12 - 5, 3);
     level.horizontalBlock(0, 12 - 6, 4);
@@ -2766,7 +2766,7 @@ void createArea7_1(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Fence);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.largeCastle(-2, 2);
     //set background1(6, 5)
@@ -2869,7 +2869,7 @@ void createArea7_2(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.reverseLPipe(10, 2, 2, 2, SmbLevelBuilder::PipeColor::Green);
@@ -2889,7 +2889,7 @@ void createArea7_2a(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 13);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Water, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(66, 66, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(66/255.0f, 66/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.verticalSeaplant(11, 12 - 8, 3);
     level.coins(14, 12 - 10, 2);
@@ -3012,7 +3012,7 @@ void createArea7_3(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.setBasic(6, 0);
@@ -3132,7 +3132,7 @@ void createArea7_4(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 8);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Castle, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+    sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
     level.setBasic(-1, 4, 3);
     level.horizontalBlock(0, 12 - 5, 3);
     level.horizontalBlock(0, 12 - 6, 4);
@@ -3249,7 +3249,7 @@ void createArea8_1(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Fence);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.largeCastle(-2, 2);
     //set background1(6, 0)
@@ -3431,7 +3431,7 @@ void createArea8_2(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Fence);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.hole(15, 1);
@@ -3563,7 +3563,7 @@ void createArea8_3(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Fence);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.castle(0, 2);
     level.nextPage(); //0
@@ -3671,7 +3671,7 @@ void createArea8_4(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 8);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Castle, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+    sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
     level.setBasic(-1, 4, 1);
     level.horizontalBlock(0, 12 - 5, 3);
     level.horizontalBlock(0, 12 - 6, 4);
@@ -3820,7 +3820,7 @@ void createArea10_0(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 13);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Water, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(66, 66, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(66/255.0f, 66/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.horizontalBlock(11, 12 - 4, 5);
     level.verticalSeaplant(12, 12 - 8, 3);
@@ -3880,7 +3880,7 @@ void createArea10_1(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 13);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Water, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(66, 66, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(66/255.0f, 66/255.0f, 255/255.0f));
     level.setBasic(-1, SmbLevelBuilder::AllBricks);
     level.setBasic(1, 1);
     level.pipe(3, 12 - 9, 4, SmbLevelBuilder::PipeColor::Green);
@@ -3925,7 +3925,7 @@ void createArea10_2(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 13);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.hole(4, 1);
     level.coins(15, 12 - 4, 16);
@@ -3955,7 +3955,7 @@ void createArea10_3(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 2);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.hole(4, 1);
     level.mushroomIsland(12, 12 - 7, 3);
@@ -4006,7 +4006,7 @@ void createArea10_4(sp::P<sp::Scene> scene)
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::None);
     //night & snow (TODO: Snow)
-    sp::Window::getInstance()->setClearColor(sf::Color(20, 20, 20));
+    sp::Window::getInstance()->setClearColor(sp::Color(0.1, 0.1, 0.1));
     level.setBasic(-1, 1);
     level.hole(4, 1);
     level.coins(15, 12 - 4, 16);
@@ -4049,7 +4049,7 @@ void createArea10_5(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(2, 13);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Underground, SmbLevelBuilder::Scenery::None);
-    sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+    sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
     level.setBasic(-1, 1);
     level.setBasic(0, 1);
     level.verticalBricks(0, 12 - 0, 11);
@@ -4162,7 +4162,7 @@ void createFinish(sp::P<sp::Scene> scene)
     global_area_data.start_position = sp::Vector2d(1.5, 4);
     sp::P<sp::Tilemap> tilemap = new sp::Tilemap(scene->getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Clouds);
-    sp::Window::getInstance()->setClearColor(sf::Color(107, 136, 255));
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     level.setBasic(-1, 1);
     level.pipe(1, 12 - 9, 2);
     level.stairs(3, 2, 8);

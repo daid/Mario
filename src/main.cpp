@@ -249,7 +249,7 @@ private:
         {
             clearAll();
             sp::audio::Music::stop();
-            sp::Window::getInstance()->setClearColor(sf::Color(0, 0, 0));
+            sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
             gameover->show();
             hud->hide();
             continue_delay = 3.0;
