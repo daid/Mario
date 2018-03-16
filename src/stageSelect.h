@@ -22,6 +22,8 @@ private:
     sp::P<sp::gui::Widget> gui;
     sp::P<sp::gui::Widget> selection;
     sp::P<sp::gui::Widget> indicator;
+    
+    int secret_code = 0;
 };
 
 #endif//STAGE_SELECT_H

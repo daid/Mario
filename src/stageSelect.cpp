@@ -44,11 +44,11 @@ StageSelectScene::StageSelectScene()
 
 void StageSelectScene::onEnable()
 {
-    sp::audio::Music::stop();
     gui->show();
-    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
 
     buildBackgroundLevel();
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
+    sp::audio::Music::stop();
 
     createPlayers(this);
 
@@ -94,6 +94,68 @@ void StageSelectScene::onUpdate(float delta)
 
     if (escape_key.getDown())
         sp::Engine::getInstance()->shutdown();
+    
+    switch(secret_code)
+    {
+    case 0:
+        if (controller[1].up.getDown())
+            secret_code = 1;
+        break;
+    case 1:
+        if (controller[1].up.getDown())
+            secret_code++;
+        else if (controller[1].up.getDown() || controller[1].down.getDown() || controller[1].left.getDown() || controller[1].right.getDown() || controller[1].jump.getDown() || controller[1].running.getDown())
+            secret_code = 0;
+        break;
+    case 2:
+        if (controller[1].down.getDown())
+            secret_code++;
+        else if (controller[1].up.getDown() || controller[1].down.getDown() || controller[1].left.getDown() || controller[1].right.getDown() || controller[1].jump.getDown() || controller[1].running.getDown())
+            secret_code = 0;
+        break;
+    case 3:
+        if (controller[1].down.getDown())
+            secret_code++;
+        else if (controller[1].up.getDown() || controller[1].down.getDown() || controller[1].left.getDown() || controller[1].right.getDown() || controller[1].jump.getDown() || controller[1].running.getDown())
+            secret_code = 0;
+        break;
+    case 4:
+        if (controller[1].left.getDown())
+            secret_code++;
+        else if (controller[1].up.getDown() || controller[1].down.getDown() || controller[1].left.getDown() || controller[1].right.getDown() || controller[1].jump.getDown() || controller[1].running.getDown())
+            secret_code = 0;
+        break;
+    case 5:
+        if (controller[1].right.getDown())
+            secret_code++;
+        else if (controller[1].up.getDown() || controller[1].down.getDown() || controller[1].left.getDown() || controller[1].right.getDown() || controller[1].jump.getDown() || controller[1].running.getDown())
+            secret_code = 0;
+        break;
+    case 6:
+        if (controller[1].left.getDown())
+            secret_code++;
+        else if (controller[1].up.getDown() || controller[1].down.getDown() || controller[1].left.getDown() || controller[1].right.getDown() || controller[1].jump.getDown() || controller[1].running.getDown())
+            secret_code = 0;
+        break;
+    case 7:
+        if (controller[1].right.getDown())
+            secret_code++;
+        else if (controller[1].up.getDown() || controller[1].down.getDown() || controller[1].left.getDown() || controller[1].right.getDown() || controller[1].jump.getDown() || controller[1].running.getDown())
+            secret_code = 0;
+        break;
+    case 8:
+        if (controller[1].running.getDown())
+            secret_code++;
+        else if (controller[1].up.getDown() || controller[1].down.getDown() || controller[1].left.getDown() || controller[1].right.getDown() || controller[1].jump.getDown() || controller[1].running.getDown())
+            secret_code = 0;
+        break;
+    case 9:
+        if (controller[1].jump.getDown())
+            secret_code++;
+        else if (controller[1].up.getDown() || controller[1].down.getDown() || controller[1].left.getDown() || controller[1].right.getDown() || controller[1].jump.getDown() || controller[1].running.getDown())
+            secret_code = 0;
+        break;
+    }
 }
 
 void StageSelectScene::changeSelection(sp::Vector2d position)
