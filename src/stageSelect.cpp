@@ -11,6 +11,7 @@
 #include <sp2/graphics/fontManager.h>
 #include <sp2/audio/music.h>
 #include <sp2/window.h>
+#include <sp2/random.h>
 #include <sp2/engine.h>
 
 StageSelectScene::StageSelectScene()
