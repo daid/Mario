@@ -13,8 +13,6 @@
 #include <sp2/window.h>
 #include <sp2/engine.h>
 
-bool debug_level = false;
-
 StageSelectScene::StageSelectScene()
 : sp::Scene("stage_select")
 {
@@ -22,27 +20,6 @@ StageSelectScene::StageSelectScene()
         setDefaultCamera(new Camera(getRoot()));
     }
 
-    if (debug_level)
-    {
-        sp::P<sp::Tilemap> tilemap = new sp::Tilemap(getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
-        SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Mountain);
-        level.horizontalBricks(5, 6, 5);
-        level.verticalBricks(5, 6, 5);
-        level.skipToPage(16);
-        level.resetPageIndex();
-        level.goomba(15, 2, 16 * 10);
-    }
-    else
-    {
-        sp::P<sp::Tilemap> tilemap = new sp::Tilemap(getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
-        SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Mountain);
-        level.horizontalBlock(1, 4, 3);
-        level.horizontalBlock(12, 4, 3);
-        level.horizontalBlock(5, 7, 2);
-        level.horizontalBlock(9, 7, 2);
-        level.nextPage();
-    }
-    
     {
         gui = sp::gui::Loader::load("gui/level_select.gui", "LEVEL_SELECT");
         selection = gui->getWidgetWithID("STAGE_" + sp::string(world_index + 1) + "-" + sp::string(stage_index + 1));
@@ -69,17 +46,8 @@ void StageSelectScene::onEnable()
     sp::audio::Music::stop();
     gui->show();
     sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
-    
-    if (debug_level)
-    {
-        global_area_data.view_limit = 16 * 16;
-        global_area_data.start_position = sp::Vector2d(2.5, 12);
-    }
-    else
-    {
-        global_area_data.view_limit = 0;
-        global_area_data.start_position = sp::Vector2d(7.5, 12);
-    }
+
+    buildBackgroundLevel();
 
     createPlayers(this);
 
@@ -181,4 +149,36 @@ void StageSelectScene::changeSelection(sp::Vector2d position)
 void StageSelectScene::chooseStage(int world, int stage)
 {
     loadStage(world, stage);
+}
+
+void StageSelectScene::buildBackgroundLevel()
+{
+    for(auto child : getRoot()->getChildren())
+        if (child != *getCamera())
+            delete child;
+
+    if (sp::random(0, 100) < 10)
+    {
+        sp::P<sp::Tilemap> tilemap = new sp::Tilemap(getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
+        SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Water, SmbLevelBuilder::Scenery::None);
+        global_area_data.water_level = 6;
+        level.horizontalBlock(1, 4, 3);
+        level.horizontalBlock(12, 4, 3);
+        level.horizontalBlock(5, 7, 2);
+        level.horizontalBlock(9, 7, 2);
+        level.nextPage();
+    }
+    else
+    {
+        sp::P<sp::Tilemap> tilemap = new sp::Tilemap(getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
+        SmbLevelBuilder level(tilemap, SmbLevelBuilder::BaseType::Ground, SmbLevelBuilder::Scenery::Mountain);
+        level.horizontalBlock(1, 4, 3);
+        level.horizontalBlock(12, 4, 3);
+        level.horizontalBlock(5, 7, 2);
+        level.horizontalBlock(9, 7, 2);
+        level.nextPage();
+    }
+
+    global_area_data.view_limit = 0;
+    global_area_data.start_position = sp::Vector2d(7.5, 12);
 }

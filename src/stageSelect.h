@@ -15,6 +15,7 @@ public:
 private:
     void changeSelection(sp::Vector2d position);
     void chooseStage(int world, int stage);
+    void buildBackgroundLevel();
 
     int world_index = 0;
     int stage_index = 0;

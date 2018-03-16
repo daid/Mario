@@ -492,19 +492,17 @@ void SmbLevelBuilder::background()
         int x = page_index * 16;
         for(int n=0; n<16; n++)
         {
-            int idx = tilemap->getTileIndex(x + n, 12);
+            int idx = tilemap->getTileIndex(x + n, global_area_data.water_level);
             if (idx == -1)
             {
-                tilemap->setTile(x + n, 12, 85);
-                if (tilemap->getTileIndex(x + n, 14) == -1) tilemap->setTile(x + n, 15, 69);
-                if (tilemap->getTileIndex(x + n, 14) == -1) tilemap->setTile(x + n, 14, 69);
-                if (tilemap->getTileIndex(x + n, 13) == -1) tilemap->setTile(x + n, 13, 69);
+                tilemap->setTile(x + n, global_area_data.water_level, 85);
+                for(int m=global_area_data.water_level+1; m<16; m++)
+                    if (tilemap->getTileIndex(x + n, m) == -1) tilemap->setTile(x + n, m, 69);
             }
             else
             {
-                if (tilemap->getTileIndex(x + n, 14) == -1) tilemap->setTile(x + n, 15, idx, sp::Tilemap::Collision::Solid);
-                if (tilemap->getTileIndex(x + n, 14) == -1) tilemap->setTile(x + n, 14, idx, sp::Tilemap::Collision::Solid);
-                if (tilemap->getTileIndex(x + n, 13) == -1) tilemap->setTile(x + n, 13, idx, sp::Tilemap::Collision::Solid);
+                for(int m=global_area_data.water_level+1; m<16; m++)
+                    if (tilemap->getTileIndex(x + n, m) == -1) tilemap->setTile(x + n, m, idx, sp::Tilemap::Collision::Solid);
             }
         }
         return;
