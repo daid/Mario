@@ -31,44 +31,21 @@ public:
         
         if (controller.running.getDown()) editor.setTile(position.x, position.y, LevelData::Tile::Type::Open);
         if (controller.jump.getDown()) editor.setTile(position.x, position.y, tile_type);
-        if (controller.extra0.getDown())
+        if (controller.extra1.getDown())
         {
             tile_type = LevelData::Tile::Type(int(tile_type) + 1);
             if (tile_type == LevelData::Tile::Type::Count)
                 tile_type = LevelData::Tile::Type::Brick;
-            
-            switch(tile_type)
-            {
-            case LevelData::Tile::Type::Open: break;
-            case LevelData::Tile::Type::Brick: setGfx("tiles.png", 1); break;
-            case LevelData::Tile::Type::Ground: setGfx("tiles.png", 0); break;
-            case LevelData::Tile::Type::Block: setGfx("tiles.png", 16); break;
-            case LevelData::Tile::Type::Coin: setGfx("editor_overlay_tiles.png", 17); break;
-            case LevelData::Tile::Type::QuestionBlock: setGfx("editor_overlay_tiles.png", 1); break;
-            
-            case LevelData::Tile::Type::Pipe: setGfx("tiles.png", 136); break;
-            case LevelData::Tile::Type::PipeRed: setGfx("tiles.png", 184); break;
-            case LevelData::Tile::Type::Trampoline: setGfx("editor_overlay_tiles.png", 18); break;
-            case LevelData::Tile::Type::BullitTower: setGfx("tiles.png", 165); break;
-            
-            case LevelData::Tile::Type::Goomba: setGfx("editor_overlay_tiles.png", 8); break;
-            case LevelData::Tile::Type::KoopaGreen: setGfx("editor_overlay_tiles.png", 9); break;
-            case LevelData::Tile::Type::KoopaRed: setGfx("editor_overlay_tiles.png", 25); break;
-            case LevelData::Tile::Type::KoopaParatrooperGreen: setGfx("editor_overlay_tiles.png", 11); break;
-            case LevelData::Tile::Type::KoopaParatrooperRed: setGfx("editor_overlay_tiles.png", 27); break;
-            case LevelData::Tile::Type::Blooper: setGfx("editor_overlay_tiles.png", 40); break;
-            case LevelData::Tile::Type::Podoboo: setGfx("editor_overlay_tiles.png", 10); break;
-            case LevelData::Tile::Type::HammerBrother: setGfx("editor_overlay_tiles.png", 41); break;
-            case LevelData::Tile::Type::Lakitu: setGfx("editor_overlay_tiles.png", 42); break;
-            case LevelData::Tile::Type::BuzzyBeetle: setGfx("editor_overlay_tiles.png", 24); break;
-            case LevelData::Tile::Type::Bowser: setGfx("editor_overlay_tiles.png", 26); break;
-
-            case LevelData::Tile::Type::Princess: setGfx("editor_overlay_tiles.png", 2); break;
-
-            case LevelData::Tile::Type::Count: break;
-            }
+            updateTileGfx();
         }
-        if (controller.extra1.getDown())
+        if (controller.extra2.getDown())
+        {
+            tile_type = LevelData::Tile::Type(int(tile_type) - 1);
+            if (tile_type == LevelData::Tile::Type::Open)
+                tile_type = LevelData::Tile::Type(int(LevelData::Tile::Type::Count) - 1);
+            updateTileGfx();
+        }
+        if (controller.extra0.getDown())
             editor.adjustTile(position.x, position.y);
 
         if (controller.start.getDown())
@@ -88,6 +65,40 @@ public:
         camera_position.x = std::min(camera_position.x, editor.level_data->width - 8.0);
         camera_position.x = std::max(camera_position.x, 8.0);
         camera->setPosition(camera_position);
+    }
+    
+    void updateTileGfx()
+    {
+        switch(tile_type)
+        {
+        case LevelData::Tile::Type::Open: break;
+        case LevelData::Tile::Type::Brick: setGfx("tiles.png", 1); break;
+        case LevelData::Tile::Type::Ground: setGfx("tiles.png", 0); break;
+        case LevelData::Tile::Type::Block: setGfx("tiles.png", 16); break;
+        case LevelData::Tile::Type::Coin: setGfx("editor_overlay_tiles.png", 17); break;
+        case LevelData::Tile::Type::QuestionBlock: setGfx("editor_overlay_tiles.png", 1); break;
+        
+        case LevelData::Tile::Type::Pipe: setGfx("tiles.png", 136); break;
+        case LevelData::Tile::Type::PipeRed: setGfx("tiles.png", 184); break;
+        case LevelData::Tile::Type::Trampoline: setGfx("editor_overlay_tiles.png", 18); break;
+        case LevelData::Tile::Type::BullitTower: setGfx("tiles.png", 165); break;
+        
+        case LevelData::Tile::Type::Goomba: setGfx("editor_overlay_tiles.png", 8); break;
+        case LevelData::Tile::Type::KoopaGreen: setGfx("editor_overlay_tiles.png", 9); break;
+        case LevelData::Tile::Type::KoopaRed: setGfx("editor_overlay_tiles.png", 25); break;
+        case LevelData::Tile::Type::KoopaParatrooperGreen: setGfx("editor_overlay_tiles.png", 11); break;
+        case LevelData::Tile::Type::KoopaParatrooperRed: setGfx("editor_overlay_tiles.png", 27); break;
+        case LevelData::Tile::Type::Blooper: setGfx("editor_overlay_tiles.png", 40); break;
+        case LevelData::Tile::Type::Podoboo: setGfx("editor_overlay_tiles.png", 10); break;
+        case LevelData::Tile::Type::HammerBrother: setGfx("editor_overlay_tiles.png", 41); break;
+        case LevelData::Tile::Type::Lakitu: setGfx("editor_overlay_tiles.png", 42); break;
+        case LevelData::Tile::Type::BuzzyBeetle: setGfx("editor_overlay_tiles.png", 24); break;
+        case LevelData::Tile::Type::Bowser: setGfx("editor_overlay_tiles.png", 26); break;
+
+        case LevelData::Tile::Type::Princess: setGfx("editor_overlay_tiles.png", 2); break;
+
+        case LevelData::Tile::Type::Count: break;
+        }
     }
     
     void setGfx(sp::string texture, int tile_index)
