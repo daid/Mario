@@ -49,6 +49,7 @@ public:
             case LevelData::Tile::Type::Pipe: setGfx("tiles.png", 136); break;
             case LevelData::Tile::Type::PipeRed: setGfx("tiles.png", 184); break;
             case LevelData::Tile::Type::Trampoline: setGfx("editor_overlay_tiles.png", 18); break;
+            case LevelData::Tile::Type::BullitTower: setGfx("tiles.png", 165); break;
             
             case LevelData::Tile::Type::Goomba: setGfx("editor_overlay_tiles.png", 8); break;
             case LevelData::Tile::Type::KoopaGreen: setGfx("editor_overlay_tiles.png", 9); break;
@@ -144,6 +145,14 @@ int LevelData::getTileIndex(int x, int y)
             return tile;
         }
     case LevelData::Tile::Type::Trampoline: break;
+    case LevelData::Tile::Type::BullitTower:
+        if (y < height - 1 && tiles[x][y+1].type == LevelData::Tile::Type::BullitTower)
+        {
+            if (y < height - 2 && tiles[x][y+2].type == LevelData::Tile::Type::BullitTower)
+                return 197;
+            return 181;
+        }
+        return 165;
     
     case LevelData::Tile::Type::Goomba: break;
     case LevelData::Tile::Type::KoopaGreen: break;
@@ -175,6 +184,7 @@ bool LevelData::isTileSolid(int x, int y)
     case LevelData::Tile::Type::Pipe: return true;
     case LevelData::Tile::Type::PipeRed: return true;
     case LevelData::Tile::Type::Trampoline: return false;
+    case LevelData::Tile::Type::BullitTower: return true;
     
     case LevelData::Tile::Type::Goomba: return false;
     case LevelData::Tile::Type::KoopaGreen: return false;
@@ -276,6 +286,7 @@ void EditorScene::updateTilemap(int x, int y)
     case LevelData::Tile::Type::Pipe: break;
     case LevelData::Tile::Type::PipeRed: break;
     case LevelData::Tile::Type::Trampoline: overlay_tilemap->setTile(x, y, 18); break;
+    case LevelData::Tile::Type::BullitTower: break;
     
     case LevelData::Tile::Type::Goomba: overlay_tilemap->setTile(x, y, 8); break;
     case LevelData::Tile::Type::KoopaGreen: overlay_tilemap->setTile(x, y, 9); break;

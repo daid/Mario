@@ -282,6 +282,8 @@ public:
                     tilemap->setTile(x, y, tile, level->isTileSolid(x, y) ? sp::Tilemap::Collision::Solid : sp::Tilemap::Collision::Open);
                     if (tile == 128 || tile == 176)
                         new PiranhaPlant(getRoot(), x + 0.5, y);
+                    if (tile == 165)
+                        new BullitGenerator(tilemap->getParent(), x, y);
                 }
                 if (level->tiles[x][y].contents != LevelData::Tile::Contents::None)
                 {
@@ -314,6 +316,7 @@ public:
                 case LevelData::Tile::Type::Pipe: break;
                 case LevelData::Tile::Type::PipeRed: break;
                 case LevelData::Tile::Type::Trampoline: (new Trampoline(getRoot()))->setPosition(sp::Vector2d(x + 0.5, y + 1.0));break;
+                case LevelData::Tile::Type::BullitTower: break;
             
                 case LevelData::Tile::Type::Goomba: new Goomba(getRoot(), x, y); break;
                 case LevelData::Tile::Type::KoopaGreen: new Koopa(getRoot(), x, y); break;

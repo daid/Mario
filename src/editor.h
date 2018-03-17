@@ -22,6 +22,7 @@ public:
             Pipe,
             PipeRed,
             Trampoline,
+            BullitTower,
             
             Goomba,
             KoopaGreen,
