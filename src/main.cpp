@@ -32,6 +32,7 @@
 #include "coin.h"
 #include "trampoline.h"
 
+#include "pickup/smb/levelGoal.h"
 #include "enemy/smb/goomba.h"
 #include "enemy/smb/koopa.h"
 #include "enemy/smb/piranhaPlant.h"
@@ -329,6 +330,7 @@ public:
                 case LevelData::Tile::Type::Lakitu: new Lakitu(getRoot(), x, y); break;
                 case LevelData::Tile::Type::BuzzyBeetle: new BuzzyBeetle(getRoot(), x, y); break;
                 case LevelData::Tile::Type::Bowser: new Bowser(getRoot(), x, y); break;
+                case LevelData::Tile::Type::Princess: (new LevelGoalPickup(getRoot(), LevelGoalPickup::Type::Princess))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
 
                 case LevelData::Tile::Type::Count: break;
                 }

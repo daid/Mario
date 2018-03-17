@@ -62,6 +62,9 @@ public:
             case LevelData::Tile::Type::Lakitu: setGfx("editor_overlay_tiles.png", 42); break;
             case LevelData::Tile::Type::BuzzyBeetle: setGfx("editor_overlay_tiles.png", 24); break;
             case LevelData::Tile::Type::Bowser: setGfx("editor_overlay_tiles.png", 26); break;
+
+            case LevelData::Tile::Type::Princess: setGfx("editor_overlay_tiles.png", 2); break;
+
             case LevelData::Tile::Type::Count: break;
             }
         }
@@ -167,6 +170,7 @@ int LevelData::getTileIndex(int x, int y)
     case LevelData::Tile::Type::Lakitu: break;
     case LevelData::Tile::Type::BuzzyBeetle: break;
     case LevelData::Tile::Type::Bowser: break;
+    case LevelData::Tile::Type::Princess: break;
     case LevelData::Tile::Type::Count: break;
     }
     return -1;
@@ -201,6 +205,8 @@ bool LevelData::isTileSolid(int x, int y)
     case LevelData::Tile::Type::Lakitu: return false;
     case LevelData::Tile::Type::BuzzyBeetle: return false;
     case LevelData::Tile::Type::Bowser: return false;
+    case LevelData::Tile::Type::Princess: return false;
+
     case LevelData::Tile::Type::Count: return false;
     }
     return false;
@@ -305,6 +311,7 @@ void EditorScene::updateTilemap(int x, int y)
     case LevelData::Tile::Type::Lakitu: overlay_tilemap->setTile(x, y, 42); break;
     case LevelData::Tile::Type::BuzzyBeetle: overlay_tilemap->setTile(x, y, 24); break;
     case LevelData::Tile::Type::Bowser: overlay_tilemap->setTile(x, y, 26); break;
+    case LevelData::Tile::Type::Princess: overlay_tilemap->setTile(x, y, 2); break;
     case LevelData::Tile::Type::Count: break;
     }
     switch(level_data->tiles[x][y].contents)

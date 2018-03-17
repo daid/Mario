@@ -36,6 +36,8 @@ public:
             BuzzyBeetle,
             Bowser,
             
+            Princess,
+            
             Count
         };
         enum class Contents
