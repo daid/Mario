@@ -11,7 +11,7 @@
 PiranhaPlant::PiranhaPlant(sp::P<sp::Node> parent, float x, float y)
 : Enemy(parent, x, y - 0.75)
 {
-    sp::collision::Box2D shape(14.0/16.0, 18.0/16.0, 0, -3.0/16.0);
+    sp::collision::Box2D shape(12.0/16.0, 16.0/16.0, 0, -4.0/16.0);
     shape.type = sp::collision::Shape::Type::Sensor;
     shape.setFilterCategory(collision_category_enemy);
     shape.fixed_rotation = true;
@@ -32,9 +32,14 @@ void PiranhaPlant::onEnemyUpdate()
     if (position.y <= start_position.y)
     {
         if (playerNear())
+        {
             setLinearVelocity(sp::Vector2d(0, 0));
+            setPosition(start_position);
+        }
         else
+        {
             setLinearVelocity(sp::Vector2d(0, 1));
+        }
     }
     if (position.y >= start_position.y + 2)
         setLinearVelocity(sp::Vector2d(0, -1));

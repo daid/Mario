@@ -26,8 +26,22 @@
 #include "camera.h"
 #include "savegame.h"
 #include "stageSelect.h"
+#include "editor.h"
 #include "playerGhost.h"
 #include "main.h"
+#include "coin.h"
+#include "trampoline.h"
+
+#include "enemy/smb/goomba.h"
+#include "enemy/smb/koopa.h"
+#include "enemy/smb/piranhaPlant.h"
+#include "enemy/smb/bowser.h"
+#include "enemy/smb/blooper.h"
+#include "enemy/smb/hammerBrother.h"
+#include "enemy/smb/podoboo.h"
+#include "enemy/smb/buzzyBeetle.h"
+#include "enemy/smb/bullitBill.h"
+#include "enemy/smb/lakitu.h"
 
 InputController controller[2]{{0}, {1}};
 sp::io::Keybinding escape_key{"exit", "Escape"};
@@ -117,7 +131,8 @@ public:
     
     virtual void onFixedUpdate() override
     {
-        recorder->update();
+        if (recorder)
+            recorder->update();
     }
     
     virtual void onDisable() override
@@ -141,6 +156,7 @@ public:
         
         clearAll();
         sp::Scene::get("stage_select")->disable();
+        sp::Scene::get("editor")->disable();
         enable();
         hud->show();
         switch(world)
@@ -236,6 +252,105 @@ public:
         }
     }
 
+    void loadStage(LevelData* level)
+    {
+        LOG(Debug, "Loading custom stage");
+        active_world = -1;
+        active_stage = -1;
+        play_time = 0.0;
+        
+        clearAll();
+        sp::Scene::get("stage_select")->disable();
+        sp::Scene::get("editor")->disable();
+        enable();
+        hud->show();
+
+        global_area_data.start_position = sp::Vector2d(2, 13);
+        global_area_data.view_limit = level->width;
+        global_area_data.music_name = "Overworld";
+        global_area_data.water_level = -10;
+        sp::audio::Music::play("music/" + global_area_data.music_name + ".ogg");
+
+        sp::P<sp::Tilemap> tilemap = new sp::Tilemap(getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
+        for(int x=0; x<level->width; x++)
+        {
+            for(int y=0; y<level->height; y++)
+            {
+                switch(level->tiles[x][y].type)
+                {
+                case LevelData::Tile::Type::Open:
+                    switch(level->tiles[x][y].contents)
+                    {
+                    case LevelData::Tile::Contents::None: break;
+                    case LevelData::Tile::Contents::Coin: (new QuestionBlock(tilemap, QuestionBlock::Type::Hidden, QuestionBlock::Contents::Coin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::MultiCoin: (new QuestionBlock(tilemap, QuestionBlock::Type::Hidden, QuestionBlock::Contents::MultiCoin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Upgrade: (new QuestionBlock(tilemap, QuestionBlock::Type::Hidden, QuestionBlock::Contents::Upgrade))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Star: (new QuestionBlock(tilemap, QuestionBlock::Type::Hidden, QuestionBlock::Contents::Star))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Life: (new QuestionBlock(tilemap, QuestionBlock::Type::Hidden, QuestionBlock::Contents::Life))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Count: break;
+                    }
+                    break;
+                case LevelData::Tile::Type::Brick: 
+                    switch(level->tiles[x][y].contents)
+                    {
+                    case LevelData::Tile::Contents::None: tilemap->setTile(x, y, 1, sp::Tilemap::Collision::Solid); break;
+                    case LevelData::Tile::Contents::Coin: (new QuestionBlock(tilemap, QuestionBlock::Type::Brick, QuestionBlock::Contents::Coin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::MultiCoin: (new QuestionBlock(tilemap, QuestionBlock::Type::Brick, QuestionBlock::Contents::MultiCoin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Upgrade: (new QuestionBlock(tilemap, QuestionBlock::Type::Brick, QuestionBlock::Contents::Upgrade))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Star: (new QuestionBlock(tilemap, QuestionBlock::Type::Brick, QuestionBlock::Contents::Star))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Life: (new QuestionBlock(tilemap, QuestionBlock::Type::Brick, QuestionBlock::Contents::Life))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Count: break;
+                    }
+                    break;
+                case LevelData::Tile::Type::Ground: tilemap->setTile(x, y, 0, sp::Tilemap::Collision::Solid); break;
+                case LevelData::Tile::Type::Block: tilemap->setTile(x, y, 16, sp::Tilemap::Collision::Solid); break;
+                case LevelData::Tile::Type::Coin: (new Coin(getRoot()))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                case LevelData::Tile::Type::QuestionBlock:
+                    switch(level->tiles[x][y].contents)
+                    {
+                    case LevelData::Tile::Contents::None:
+                    case LevelData::Tile::Contents::Coin: (new QuestionBlock(tilemap, QuestionBlock::Type::Normal, QuestionBlock::Contents::Coin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::MultiCoin: (new QuestionBlock(tilemap, QuestionBlock::Type::Normal, QuestionBlock::Contents::MultiCoin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Upgrade: (new QuestionBlock(tilemap, QuestionBlock::Type::Normal, QuestionBlock::Contents::Upgrade))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Star: (new QuestionBlock(tilemap, QuestionBlock::Type::Normal, QuestionBlock::Contents::Star))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Life: (new QuestionBlock(tilemap, QuestionBlock::Type::Normal, QuestionBlock::Contents::Life))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+            
+                    case LevelData::Tile::Contents::Count: break;
+                    }
+                    break;
+                case LevelData::Tile::Type::Pipe:{
+                    int tile = 128;
+                    if (x > 0 && level->tiles[x-1][y].type == LevelData::Tile::Type::Pipe)
+                        tile++;
+                    else if (x >= level->width - 1 || level->tiles[x+1][y].type != LevelData::Tile::Type::Pipe)
+                        tile += 8;
+                    if (y < level->height - 1 && level->tiles[x][y+1].type == LevelData::Tile::Type::Pipe)
+                        tile+=16;
+                    tilemap->setTile(x, y, tile, sp::Tilemap::Collision::Solid);
+                    if (tile == 128)
+                        new PiranhaPlant(getRoot(), x + 0.5, y);
+                    }break;
+                case LevelData::Tile::Type::Trampoline: (new Trampoline(getRoot()))->setPosition(sp::Vector2d(x + 0.5, y + 1.0));break;
+            
+                case LevelData::Tile::Type::Goomba: new Goomba(getRoot(), x, y); break;
+                case LevelData::Tile::Type::KoopaGreen: new Koopa(getRoot(), x, y); break;
+                case LevelData::Tile::Type::KoopaRed: new Koopa(getRoot(), x, y, Koopa::Type::Red, Koopa::Behaviour::WalkingNoEdge); break;
+                case LevelData::Tile::Type::Blooper: new Blooper(getRoot(), x, y); break;
+                case LevelData::Tile::Type::Podoboo: new Podoboo(getRoot(), x, y); break;
+                case LevelData::Tile::Type::HammerBrother: new HammerBrother(getRoot(), x, y); break;
+                case LevelData::Tile::Type::Lakitu: new Lakitu(getRoot(), x, y); break;
+                case LevelData::Tile::Type::BuzzyBeetle: new BuzzyBeetle(getRoot(), x, y); break;
+                case LevelData::Tile::Type::Bowser: new Bowser(getRoot(), x, y); break;
+
+                case LevelData::Tile::Type::Count: break;
+                }
+            }
+        }
+
+        createPlayers(this);
+        setDefaultCamera(new Camera(getRoot()));
+    }
+
 private:
     void clearAll()
     {
@@ -254,9 +369,12 @@ private:
             hud->hide();
             continue_delay = 3.0;
 
-            StageSaveData& save = save_game.getStage(active_world, active_stage);
-            save.attempts++;
-            save_game.store();
+            if (active_world > -1)
+            {
+                StageSaveData& save = save_game.getStage(active_world, active_stage);
+                save.attempts++;
+                save_game.store();
+            }
         }
         else
         {
@@ -288,29 +406,33 @@ private:
                 sp::audio::Sound::play("sfx/smb_world_clear.wav");
                 continue_delay = 6.0;
             }
-            StageSaveData& save = save_game.getStage(active_world, active_stage);
-            save.finished = std::max(save.finished, PlayerPawn::all.size());
-            save.attempts++;
-            if (PlayerPawn::all.size() == save_game.getPlayerCount())
+            
+            if (active_world > -1)
             {
-                switch(game_mode)
+                StageSaveData& save = save_game.getStage(active_world, active_stage);
+                save.finished = std::max(save.finished, PlayerPawn::all.size());
+                save.attempts++;
+                if (PlayerPawn::all.size() == save_game.getPlayerCount())
                 {
-                case GameMode::Basic:
-                    if (save.best_time > play_time)
+                    switch(game_mode)
                     {
-                        save.best_time = play_time;
-                        save.best_time_recordings.clear();
+                    case GameMode::Basic:
+                        if (save.best_time > play_time)
+                        {
+                            save.best_time = play_time;
+                            save.best_time_recordings.clear();
+                            for(auto& e : recorder->entries)
+                                save.best_time_recordings.push_back(e.recording);
+                        }
+                        break;
+                    case GameMode::MoreAndMore:
                         for(auto& e : recorder->entries)
-                            save.best_time_recordings.push_back(e.recording);
+                            save.all_recordings.push_back(e.recording);
+                        break;
                     }
-                    break;
-                case GameMode::MoreAndMore:
-                    for(auto& e : recorder->entries)
-                        save.all_recordings.push_back(e.recording);
-                    break;
                 }
+                save_game.store();
             }
-            save_game.store();
         }
         else
         {
@@ -339,6 +461,11 @@ private:
 void loadStage(int world, int stage)
 {
     (sp::P<StageScene>(sp::Scene::get("stage")))->loadStage(world, stage);
+}
+
+void loadStage(LevelData* level)
+{
+    (sp::P<StageScene>(sp::Scene::get("stage")))->loadStage(level);
 }
 
 void createPlayers(sp::P<sp::Scene> scene)
@@ -419,7 +546,13 @@ int main(int argc, char** argv)
 
     save_game.load(2);
     new StageScene();
+    new EditorScene();
     new StageSelectScene();
+    
+#ifdef DEBUG
+    sp::Scene::get("stage_select")->disable();
+    sp::Scene::get("editor")->enable();
+#endif
 
     engine->run();
     
