@@ -27,6 +27,8 @@ public:
             Goomba,
             KoopaGreen,
             KoopaRed,
+            KoopaParatrooperGreen,
+            KoopaParatrooperRed,
             Blooper,
             Podoboo,
             HammerBrother,

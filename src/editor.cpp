@@ -54,6 +54,8 @@ public:
             case LevelData::Tile::Type::Goomba: setGfx("editor_overlay_tiles.png", 8); break;
             case LevelData::Tile::Type::KoopaGreen: setGfx("editor_overlay_tiles.png", 9); break;
             case LevelData::Tile::Type::KoopaRed: setGfx("editor_overlay_tiles.png", 25); break;
+            case LevelData::Tile::Type::KoopaParatrooperGreen: setGfx("editor_overlay_tiles.png", 11); break;
+            case LevelData::Tile::Type::KoopaParatrooperRed: setGfx("editor_overlay_tiles.png", 27); break;
             case LevelData::Tile::Type::Blooper: setGfx("editor_overlay_tiles.png", 40); break;
             case LevelData::Tile::Type::Podoboo: setGfx("editor_overlay_tiles.png", 10); break;
             case LevelData::Tile::Type::HammerBrother: setGfx("editor_overlay_tiles.png", 41); break;
@@ -157,6 +159,8 @@ int LevelData::getTileIndex(int x, int y)
     case LevelData::Tile::Type::Goomba: break;
     case LevelData::Tile::Type::KoopaGreen: break;
     case LevelData::Tile::Type::KoopaRed: break;
+    case LevelData::Tile::Type::KoopaParatrooperGreen: break;
+    case LevelData::Tile::Type::KoopaParatrooperRed: break;
     case LevelData::Tile::Type::Blooper: break;
     case LevelData::Tile::Type::Podoboo: break;
     case LevelData::Tile::Type::HammerBrother: break;
@@ -189,6 +193,8 @@ bool LevelData::isTileSolid(int x, int y)
     case LevelData::Tile::Type::Goomba: return false;
     case LevelData::Tile::Type::KoopaGreen: return false;
     case LevelData::Tile::Type::KoopaRed: return false;
+    case LevelData::Tile::Type::KoopaParatrooperGreen: break;
+    case LevelData::Tile::Type::KoopaParatrooperRed: break;
     case LevelData::Tile::Type::Blooper: return false;
     case LevelData::Tile::Type::Podoboo: return false;
     case LevelData::Tile::Type::HammerBrother: return false;
@@ -291,6 +297,8 @@ void EditorScene::updateTilemap(int x, int y)
     case LevelData::Tile::Type::Goomba: overlay_tilemap->setTile(x, y, 8); break;
     case LevelData::Tile::Type::KoopaGreen: overlay_tilemap->setTile(x, y, 9); break;
     case LevelData::Tile::Type::KoopaRed: overlay_tilemap->setTile(x, y, 25); break;
+    case LevelData::Tile::Type::KoopaParatrooperGreen: overlay_tilemap->setTile(x, y, 11); break;
+    case LevelData::Tile::Type::KoopaParatrooperRed: overlay_tilemap->setTile(x, y, 27); break;
     case LevelData::Tile::Type::Blooper: overlay_tilemap->setTile(x, y, 40); break;
     case LevelData::Tile::Type::Podoboo: overlay_tilemap->setTile(x, y, 10); break;
     case LevelData::Tile::Type::HammerBrother: overlay_tilemap->setTile(x, y, 41); break;

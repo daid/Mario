@@ -321,6 +321,8 @@ public:
                 case LevelData::Tile::Type::Goomba: new Goomba(getRoot(), x, y); break;
                 case LevelData::Tile::Type::KoopaGreen: new Koopa(getRoot(), x, y); break;
                 case LevelData::Tile::Type::KoopaRed: new Koopa(getRoot(), x, y, Koopa::Type::Red, Koopa::Behaviour::WalkingNoEdge); break;
+                case LevelData::Tile::Type::KoopaParatrooperGreen: new Koopa(getRoot(), x, y, Koopa::Type::ParatroopaGreen, Koopa::Behaviour::Leaping); break;
+                case LevelData::Tile::Type::KoopaParatrooperRed: new Koopa(getRoot(), x, y, Koopa::Type::ParatroopaRed, Koopa::Behaviour::FlyingUpDown); break;
                 case LevelData::Tile::Type::Blooper: new Blooper(getRoot(), x, y); break;
                 case LevelData::Tile::Type::Podoboo: new Podoboo(getRoot(), x, y); break;
                 case LevelData::Tile::Type::HammerBrother: new HammerBrother(getRoot(), x, y); break;
