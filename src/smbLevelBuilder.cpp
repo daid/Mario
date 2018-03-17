@@ -213,7 +213,7 @@ void SmbLevelBuilder::horizontalBricks(int x, int y, int w)
 void SmbLevelBuilder::pipe(int x, int y, int h, PipeColor color)
 {
     int tile_offset = 0;
-    if (color == PipeColor::Red) tile_offset = 32;
+    if (color == PipeColor::Red) tile_offset = 48;
     x += page_index * 16;
     if (y < 13)
     {
@@ -230,7 +230,7 @@ void SmbLevelBuilder::pipe(int x, int y, int h, PipeColor color)
 void SmbLevelBuilder::sidePipeEntrance(int x, int y, PipeColor color)
 {
     int tile_offset = 0;
-    if (color == PipeColor::Red) tile_offset = 32;
+    if (color == PipeColor::Red) tile_offset = 48;
     basicUpTo(x + 1);
     x += page_index * 16;
     tilemap->setTile(x, y, 130 + tile_offset, sp::Tilemap::Collision::Solid);
@@ -399,7 +399,7 @@ void SmbLevelBuilder::princess(int x, int y)
 void SmbLevelBuilder::reverseLPipe(int x, int y, int w, int h, PipeColor color)
 {
     int tile_offset = 0;
-    if (color == PipeColor::Red) tile_offset = 32;
+    if (color == PipeColor::Red) tile_offset = 48;
     basicUpTo(x + w + 2);
     x += page_index * 16;
     tilemap->setTile(x, y + 1, 130 + tile_offset, sp::Tilemap::Collision::Solid);

@@ -47,6 +47,7 @@ public:
             case LevelData::Tile::Type::QuestionBlock: setGfx("editor_overlay_tiles.png", 1); break;
             
             case LevelData::Tile::Type::Pipe: setGfx("tiles.png", 136); break;
+            case LevelData::Tile::Type::PipeRed: setGfx("tiles.png", 184); break;
             case LevelData::Tile::Type::Trampoline: setGfx("editor_overlay_tiles.png", 18); break;
             
             case LevelData::Tile::Type::Goomba: setGfx("editor_overlay_tiles.png", 8); break;
@@ -87,7 +88,7 @@ public:
     {
         float x = tile_index % 16;
         float y = tile_index / 16;
-        render_data.mesh = sp::MeshData::createQuad(sp::Vector2f(1, 1), sp::Vector2f(x / 16, y / 16), sp::Vector2f((x + 1) / 16, (y + 1) / 16));
+        render_data.mesh = sp::MeshData::createQuad(sp::Vector2f(0.9, 0.9), sp::Vector2f(x / 16, y / 16), sp::Vector2f((x + 1) / 16, (y + 1) / 16));
         render_data.texture = sp::textureManager.get(texture);
     }
     
@@ -106,6 +107,87 @@ LevelData::LevelData()
         tiles[x][0].type = Tile::Type::Ground;
         tiles[x][1].type = Tile::Type::Ground;
     }
+}
+
+int LevelData::getTileIndex(int x, int y)
+{
+    if (x < 0 || y < 0 || x >= width || y >= height)
+        return -1;
+    switch(tiles[x][y].type)
+    {
+    case LevelData::Tile::Type::Open: break;
+    case LevelData::Tile::Type::Brick: return 1;
+    case LevelData::Tile::Type::Ground: return 0;
+    case LevelData::Tile::Type::Block: return 16;
+    case LevelData::Tile::Type::Coin: break;
+    case LevelData::Tile::Type::QuestionBlock: break;
+            
+    case LevelData::Tile::Type::Pipe:
+    case LevelData::Tile::Type::PipeRed:
+        {
+            int tile = 128;
+            int n = 0;
+            while(x - n > 0 && tiles[x-1-n][y].type == tiles[x][y].type)
+                n++;
+            if (n % 2 == 1)
+                tile += 1;
+            else if (x >= width - 1 || tiles[x+1][y].type != tiles[x][y].type)
+                tile += 8;
+            if (isTileSolid(x, y + 1))
+            {
+                tile+=16;
+                if (!isTileSolid(x, y - 1))
+                    tile += 16;
+            }
+            if (tiles[x][y].type == LevelData::Tile::Type::PipeRed)
+                tile += 48;
+            return tile;
+        }
+    case LevelData::Tile::Type::Trampoline: break;
+    
+    case LevelData::Tile::Type::Goomba: break;
+    case LevelData::Tile::Type::KoopaGreen: break;
+    case LevelData::Tile::Type::KoopaRed: break;
+    case LevelData::Tile::Type::Blooper: break;
+    case LevelData::Tile::Type::Podoboo: break;
+    case LevelData::Tile::Type::HammerBrother: break;
+    case LevelData::Tile::Type::Lakitu: break;
+    case LevelData::Tile::Type::BuzzyBeetle: break;
+    case LevelData::Tile::Type::Bowser: break;
+    case LevelData::Tile::Type::Count: break;
+    }
+    return -1;
+}
+
+bool LevelData::isTileSolid(int x, int y)
+{
+    if (x < 0 || y < 0 || x >= width || y >= height)
+        return false;
+    switch(tiles[x][y].type)
+    {
+    case LevelData::Tile::Type::Open: return false;
+    case LevelData::Tile::Type::Brick: return true;
+    case LevelData::Tile::Type::Ground: return true;
+    case LevelData::Tile::Type::Block: return true;
+    case LevelData::Tile::Type::Coin: return false;
+    case LevelData::Tile::Type::QuestionBlock: return true;
+            
+    case LevelData::Tile::Type::Pipe: return true;
+    case LevelData::Tile::Type::PipeRed: return true;
+    case LevelData::Tile::Type::Trampoline: return false;
+    
+    case LevelData::Tile::Type::Goomba: return false;
+    case LevelData::Tile::Type::KoopaGreen: return false;
+    case LevelData::Tile::Type::KoopaRed: return false;
+    case LevelData::Tile::Type::Blooper: return false;
+    case LevelData::Tile::Type::Podoboo: return false;
+    case LevelData::Tile::Type::HammerBrother: return false;
+    case LevelData::Tile::Type::Lakitu: return false;
+    case LevelData::Tile::Type::BuzzyBeetle: return false;
+    case LevelData::Tile::Type::Bowser: return false;
+    case LevelData::Tile::Type::Count: return false;
+    }
+    return false;
 }
 
 EditorScene::EditorScene()
@@ -177,7 +259,7 @@ void EditorScene::adjustTile(int x, int y)
 
 void EditorScene::updateTilemap(int x, int y)
 {
-    main_tilemap->setTile(x, y, -1);
+    main_tilemap->setTile(x, y, level_data->getTileIndex(x, y));
     overlay_tilemap->setTile(x, y, -1);
     switch(level_data->tiles[x][y].type)
     {
@@ -185,22 +267,14 @@ void EditorScene::updateTilemap(int x, int y)
         if (level_data->tiles[x][y].contents != LevelData::Tile::Contents::None)
             main_tilemap->setTile(x, y, 5);
         break;
-    case LevelData::Tile::Type::Brick: main_tilemap->setTile(x, y, 1); break;
-    case LevelData::Tile::Type::Ground: main_tilemap->setTile(x, y, 0); break;
-    case LevelData::Tile::Type::Block: main_tilemap->setTile(x, y, 16); break;
+    case LevelData::Tile::Type::Brick: break;
+    case LevelData::Tile::Type::Ground: break;
+    case LevelData::Tile::Type::Block: break;
     case LevelData::Tile::Type::Coin: overlay_tilemap->setTile(x, y, 17); break;
     case LevelData::Tile::Type::QuestionBlock: main_tilemap->setTile(x, y, 3); break;
             
-    case LevelData::Tile::Type::Pipe:{
-        int tile = 128;
-        if (x > 0 && level_data->tiles[x-1][y].type == LevelData::Tile::Type::Pipe)
-            tile++;
-        else if (x >= level_data->width - 1 || level_data->tiles[x+1][y].type != LevelData::Tile::Type::Pipe)
-            tile += 8;
-        if (y < level_data->height - 1 && level_data->tiles[x][y+1].type == LevelData::Tile::Type::Pipe)
-            tile+=16;
-        main_tilemap->setTile(x, y, tile);
-        }break;
+    case LevelData::Tile::Type::Pipe: break;
+    case LevelData::Tile::Type::PipeRed: break;
     case LevelData::Tile::Type::Trampoline: overlay_tilemap->setTile(x, y, 18); break;
     
     case LevelData::Tile::Type::Goomba: overlay_tilemap->setTile(x, y, 8); break;

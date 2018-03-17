@@ -20,6 +20,7 @@ public:
             QuestionBlock,
             
             Pipe,
+            PipeRed,
             Trampoline,
             
             Goomba,
@@ -51,6 +52,9 @@ public:
     };
     
     LevelData();
+    
+    int getTileIndex(int x, int y);
+    bool isTileSolid(int x, int y);
     
     static constexpr int width = 10 * 16;
     static constexpr int height = 13;

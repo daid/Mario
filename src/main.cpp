@@ -276,60 +276,43 @@ public:
         {
             for(int y=0; y<level->height; y++)
             {
-                switch(level->tiles[x][y].type)
+                int tile = level->getTileIndex(x, y);
+                if (tile > -1)
                 {
-                case LevelData::Tile::Type::Open:
+                    tilemap->setTile(x, y, tile, level->isTileSolid(x, y) ? sp::Tilemap::Collision::Solid : sp::Tilemap::Collision::Open);
+                    if (tile == 128 || tile == 176)
+                        new PiranhaPlant(getRoot(), x + 0.5, y);
+                }
+                if (level->tiles[x][y].contents != LevelData::Tile::Contents::None)
+                {
+                    QuestionBlock::Type type = QuestionBlock::Type::Normal;
+                    QuestionBlock::Contents contents = QuestionBlock::Contents::Coin;
+                    if (level->tiles[x][y].type == LevelData::Tile::Type::Open) type = QuestionBlock::Type::Hidden;
+                    if (level->tiles[x][y].type == LevelData::Tile::Type::Brick) type = QuestionBlock::Type::Brick;
+                    if (level->tiles[x][y].type == LevelData::Tile::Type::QuestionBlock) type = QuestionBlock::Type::Normal;
                     switch(level->tiles[x][y].contents)
                     {
                     case LevelData::Tile::Contents::None: break;
-                    case LevelData::Tile::Contents::Coin: (new QuestionBlock(tilemap, QuestionBlock::Type::Hidden, QuestionBlock::Contents::Coin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::MultiCoin: (new QuestionBlock(tilemap, QuestionBlock::Type::Hidden, QuestionBlock::Contents::MultiCoin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::Upgrade: (new QuestionBlock(tilemap, QuestionBlock::Type::Hidden, QuestionBlock::Contents::Upgrade))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::Star: (new QuestionBlock(tilemap, QuestionBlock::Type::Hidden, QuestionBlock::Contents::Star))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::Life: (new QuestionBlock(tilemap, QuestionBlock::Type::Hidden, QuestionBlock::Contents::Life))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                    case LevelData::Tile::Contents::Coin: contents = QuestionBlock::Contents::Coin; break;
+                    case LevelData::Tile::Contents::MultiCoin: contents = QuestionBlock::Contents::MultiCoin; break;
+                    case LevelData::Tile::Contents::Upgrade: contents = QuestionBlock::Contents::Upgrade; break;
+                    case LevelData::Tile::Contents::Star: contents = QuestionBlock::Contents::Star; break;
+                    case LevelData::Tile::Contents::Life: contents = QuestionBlock::Contents::Life; break;
                     case LevelData::Tile::Contents::Count: break;
                     }
-                    break;
-                case LevelData::Tile::Type::Brick: 
-                    switch(level->tiles[x][y].contents)
-                    {
-                    case LevelData::Tile::Contents::None: tilemap->setTile(x, y, 1, sp::Tilemap::Collision::Solid); break;
-                    case LevelData::Tile::Contents::Coin: (new QuestionBlock(tilemap, QuestionBlock::Type::Brick, QuestionBlock::Contents::Coin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::MultiCoin: (new QuestionBlock(tilemap, QuestionBlock::Type::Brick, QuestionBlock::Contents::MultiCoin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::Upgrade: (new QuestionBlock(tilemap, QuestionBlock::Type::Brick, QuestionBlock::Contents::Upgrade))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::Star: (new QuestionBlock(tilemap, QuestionBlock::Type::Brick, QuestionBlock::Contents::Star))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::Life: (new QuestionBlock(tilemap, QuestionBlock::Type::Brick, QuestionBlock::Contents::Life))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::Count: break;
-                    }
-                    break;
-                case LevelData::Tile::Type::Ground: tilemap->setTile(x, y, 0, sp::Tilemap::Collision::Solid); break;
-                case LevelData::Tile::Type::Block: tilemap->setTile(x, y, 16, sp::Tilemap::Collision::Solid); break;
+                    tilemap->setTile(x, y, -1);
+                    (new QuestionBlock(tilemap, type, contents))->setPosition(sp::Vector2d(x + 0.5, y + 0.5));
+                }
+                switch(level->tiles[x][y].type)
+                {
+                case LevelData::Tile::Type::Open: break;
+                case LevelData::Tile::Type::Brick: break;
+                case LevelData::Tile::Type::Ground: break;
+                case LevelData::Tile::Type::Block: break;
                 case LevelData::Tile::Type::Coin: (new Coin(getRoot()))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                case LevelData::Tile::Type::QuestionBlock:
-                    switch(level->tiles[x][y].contents)
-                    {
-                    case LevelData::Tile::Contents::None:
-                    case LevelData::Tile::Contents::Coin: (new QuestionBlock(tilemap, QuestionBlock::Type::Normal, QuestionBlock::Contents::Coin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::MultiCoin: (new QuestionBlock(tilemap, QuestionBlock::Type::Normal, QuestionBlock::Contents::MultiCoin))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::Upgrade: (new QuestionBlock(tilemap, QuestionBlock::Type::Normal, QuestionBlock::Contents::Upgrade))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::Star: (new QuestionBlock(tilemap, QuestionBlock::Type::Normal, QuestionBlock::Contents::Star))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-                    case LevelData::Tile::Contents::Life: (new QuestionBlock(tilemap, QuestionBlock::Type::Normal, QuestionBlock::Contents::Life))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
-            
-                    case LevelData::Tile::Contents::Count: break;
-                    }
-                    break;
-                case LevelData::Tile::Type::Pipe:{
-                    int tile = 128;
-                    if (x > 0 && level->tiles[x-1][y].type == LevelData::Tile::Type::Pipe)
-                        tile++;
-                    else if (x >= level->width - 1 || level->tiles[x+1][y].type != LevelData::Tile::Type::Pipe)
-                        tile += 8;
-                    if (y < level->height - 1 && level->tiles[x][y+1].type == LevelData::Tile::Type::Pipe)
-                        tile+=16;
-                    tilemap->setTile(x, y, tile, sp::Tilemap::Collision::Solid);
-                    if (tile == 128)
-                        new PiranhaPlant(getRoot(), x + 0.5, y);
-                    }break;
+                case LevelData::Tile::Type::QuestionBlock: break;
+                case LevelData::Tile::Type::Pipe: break;
+                case LevelData::Tile::Type::PipeRed: break;
                 case LevelData::Tile::Type::Trampoline: (new Trampoline(getRoot()))->setPosition(sp::Vector2d(x + 0.5, y + 1.0));break;
             
                 case LevelData::Tile::Type::Goomba: new Goomba(getRoot(), x, y); break;
