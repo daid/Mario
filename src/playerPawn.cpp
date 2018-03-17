@@ -503,7 +503,7 @@ bool PlayerPawn::takeDamage()
 {
     if (invincibility_time > 0.0)
         return false;
-    if (state == State::Death)
+    if (state == State::Death || state == State::Finish)
         return false;
     setInvincibilityTime(1.0, false);
     if (animation_prefix != "")
