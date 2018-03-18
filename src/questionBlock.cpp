@@ -2,6 +2,7 @@
 
 #include "playerPawn.h"
 #include "savegame.h"
+#include "vine.h"
 #include "pickup/smb/upgrade.h"
 #include "pickup/smb/life.h"
 #include "pickup/smb/star.h"
@@ -105,6 +106,7 @@ void QuestionBlock::onCollision(sp::CollisionInfo& info)
                 sp::audio::Sound::play("sfx/smb_powerup_appears.wav");
                 break;
             case Contents::Vine:
+                (new Vine(getParent()))->setPosition(sp::Vector2d(int(getPosition2D().x) + 0.5, int(getPosition2D().y) + 1.0));
                 break;
             case Contents::Life:
                 (new LifePickup(getParent()))->setPosition(getPosition2D());
