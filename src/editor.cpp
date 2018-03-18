@@ -48,8 +48,8 @@ public:
             repeat_delay = 30;
         }
         
-        if (controller.running.getDown()) editor.setTile(position.x, position.y, LevelData::Tile::Type::Open);
-        if (controller.jump.getDown()) editor.setTile(position.x, position.y, tile_type);
+        if (controller.running.get()) editor.setTile(position.x, position.y, LevelData::Tile::Type::Open);
+        if (controller.jump.get()) editor.setTile(position.x, position.y, tile_type);
         if (controller.extra1.getDown())
         {
             tile_type = LevelData::Tile::Type(int(tile_type) + 1);
