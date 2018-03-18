@@ -30,6 +30,7 @@
 #include "playerGhost.h"
 #include "main.h"
 #include "coin.h"
+#include "flagpole.h"
 #include "trampoline.h"
 
 #include "pickup/smb/levelGoal.h"
@@ -301,6 +302,7 @@ public:
                     case LevelData::Tile::Contents::Upgrade: contents = QuestionBlock::Contents::Upgrade; break;
                     case LevelData::Tile::Contents::Star: contents = QuestionBlock::Contents::Star; break;
                     case LevelData::Tile::Contents::Life: contents = QuestionBlock::Contents::Life; break;
+                    case LevelData::Tile::Contents::Vine: contents = QuestionBlock::Contents::Vine; break;
                     case LevelData::Tile::Contents::Count: break;
                     }
                     tilemap->setTile(x, y, -1);
@@ -316,8 +318,10 @@ public:
                 case LevelData::Tile::Type::QuestionBlock: break;
                 case LevelData::Tile::Type::Pipe: break;
                 case LevelData::Tile::Type::PipeRed: break;
-                case LevelData::Tile::Type::Trampoline: (new Trampoline(getRoot()))->setPosition(sp::Vector2d(x + 0.5, y + 1.0));break;
+                case LevelData::Tile::Type::Trampoline: (new Trampoline(getRoot()))->setPosition(sp::Vector2d(x + 0.5, y + 1.0)); break;
                 case LevelData::Tile::Type::BullitTower: break;
+                case LevelData::Tile::Type::FirebarLeft: (new FireBar(getRoot(), FireBar::Type::Left))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
+                case LevelData::Tile::Type::FirebarRight: (new FireBar(getRoot(), FireBar::Type::Right))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
             
                 case LevelData::Tile::Type::Goomba: new Goomba(getRoot(), x, y); break;
                 case LevelData::Tile::Type::KoopaGreen: new Koopa(getRoot(), x, y); break;
@@ -330,6 +334,12 @@ public:
                 case LevelData::Tile::Type::Lakitu: new Lakitu(getRoot(), x, y); break;
                 case LevelData::Tile::Type::BuzzyBeetle: new BuzzyBeetle(getRoot(), x, y); break;
                 case LevelData::Tile::Type::Bowser: new Bowser(getRoot(), x, y); break;
+                case LevelData::Tile::Type::Flagpole:
+                    for(int n=0; n<7; n++)
+                        tilemap->setTile(x, y + n, 30);
+                    tilemap->setTile(x, y + 7, 14);
+                    new Flagpole(getRoot(), x + 0.5);
+                    break;
                 case LevelData::Tile::Type::Princess: (new LevelGoalPickup(getRoot(), LevelGoalPickup::Type::Princess))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
 
                 case LevelData::Tile::Type::Count: break;

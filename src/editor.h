@@ -23,6 +23,8 @@ public:
             PipeRed,
             Trampoline,
             BullitTower,
+            FirebarLeft,
+            FirebarRight,
             
             Goomba,
             KoopaGreen,
@@ -36,6 +38,7 @@ public:
             BuzzyBeetle,
             Bowser,
             
+            Flagpole,
             Princess,
             
             Count
@@ -48,6 +51,7 @@ public:
             Upgrade,
             Star,
             Life,
+            Vine,
             
             Count
         };

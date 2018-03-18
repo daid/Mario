@@ -28,6 +28,25 @@ public:
         if (controller.right.getDown() && position.x < editor.level_data->width - 1) position.x++;
         if (controller.down.getDown() && position.y > 0) position.y--;
         if (controller.up.getDown() && position.y < editor.level_data->height - 1) position.y++;
+        if (controller.left.get() || controller.right.get() || controller.down.get() || controller.up.get())
+        {
+            if (repeat_delay > 0)
+            {
+                repeat_delay--;
+            }
+            else
+            {
+                if (controller.left.get() && position.x > 0) position.x--;
+                if (controller.right.get() && position.x < editor.level_data->width - 1) position.x++;
+                if (controller.down.get() && position.y > 0) position.y--;
+                if (controller.up.get() && position.y < editor.level_data->height - 1) position.y++;
+                repeat_delay = 5;
+            }
+        }
+        else
+        {
+            repeat_delay = 30;
+        }
         
         if (controller.running.getDown()) editor.setTile(position.x, position.y, LevelData::Tile::Type::Open);
         if (controller.jump.getDown()) editor.setTile(position.x, position.y, tile_type);
@@ -82,6 +101,8 @@ public:
         case LevelData::Tile::Type::PipeRed: setGfx("tiles.png", 184); break;
         case LevelData::Tile::Type::Trampoline: setGfx("editor_overlay_tiles.png", 18); break;
         case LevelData::Tile::Type::BullitTower: setGfx("tiles.png", 165); break;
+        case LevelData::Tile::Type::FirebarLeft: setGfx("editor_overlay_tiles.png", 43); break;
+        case LevelData::Tile::Type::FirebarRight: setGfx("editor_overlay_tiles.png", 44); break;
         
         case LevelData::Tile::Type::Goomba: setGfx("editor_overlay_tiles.png", 8); break;
         case LevelData::Tile::Type::KoopaGreen: setGfx("editor_overlay_tiles.png", 9); break;
@@ -95,6 +116,7 @@ public:
         case LevelData::Tile::Type::BuzzyBeetle: setGfx("editor_overlay_tiles.png", 24); break;
         case LevelData::Tile::Type::Bowser: setGfx("editor_overlay_tiles.png", 26); break;
 
+        case LevelData::Tile::Type::Flagpole: setGfx("editor_overlay_tiles.png", 32); break;
         case LevelData::Tile::Type::Princess: setGfx("editor_overlay_tiles.png", 2); break;
 
         case LevelData::Tile::Type::Count: break;
@@ -112,6 +134,7 @@ public:
     sp::Vector2i position;
     InputController& controller;
     EditorScene& editor;
+    int repeat_delay;
     
     LevelData::Tile::Type tile_type = LevelData::Tile::Type::Brick;
 };
@@ -169,6 +192,9 @@ int LevelData::getTileIndex(int x, int y)
             return 181;
         }
         return 165;
+    case LevelData::Tile::Type::FirebarLeft:
+    case LevelData::Tile::Type::FirebarRight:
+        return 3;
     
     case LevelData::Tile::Type::Goomba: break;
     case LevelData::Tile::Type::KoopaGreen: break;
@@ -181,6 +207,7 @@ int LevelData::getTileIndex(int x, int y)
     case LevelData::Tile::Type::Lakitu: break;
     case LevelData::Tile::Type::BuzzyBeetle: break;
     case LevelData::Tile::Type::Bowser: break;
+    case LevelData::Tile::Type::Flagpole: break;
     case LevelData::Tile::Type::Princess: break;
     case LevelData::Tile::Type::Count: break;
     }
@@ -204,6 +231,8 @@ bool LevelData::isTileSolid(int x, int y)
     case LevelData::Tile::Type::PipeRed: return true;
     case LevelData::Tile::Type::Trampoline: return false;
     case LevelData::Tile::Type::BullitTower: return true;
+    case LevelData::Tile::Type::FirebarLeft: return true;
+    case LevelData::Tile::Type::FirebarRight: return true;
     
     case LevelData::Tile::Type::Goomba: return false;
     case LevelData::Tile::Type::KoopaGreen: return false;
@@ -216,6 +245,7 @@ bool LevelData::isTileSolid(int x, int y)
     case LevelData::Tile::Type::Lakitu: return false;
     case LevelData::Tile::Type::BuzzyBeetle: return false;
     case LevelData::Tile::Type::Bowser: return false;
+    case LevelData::Tile::Type::Flagpole: return false;
     case LevelData::Tile::Type::Princess: return false;
 
     case LevelData::Tile::Type::Count: return false;
@@ -310,6 +340,8 @@ void EditorScene::updateTilemap(int x, int y)
     case LevelData::Tile::Type::PipeRed: break;
     case LevelData::Tile::Type::Trampoline: overlay_tilemap->setTile(x, y, 18); break;
     case LevelData::Tile::Type::BullitTower: break;
+    case LevelData::Tile::Type::FirebarLeft: overlay_tilemap->setTile(x, y, 43); break;
+    case LevelData::Tile::Type::FirebarRight: overlay_tilemap->setTile(x, y, 44); break;
     
     case LevelData::Tile::Type::Goomba: overlay_tilemap->setTile(x, y, 8); break;
     case LevelData::Tile::Type::KoopaGreen: overlay_tilemap->setTile(x, y, 9); break;
@@ -322,6 +354,7 @@ void EditorScene::updateTilemap(int x, int y)
     case LevelData::Tile::Type::Lakitu: overlay_tilemap->setTile(x, y, 42); break;
     case LevelData::Tile::Type::BuzzyBeetle: overlay_tilemap->setTile(x, y, 24); break;
     case LevelData::Tile::Type::Bowser: overlay_tilemap->setTile(x, y, 26); break;
+    case LevelData::Tile::Type::Flagpole: overlay_tilemap->setTile(x, y, 32); break;
     case LevelData::Tile::Type::Princess: overlay_tilemap->setTile(x, y, 2); break;
     case LevelData::Tile::Type::Count: break;
     }
@@ -333,6 +366,7 @@ void EditorScene::updateTilemap(int x, int y)
     case LevelData::Tile::Contents::Upgrade: overlay_tilemap->setTile(x, y, 0); break;
     case LevelData::Tile::Contents::Star: overlay_tilemap->setTile(x, y, 48); break;
     case LevelData::Tile::Contents::Life: overlay_tilemap->setTile(x, y, 16); break;
+    case LevelData::Tile::Contents::Vine: overlay_tilemap->setTile(x, y, 34); break;
     case LevelData::Tile::Contents::Count: break;
     }
 }
