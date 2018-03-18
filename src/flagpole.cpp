@@ -7,11 +7,11 @@
 Flagpole::Flagpole(sp::P<sp::Node> parent, double x)
 : sp::Node(parent)
 {
-    sp::collision::Box2D shape(0.3, 20);
+    sp::collision::Box2D shape(0.3, 20, 0, 10);
     shape.type = sp::collision::Shape::Type::Sensor;
     setCollisionShape(shape);
     
-    setPosition(sp::Vector2d(x, 10));
+    setPosition(sp::Vector2d(x, 3));
 }
 
 void Flagpole::onCollision(sp::CollisionInfo& info)

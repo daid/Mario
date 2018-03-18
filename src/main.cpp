@@ -338,7 +338,7 @@ public:
                     for(int n=0; n<7; n++)
                         tilemap->setTile(x, y + n, 30);
                     tilemap->setTile(x, y + 7, 14);
-                    new Flagpole(getRoot(), x + 0.5);
+                    (new Flagpole(getRoot(), x + 0.5))->setPosition(sp::Vector2d(x + 0.5, y));
                     break;
                 case LevelData::Tile::Type::Princess: (new LevelGoalPickup(getRoot(), LevelGoalPickup::Type::Princess))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
 
