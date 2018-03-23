@@ -21,6 +21,9 @@ public:
             
             Pipe,
             PipeRed,
+            Island,
+            MushroomIsland,
+            
             Trampoline,
             BullitTower,
             FirebarLeft,

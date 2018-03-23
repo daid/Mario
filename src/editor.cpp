@@ -20,6 +20,7 @@ public:
         
         position = sp::Vector2i(5, 1);
         setPosition(sp::Vector2d(position) + sp::Vector2d(0.5, 0.5));
+        active = false;
     }
     
     void onFixedUpdate() override
@@ -30,6 +31,7 @@ public:
         if (controller.up.getDown() && position.y < editor.level_data->height - 1) position.y++;
         if (controller.left.get() || controller.right.get() || controller.down.get() || controller.up.get())
         {
+            active = true;
             if (repeat_delay > 0)
             {
                 repeat_delay--;
@@ -73,17 +75,20 @@ public:
             return;
         }
         
-        setPosition(sp::Vector2d(position) + sp::Vector2d(0.5, 0.5));
-        
-        sp::P<sp::Camera> camera = getScene()->getCamera();
-        sp::Vector2d camera_position = camera->getPosition2D();
-        if (camera_position.x < position.x - 6)
-            camera_position.x += 0.1;
-        if (camera_position.x > position.x + 6)
-            camera_position.x -= 0.1;
-        camera_position.x = std::min(camera_position.x, editor.level_data->width - 8.0);
-        camera_position.x = std::max(camera_position.x, 8.0);
-        camera->setPosition(camera_position);
+        if (active)
+        {
+            setPosition(sp::Vector2d(position) + sp::Vector2d(0.5, 0.5));
+            
+            sp::P<sp::Camera> camera = getScene()->getCamera();
+            sp::Vector2d camera_position = camera->getPosition2D();
+            if (camera_position.x < position.x - 6)
+                camera_position.x += 0.1;
+            if (camera_position.x > position.x + 6)
+                camera_position.x -= 0.1;
+            camera_position.x = std::min(camera_position.x, editor.level_data->width - 8.0);
+            camera_position.x = std::max(camera_position.x, 8.0);
+            camera->setPosition(camera_position);
+        }
     }
     
     void updateTileGfx()
@@ -100,6 +105,9 @@ public:
         case LevelData::Tile::Type::Pipe: setGfx("tiles.png", 136); break;
         case LevelData::Tile::Type::PipeRed: setGfx("tiles.png", 184); break;
         case LevelData::Tile::Type::Trampoline: setGfx("editor_overlay_tiles.png", 18); break;
+        case LevelData::Tile::Type::Island: setGfx("tiles.png", 137); break;
+        case LevelData::Tile::Type::MushroomIsland: setGfx("tiles.png", 137 + 16); break;
+
         case LevelData::Tile::Type::BullitTower: setGfx("tiles.png", 165); break;
         case LevelData::Tile::Type::FirebarLeft: setGfx("editor_overlay_tiles.png", 43); break;
         case LevelData::Tile::Type::FirebarRight: setGfx("editor_overlay_tiles.png", 44); break;
@@ -135,6 +143,7 @@ public:
     InputController& controller;
     EditorScene& editor;
     int repeat_delay;
+    bool active;
     
     LevelData::Tile::Type tile_type = LevelData::Tile::Type::Brick;
 };
@@ -155,7 +164,16 @@ int LevelData::getTileIndex(int x, int y)
         return -1;
     switch(tiles[x][y].type)
     {
-    case LevelData::Tile::Type::Open: break;
+    case LevelData::Tile::Type::Open:
+        for(int n=y+1; n<height; n++)
+        {
+            if (tiles[x][n].type == LevelData::Tile::Type::Island)
+            {
+                if (x > 0 && x < width - 1 && tiles[x - 1][n].type == LevelData::Tile::Type::Island && tiles[x + 1][n].type == LevelData::Tile::Type::Island)
+                    return 18;
+            }
+        }
+        break;
     case LevelData::Tile::Type::Brick: return 1;
     case LevelData::Tile::Type::Ground: return 0;
     case LevelData::Tile::Type::Block: return 16;
@@ -183,6 +201,23 @@ int LevelData::getTileIndex(int x, int y)
                 tile += 48;
             return tile;
         }
+    case LevelData::Tile::Type::Island:
+        if (isTileSolid(x - 1, y) && isTileSolid(x + 1, y))
+            return 134;
+        if (isTileSolid(x - 1, y))
+            return 135;
+        if (isTileSolid(x + 1, y))
+            return 133;
+        return 137;
+    case LevelData::Tile::Type::MushroomIsland:
+        if (isTileSolid(x - 1, y) && isTileSolid(x + 1, y))
+            return 134 + 16;
+        if (isTileSolid(x - 1, y))
+            return 135 + 16;
+        if (isTileSolid(x + 1, y))
+            return 133 + 16;
+        return 137 + 16;
+
     case LevelData::Tile::Type::Trampoline: break;
     case LevelData::Tile::Type::BullitTower:
         if (y < height - 1 && tiles[x][y+1].type == LevelData::Tile::Type::BullitTower)
@@ -229,6 +264,8 @@ bool LevelData::isTileSolid(int x, int y)
             
     case LevelData::Tile::Type::Pipe: return true;
     case LevelData::Tile::Type::PipeRed: return true;
+    case LevelData::Tile::Type::Island: return true;
+    case LevelData::Tile::Type::MushroomIsland: return true;
     case LevelData::Tile::Type::Trampoline: return false;
     case LevelData::Tile::Type::BullitTower: return true;
     case LevelData::Tile::Type::FirebarLeft: return true;
@@ -296,11 +333,12 @@ void EditorScene::setTile(int x, int y, LevelData::Tile::Type type)
     if (type == LevelData::Tile::Type::QuestionBlock)
         level_data->tiles[x][y].contents = LevelData::Tile::Contents::Coin;
     
-    updateTilemap(x, y);
-    if (x > 0) updateTilemap(x - 1, y);
-    if (x < level_data->width - 1) updateTilemap(x + 1, y);
-    if (y > 0) updateTilemap(x, y - 1);
-    if (y < level_data->height - 1) updateTilemap(x, y + 1);
+    
+    for(int n=std::max(0, x-1);n<x+2 && n<level_data->width; n++)
+    {
+        for(int m=0;m<level_data->height; m++)
+            updateTilemap(n, m);
+    }
 }
 
 void EditorScene::adjustTile(int x, int y)
@@ -338,6 +376,8 @@ void EditorScene::updateTilemap(int x, int y)
             
     case LevelData::Tile::Type::Pipe: break;
     case LevelData::Tile::Type::PipeRed: break;
+    case LevelData::Tile::Type::Island: break;
+    case LevelData::Tile::Type::MushroomIsland: break;
     case LevelData::Tile::Type::Trampoline: overlay_tilemap->setTile(x, y, 18); break;
     case LevelData::Tile::Type::BullitTower: break;
     case LevelData::Tile::Type::FirebarLeft: overlay_tilemap->setTile(x, y, 43); break;

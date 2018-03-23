@@ -318,6 +318,8 @@ public:
                 case LevelData::Tile::Type::QuestionBlock: break;
                 case LevelData::Tile::Type::Pipe: break;
                 case LevelData::Tile::Type::PipeRed: break;
+                case LevelData::Tile::Type::Island: break;
+                case LevelData::Tile::Type::MushroomIsland: break;
                 case LevelData::Tile::Type::Trampoline: (new Trampoline(getRoot()))->setPosition(sp::Vector2d(x + 0.5, y + 1.0)); break;
                 case LevelData::Tile::Type::BullitTower: break;
                 case LevelData::Tile::Type::FirebarLeft: (new FireBar(getRoot(), FireBar::Type::Left))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;
