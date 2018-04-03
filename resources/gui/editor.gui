@@ -1,0 +1,67 @@
+[EDITOR_MENU] {
+    size: 120, 0
+    margin: 10
+    fill_height: true
+
+    layout: vertical
+    alignment: topleft
+
+    [PLAYTEST] {
+        @ref: BUTTON caption=Playtest
+
+        [INDICATOR] {
+            type: image
+            texture: gui/indicator.png
+            size: 8, 8
+            alignment: left
+            margin: 8
+        }
+    }
+    [LOAD] {
+        @ref: BUTTON caption=Load
+    }
+    [SAVE] {
+        @ref: BUTTON caption=Save
+    }
+    [EXIT] {
+        @ref: BUTTON caption=Exit
+    }
+}
+
+[LEVEL_MENU] {
+    size: 120, 0
+    margin: 10
+    fill_height: true
+
+    layout: vertical
+    alignment: topleft
+
+    [C1] {
+        @ref: BUTTON caption=C-1
+
+        [INDICATOR] {
+            type: image
+            texture: gui/indicator.png
+            size: 8, 8
+            alignment: left
+            margin: 8
+        }
+    }
+    [C2] {
+        @ref: BUTTON caption=C-2
+    }
+    [C3] {
+        @ref: BUTTON caption=C-3
+    }
+    [C4] {
+        @ref: BUTTON caption=C-4
+    }
+}
+
+[@BUTTON] {
+    type: button
+    size: 110, 18
+    text.size: 10
+    margin: 0, 2
+    caption: {caption}
+}
