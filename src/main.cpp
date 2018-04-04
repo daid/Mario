@@ -49,6 +49,7 @@ InputController controller[2]{{0}, {1}};
 sp::io::Keybinding escape_key{"exit", "Escape"};
 
 GameMode game_mode = GameMode::MoreAndMore;
+bool return_to_editor = false;
 
 GlobalAreaData global_area_data;
 std::vector<sp::string> player_animation_names{
@@ -384,7 +385,10 @@ private:
             if (continue_delay <= 0.0)
             {
                 disable();
-                sp::Scene::get("stage_select")->enable();
+                if (return_to_editor)
+                    sp::Scene::get("editor")->enable();
+                else
+                    sp::Scene::get("stage_select")->enable();
             }
         }
     }
@@ -443,7 +447,10 @@ private:
             {
                 clearAll();
                 disable();
-                sp::Scene::get("stage_select")->enable();
+                if (return_to_editor)
+                    sp::Scene::get("editor")->enable();
+                else
+                    sp::Scene::get("stage_select")->enable();
             }
         }
     }
@@ -552,8 +559,8 @@ int main(int argc, char** argv)
     new StageSelectScene();
     
 #ifdef DEBUG
-    sp::Scene::get("stage_select")->disable();
-    sp::Scene::get("editor")->enable();
+    //sp::Scene::get("stage_select")->disable();
+    //sp::Scene::get("editor")->enable();
 #endif
 
     engine->run();

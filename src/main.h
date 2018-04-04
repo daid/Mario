@@ -25,6 +25,7 @@ extern InputController controller[2];
 extern sp::io::Keybinding escape_key;
 
 extern GameMode game_mode;
+extern bool return_to_editor;
 
 void loadStage(int world, int stage);
 void loadStage(LevelData* level);

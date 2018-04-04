@@ -4,6 +4,7 @@
 #include "savegame.h"
 #include "playerPawn.h"
 #include "main.h"
+#include "editor.h"
 
 #include <sp2/scene/tilemap.h>
 #include <sp2/graphics/gui/loader.h>
@@ -13,6 +14,7 @@
 #include <sp2/window.h>
 #include <sp2/random.h>
 #include <sp2/engine.h>
+
 
 StageSelectScene::StageSelectScene()
 : sp::Scene("stage_select")
@@ -36,6 +38,16 @@ StageSelectScene::StageSelectScene()
                     chooseStage(w, s);
                 });
             }
+        }
+        for(int s=0; s<SaveGame::stage_count; s++)
+        {
+            sp::P<sp::gui::Widget> button = gui->getWidgetWithID("STAGE_C-" + sp::string(s + 1));
+            button->setEventCallback([this, s](sp::Variant v)
+            {
+                LevelData level_data;
+                if (sp::io::Serializer("custom_" + sp::string(s) + ".data").read("map", level_data))
+                    loadStage(&level_data);
+            });
         }
     }
 
@@ -67,6 +79,14 @@ void StageSelectScene::onEnable()
             for(int n=1; button->getWidgetWithID("CHECK" + sp::string(n)); n++)
                 button->getWidgetWithID("CHECK" + sp::string(n))->setVisible(save.completedCount() >= n);
         }
+    }
+    for(int s=0; s<SaveGame::stage_count; s++)
+    {
+        sp::P<sp::gui::Widget> button = gui->getWidgetWithID("STAGE_C-" + sp::string(s + 1));
+        button->setVisible(true);
+        button->getWidgetWithID("LOCK")->setVisible(false);
+        for(int n=1; button->getWidgetWithID("CHECK" + sp::string(n)); n++)
+            button->getWidgetWithID("CHECK" + sp::string(n))->setVisible(false);
     }
     
     changeSelection(sp::Vector2d(-1, -1));
@@ -151,7 +171,11 @@ void StageSelectScene::onUpdate(float delta)
         break;
     case 9:
         if (controller[1].jump.getDown())
-            secret_code++;
+        {
+            sp::Scene::get("stage_select")->disable();
+            sp::Scene::get("editor")->enable();
+            secret_code = 0;
+        }
         else if (controller[1].up.getDown() || controller[1].down.getDown() || controller[1].left.getDown() || controller[1].right.getDown() || controller[1].jump.getDown() || controller[1].running.getDown())
             secret_code = 0;
         break;
@@ -165,6 +189,19 @@ void StageSelectScene::changeSelection(sp::Vector2d position)
         selection = new_selection;
     
     sp::Vector2i world_stage = sp::stringutil::convert::toVector2i(selection->tag) - sp::Vector2i(1, 1);
+    if (selection->tag.startswith("C"))
+    {
+        gui->getWidgetWithID("STAGE_LOCKED")->show();
+        gui->getWidgetWithID("STAGE_LOCKED")->setAttribute("caption", "Custom");
+        gui->getWidgetWithID("STAGE_INFO_TODO")->hide();
+        gui->getWidgetWithID("STAGE_INFO_DONE")->hide();
+        gui->getWidgetWithID("STAGE_INFO_TIME")->hide();
+        gui->getWidgetWithID("STAGE_INFO_ATTEMPTS")->hide();
+        gui->getWidgetWithID("STAGE_INFO_FLAWLESS")->hide();
+        gui->getWidgetWithID("STAGE_INFO_PACIFIST")->hide();
+        gui->getWidgetWithID("STAGE_INFO_GENOCIDE")->hide();
+        return;
+    }
     StageSaveData& save = save_game.getStage(world_stage.x, world_stage.y);
 
     gui->getWidgetWithID("STAGE_LOCKED")->setVisible(save.isLocked());

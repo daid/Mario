@@ -2,9 +2,13 @@
 #include "savegame.h"
 #include "main.h"
 
+#include <sp2/window.h>
 #include <sp2/scene/camera.h>
 #include <sp2/graphics/meshdata.h>
 #include <sp2/graphics/textureManager.h>
+#include <sp2/graphics/gui/loader.h>
+#include <sp2/graphics/gui/widget/widget.h>
+#include <sp2/graphics/gui/widget/button.h>
 
 
 class EditorCursor : public sp::Node
@@ -20,11 +24,102 @@ public:
         
         position = sp::Vector2i(5, 1);
         setPosition(sp::Vector2d(position) + sp::Vector2d(0.5, 0.5));
-        active = false;
+        
+        menu = sp::gui::Loader::load("gui/editor.gui", "EDITOR_MENU");
+        if (&controller == &::controller[1])
+            menu->layout.alignment = sp::Alignment::TopRight;
+        level_menu = sp::gui::Loader::load("gui/editor.gui", "LEVEL_MENU");
+        if (&controller == &::controller[1])
+            level_menu->layout.alignment = sp::Alignment::TopRight;
+        
+        menu->hide();
+        level_menu->hide();
+        
+        menu_selection = menu->getWidgetWithID("PLAYTEST");
+        menu_indicator = menu->getWidgetWithID("INDICATOR");
+
+        level_menu_selection = level_menu->getWidgetWithID("C1");
+        level_menu_indicator = level_menu->getWidgetWithID("INDICATOR");
+        
+        menu->getWidgetWithID("PLAYTEST")->setEventCallback([this](sp::Variant v)
+        {
+            return_to_editor = true;
+            loadStage(this->editor.level_data);
+        });
+        menu->getWidgetWithID("SAVE")->setEventCallback([this](sp::Variant v)
+        {
+            menu->hide();
+            level_menu->show();
+            select_for_save = true;
+        });
+        menu->getWidgetWithID("LOAD")->setEventCallback([this](sp::Variant v)
+        {
+            menu->hide();
+            level_menu->show();
+            select_for_save = false;
+        });
+        menu->getWidgetWithID("EXIT")->setEventCallback([this](sp::Variant v)
+        {
+            menu->hide();
+            return_to_editor = false;
+            sp::Scene::get("stage_select")->enable();
+            sp::Scene::get("editor")->disable();
+        });
+        
+        for(int n=0; n<4; n++)
+        {
+            level_menu->getWidgetWithID("C" + sp::string(n + 1))->setEventCallback([this, n](sp::Variant v)
+            {
+                if (select_for_save)
+                    this->editor.save(n);
+                else
+                    this->editor.load(n);
+                level_menu->hide();
+            });
+        }
+    }
+    
+    ~EditorCursor()
+    {
+        delete *menu;
+        delete *level_menu;
     }
     
     void onFixedUpdate() override
     {
+        if (menu->isVisible())
+        {
+            if (controller.up.getDown())
+                changeMenuSelection(sp::Vector2d(menu_selection->getGlobalPosition2D()) + sp::Vector2d(menu_selection->getRenderSize().x * 0.5, menu_selection->getRenderSize().y * 1.5));
+            if (controller.down.getDown())
+                changeMenuSelection(sp::Vector2d(menu_selection->getGlobalPosition2D()) + sp::Vector2d(menu_selection->getRenderSize().x * 0.5, -menu_selection->getRenderSize().y * 0.5));
+            if (controller.running.getDown() && menu_selection->isEnabled())
+            {
+                menu_selection->onPointerUp(sp::Vector2d(1, 1), -1);
+                return;
+            }
+            
+            if (controller.start.getDown())
+                menu->hide();
+            return;
+        }
+        if (level_menu->isVisible())
+        {
+            if (controller.up.getDown())
+                changeLevelMenuSelection(sp::Vector2d(level_menu_selection->getGlobalPosition2D()) + sp::Vector2d(level_menu_selection->getRenderSize().x * 0.5, level_menu_selection->getRenderSize().y * 1.5));
+            if (controller.down.getDown())
+                changeLevelMenuSelection(sp::Vector2d(level_menu_selection->getGlobalPosition2D()) + sp::Vector2d(level_menu_selection->getRenderSize().x * 0.5, -level_menu_selection->getRenderSize().y * 0.5));
+            if (controller.running.getDown() && level_menu_selection->isEnabled())
+            {
+                level_menu_selection->onPointerUp(sp::Vector2d(1, 1), -1);
+                return;
+            }
+            
+            if (controller.start.getDown())
+                level_menu->hide();
+            return;
+        }
+
         if (controller.left.getDown() && position.x > 0) position.x--;
         if (controller.right.getDown() && position.x < editor.level_data->width - 1) position.x++;
         if (controller.down.getDown() && position.y > 0) position.y--;
@@ -71,7 +166,7 @@ public:
 
         if (controller.start.getDown())
         {
-            loadStage(editor.level_data);
+            menu->show();
             return;
         }
         
@@ -89,6 +184,22 @@ public:
             camera_position.x = std::max(camera_position.x, 8.0);
             camera->setPosition(camera_position);
         }
+    }
+    
+    void changeMenuSelection(sp::Vector2d position)
+    {
+        sp::P<sp::gui::Widget> new_selection = menu->getWidgetAt<sp::gui::Button>(position);
+        if (new_selection)
+            menu_selection = new_selection;
+        menu_indicator->setParent(menu_selection);
+    }
+
+    void changeLevelMenuSelection(sp::Vector2d position)
+    {
+        sp::P<sp::gui::Widget> new_selection = level_menu->getWidgetAt<sp::gui::Button>(position);
+        if (new_selection)
+            level_menu_selection = new_selection;
+        level_menu_indicator->setParent(level_menu_selection);
     }
     
     void updateTileGfx()
@@ -142,10 +253,20 @@ public:
     sp::Vector2i position;
     InputController& controller;
     EditorScene& editor;
-    int repeat_delay;
-    bool active;
-    
+    int repeat_delay = 0;
+    bool active = false;
+
     LevelData::Tile::Type tile_type = LevelData::Tile::Type::Brick;
+
+    sp::P<sp::gui::Widget> menu;
+    sp::P<sp::gui::Widget> menu_selection;
+    sp::P<sp::gui::Widget> menu_indicator;
+
+    sp::P<sp::gui::Widget> level_menu;
+    sp::P<sp::gui::Widget> level_menu_selection;
+    sp::P<sp::gui::Widget> level_menu_indicator;
+    
+    bool select_for_save = false;
 };
 
 
@@ -290,6 +411,28 @@ bool LevelData::isTileSolid(int x, int y)
     return false;
 }
 
+void LevelData::serialize(sp::io::Serializer::Handler& handler)
+{
+    int w = width;
+    int h = height;
+    handler("width", w);
+    handler("height", h);
+    
+    for(int x=0; x<width; x++)
+    {
+        for(int y=0; y<height; y++)
+        {
+            handler(("tile_" + sp::string(x) + "_" + sp::string(y)).c_str(), tiles[x][y]);
+        }
+    }
+}
+
+void LevelData::Tile::serialize(sp::io::Serializer::Handler& handler)
+{
+    handler("type", type);
+    handler("contents", contents);
+}
+
 EditorScene::EditorScene()
 : sp::Scene("editor")
 {
@@ -300,6 +443,8 @@ EditorScene::EditorScene()
 
 void EditorScene::onEnable()
 {
+    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
+    
     main_tilemap = new sp::Tilemap(getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     overlay_tilemap = new sp::Tilemap(getRoot(), "editor_overlay_tiles.png", 1.0, 1.0, 16, 16);
 
@@ -324,6 +469,24 @@ void EditorScene::onDisable()
 {
     for(auto child : getRoot()->getChildren())
         delete child;
+}
+
+void EditorScene::save(int index)
+{
+    sp::io::Serializer("custom_" + sp::string(index) + ".data").write("map", *level_data);
+}
+
+void EditorScene::load(int index)
+{
+    sp::io::Serializer("custom_" + sp::string(index) + ".data").read("map", *level_data);
+    
+    for(int x=0; x<level_data->width; x++)
+    {
+        for(int y=0; y<level_data->height; y++)
+        {
+            updateTilemap(x, y);
+        }
+    }
 }
 
 void EditorScene::setTile(int x, int y, LevelData::Tile::Type type)

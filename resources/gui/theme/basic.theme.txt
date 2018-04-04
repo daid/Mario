@@ -2,7 +2,7 @@
     color: #FFFFFF
     //font: gui/theme/basic/forque.ttf
     font: gui/theme/basic/font.txt
-    text.size: 4
+    size: 4
 
     [button.label] {
         color.disabled: #808080
@@ -16,6 +16,7 @@
     [panel] {
         image: gui/theme/basic/background.png
         color: #ffffffc0
+        size: 25
     }
     [label] {
     }

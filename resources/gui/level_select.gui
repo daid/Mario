@@ -38,6 +38,9 @@
         {
             @ref: WORLD_ROW world=8
         }
+        {
+            @ref: WORLD_ROW world=C
+        }
     }
     [INDICATOR] {
         type: image
@@ -92,7 +95,7 @@
 
 [@WORLD_ROW] {
     layout: horizontal
-    size: 0, 20
+    size: 0, 18
     fill_width: true
     [STAGE_{world}-1] {
         @ref: STAGE stage=1
@@ -109,7 +112,7 @@
 }
 [@STAGE] {
     type: button
-    size: 50, 20
+    size: 50, 18
     text.size: 10
     margin: 0, 2
     caption: {world}-{stage}
