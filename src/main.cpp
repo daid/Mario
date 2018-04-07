@@ -548,9 +548,9 @@ int main(int argc, char** argv)
     new sp::gui::Scene(sp::Vector2d(256, 192), sp::gui::Scene::Direction::Horizontal);
 
     sp::P<sp::SceneGraphicsLayer> scene_layer = new sp::SceneGraphicsLayer(1);
-    scene_layer->addRenderPass(new sp::BasicNodeRenderPass("window"));
+    scene_layer->addRenderPass(new sp::BasicNodeRenderPass());
 #ifdef DEBUG
-    scene_layer->addRenderPass(new sp::CollisionRenderPass("window"));
+    scene_layer->addRenderPass(new sp::CollisionRenderPass());
 #endif
 
     save_game.load(2);
