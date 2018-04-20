@@ -45,6 +45,8 @@
 #include "enemy/smb/bullitBill.h"
 #include "enemy/smb/lakitu.h"
 
+sp::P<sp::Window> window;
+
 InputController controller[2]{{0}, {1}};
 sp::io::Keybinding escape_key{"exit", "Escape"};
 
@@ -367,7 +369,7 @@ private:
         {
             clearAll();
             sp::audio::Music::stop();
-            sp::Window::getInstance()->setClearColor(sp::Color(0, 0, 0));
+            window->setClearColor(sp::Color(0, 0, 0));
             gameover->show();
             hud->hide();
             continue_delay = 3.0;
@@ -537,7 +539,7 @@ int main(int argc, char** argv)
     sp::textureManager.setDefaultSmoothFiltering(false);
 
     //Create a window to render on, and our engine.
-    sp::P<sp::Window> window = new sp::Window(4.0/3.0);
+    window = new sp::Window(4.0/3.0);
 #ifndef DEBUG
     window->setFullScreen(true);
     window->hideCursor();
@@ -552,6 +554,7 @@ int main(int argc, char** argv)
 #ifdef DEBUG
     scene_layer->addRenderPass(new sp::CollisionRenderPass());
 #endif
+    window->addLayer(scene_layer);
 
     save_game.load(2);
     new StageScene();

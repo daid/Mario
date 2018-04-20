@@ -3,6 +3,8 @@
 
 #include "inputController.h"
 
+#include <sp2/window.h>
+
 class LevelData;
 class GlobalAreaData
 {
@@ -18,6 +20,8 @@ enum class GameMode
     Basic,
     MoreAndMore
 };
+
+extern sp::P<sp::Window> window;
 
 extern GlobalAreaData global_area_data;
 

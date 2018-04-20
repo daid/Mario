@@ -59,7 +59,7 @@ void StageSelectScene::onEnable()
     gui->show();
 
     buildBackgroundLevel();
-    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
+    window->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     sp::audio::Music::stop();
 
     createPlayers(this);

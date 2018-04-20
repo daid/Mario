@@ -443,7 +443,7 @@ EditorScene::EditorScene()
 
 void EditorScene::onEnable()
 {
-    sp::Window::getInstance()->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
+    window->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     
     main_tilemap = new sp::Tilemap(getRoot(), "tiles.png", 1.0, 1.0, 16, 16);
     overlay_tilemap = new sp::Tilemap(getRoot(), "editor_overlay_tiles.png", 1.0, 1.0, 16, 16);
