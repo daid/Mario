@@ -378,6 +378,7 @@ private:
             {
                 StageSaveData& save = save_game.getStage(active_world, active_stage);
                 save.attempts++;
+                save.is_dirty = true;
                 save_game.store();
             }
         }
@@ -439,6 +440,7 @@ private:
                         break;
                     }
                 }
+                save.is_dirty = true;
                 save_game.store();
             }
         }
@@ -523,8 +525,7 @@ void destroyPlayers(sp::P<sp::Scene> scene)
     for(auto child : scene->getRoot()->getChildren())
     {
         sp::P<PlayerPawn> player = sp::P<sp::Node>(child);
-        if (player)
-            delete *player;
+        player.destroy();
     }
 }
 
@@ -532,7 +533,7 @@ int main(int argc, char** argv)
 {
     //Create resource providers, so we can load things.
     new sp::io::DirectoryResourceProvider("resources");
-    
+
 #ifndef DEBUG
     sp::textureManager.setFallbackColors(sp::Color(0,0,0,0), sp::Color(0,0,0,0));
 #endif

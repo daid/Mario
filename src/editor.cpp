@@ -81,8 +81,8 @@ public:
     
     ~EditorCursor()
     {
-        delete *menu;
-        delete *level_menu;
+        menu.destroy();
+        level_menu.destroy();
     }
     
     void onFixedUpdate() override

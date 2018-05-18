@@ -119,59 +119,85 @@ void SaveGame::load(int player_count)
 
     this->player_count = player_count;
 
-    sp::io::Serializer serializer("save.data");
-    if (!serializer.read("main", *this))
+    sp::io::Serializer serializer("save_main.data");
+    if (serializer.read("main", *this))
     {
-        std::ifstream file("save.json");
-        if (!file.is_open())
-            return;
-        std::stringstream data;
-        data << file.rdbuf();
-        sp::string err;
-
-        json11::Json json = json11::Json::parse(data.str(), err);
-        if (err != "")
-        {
-            LOG(Warning, "Failed to load save data:", err);
-            return;
-        }
-        
         for(int w=0; w<world_count; w++)
         {
             for(int s=0; s<stage_count; s++)
             {
-                auto& data = json[sp::string(w) + "-" + sp::string(s)];
-                StageSaveData& save = getStage(w, s);
-                save.finished = data["finished"].int_value();
-                save.best_time = data["best_time"].number_value();
-                save.attempts = data["attempts"].int_value();
-                save.all_recordings.clear();
-                for(auto& recording_data : data["all_recordings"].array_items())
+                sp::io::Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
+                serializer.read("stage", getStage(w, s));
+            }
+        }
+    }
+    else
+    {
+        load_stages = true;
+        sp::io::Serializer fallback_serializer("save.data");
+        if (!fallback_serializer.read("main", *this))
+        {
+            std::ifstream file("save.json");
+            if (!file.is_open())
+                return;
+            std::stringstream data;
+            data << file.rdbuf();
+            sp::string err;
+
+            json11::Json json = json11::Json::parse(data.str(), err);
+            if (err != "")
+            {
+                LOG(Warning, "Failed to load save data:", err);
+                return;
+            }
+            
+            for(int w=0; w<world_count; w++)
+            {
+                for(int s=0; s<stage_count; s++)
                 {
-                    save.all_recordings.emplace_back();
-                    auto& recording = save.all_recordings.back();
-                    recording.animation_name = recording_data["animation_name"].string_value();
-                    for(auto& e : recording_data["data"].array_items())
+                    auto& data = json[sp::string(w) + "-" + sp::string(s)];
+                    StageSaveData& save = getStage(w, s);
+                    save.finished = data["finished"].int_value();
+                    save.best_time = data["best_time"].number_value();
+                    save.attempts = data["attempts"].int_value();
+                    save.all_recordings.clear();
+                    for(auto& recording_data : data["all_recordings"].array_items())
                     {
-                        recording.data.emplace_back();
-                        auto& entry = recording.data.back();
-                        entry.type = PlayerGhostRecording::Entry::Type(e["type"].int_value());
-                        entry.position.x = e["x"].number_value();
-                        entry.position.y = e["y"].number_value();
-                        entry.velocity.x = e["vx"].number_value();
-                        entry.velocity.y = e["vy"].number_value();
-                        entry.upgrade_level = e["u"].int_value();
-                        entry.state = PlayerPawn::State(e["state"].int_value());
-                        recording.data.emplace_back();
-                        auto& entry2 = recording.data.back();
-                        entry2 = entry;
-                        entry2.position += entry.velocity * 1.0/60.0;
+                        save.all_recordings.emplace_back();
+                        auto& recording = save.all_recordings.back();
+                        recording.animation_name = recording_data["animation_name"].string_value();
+                        for(auto& e : recording_data["data"].array_items())
+                        {
+                            recording.data.emplace_back();
+                            auto& entry = recording.data.back();
+                            entry.type = PlayerGhostRecording::Entry::Type(e["type"].int_value());
+                            entry.position.x = e["x"].number_value();
+                            entry.position.y = e["y"].number_value();
+                            entry.velocity.x = e["vx"].number_value();
+                            entry.velocity.y = e["vy"].number_value();
+                            entry.upgrade_level = e["u"].int_value();
+                            entry.state = PlayerPawn::State(e["state"].int_value());
+                            recording.data.emplace_back();
+                            auto& entry2 = recording.data.back();
+                            entry2 = entry;
+                            entry2.position += entry.velocity * 1.0/60.0;
+                        }
                     }
                 }
             }
+            coin_count = json["coins"].int_value();
+            life_count = json["lives"].int_value();
         }
-        coin_count = json["coins"].int_value();
-        life_count = json["lives"].int_value();
+        
+        load_stages = false;
+        for(int w=0; w<world_count; w++)
+        {
+            for(int s=0; s<stage_count; s++)
+            {
+                getStage(w, s).is_dirty = true;
+            }
+        }
+        store();
     }
 }
 
@@ -179,13 +205,26 @@ void SaveGame::store()
 {
     LOG(Info, "Saving result");
 
-    sp::io::Serializer serializer("save.data");
+    sp::io::Serializer serializer("save_main.data");
     serializer.write("main", *this);
+
+    for(int w=0; w<world_count; w++)
+    {
+        for(int s=0; s<stage_count; s++)
+        {
+            if (getStage(w, s).is_dirty)
+            {
+                sp::io::Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
+                serializer.write("stage", getStage(w, s));
+            }
+        }
+    }
 }
 
 void SaveGame::serialize(sp::io::Serializer::Handler& handler)
 {
-    handler("stages", stages);
+    if (load_stages)
+        handler("stages", stages);
     handler("lives", life_count);
     handler("coins", coin_count);
 }
