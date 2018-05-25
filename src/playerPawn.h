@@ -36,6 +36,7 @@ public:
     bool isInWater();
     
     void finish();
+    void resetFinished();
     bool isFinished();
     
     State getState() { return state; }

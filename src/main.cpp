@@ -86,7 +86,7 @@ public:
         if (escape_key.getDown())
             handleGameOver(delta);
         
-        hud->getWidgetWithID("TIME")->setAttribute("caption", "TIME: " + sp::string(int((max_play_time - play_time) / max_play_time * 400)));
+        hud->getWidgetWithID("TIME")->setAttribute("caption", "TIME: " + sp::string(int((max_play_time - play_time) / max_play_time * visible_play_time)));
         hud->getWidgetWithID("COINS")->setAttribute("caption", sp::string(save_game.getCoins()));
         hud->getWidgetWithID("1UP")->setAttribute("caption", sp::string(save_game.getLives()));
         if (play_time >= max_play_time)
@@ -131,7 +131,44 @@ public:
         for(auto player : PlayerPawn::all)
             if (!player->isFinished())
                 return;
-        handleVictory(delta);
+        switch(game_mode)
+        {
+        case GameMode::Basic:
+        case GameMode::MoreAndMore:
+            handleVictory(delta);
+            break;
+        case GameMode::MoreAndMoreWorld:
+            if (active_stage < 3)
+            {
+                active_stage += 1;
+                for(auto child : getRoot()->getChildren())
+                {
+                    sp::P<GhostReplay> gr = sp::P<sp::Node>(child);
+                    if (gr)
+                    {
+                        continue;
+                    }
+                    if (!sp::P<PlayerPawn>(sp::P<sp::Node>(child)))
+                        delete child;
+                }
+                createArea(active_world, active_stage);
+                for(auto child : getRoot()->getChildren())
+                {
+                    sp::P<PlayerPawn> player = sp::P<sp::Node>(child);
+                    if (player)
+                    {
+                        player->setPosition(global_area_data.start_position + sp::Vector2d(0.5, 0.5));
+                        player->resetFinished();
+                    }
+                }
+                setDefaultCamera(new Camera(getRoot()));
+            }
+            else
+            {
+                handleVictory(delta);
+            }
+            break;
+        }
     }
     
     virtual void onFixedUpdate() override
@@ -158,87 +195,21 @@ public:
         active_world = world;
         active_stage = stage;
         play_time = 0.0;
-        
+
+        visible_play_time = 400;
+        max_play_time = 120;
+        if (game_mode == GameMode::MoreAndMoreWorld)
+        {
+            max_play_time *= 2.5;
+            visible_play_time *= 2.5;
+        }
+
         clearAll();
         sp::Scene::get("stage_select")->disable();
         sp::Scene::get("editor")->disable();
         enable();
         hud->show();
-        switch(world)
-        {
-        case 0:
-            switch(stage)
-            {
-            case 0: createArea1_1(this); break;
-            case 1: createArea1_2(this); break;
-            case 2: createArea1_3(this); break;
-            case 3: createArea1_4(this); break;
-            }
-            break;
-        case 1:
-            switch(stage)
-            {
-            case 0: createArea2_1(this); break;
-            case 1: createArea2_2(this); break;
-            case 2: createArea2_3(this); break;
-            case 3: createArea2_4(this); break;
-            }
-            break;
-        case 2:
-            switch(stage)
-            {
-            case 0: createArea3_1(this); break;
-            case 1: createArea3_2(this); break;
-            case 2: createArea3_3(this); break;
-            case 3: createArea3_4(this); break;
-            }
-            break;
-        case 3:
-            switch(stage)
-            {
-            case 0: createArea4_1(this); break;
-            case 1: createArea4_2(this); break;
-            case 2: createArea4_3(this); break;
-            case 3: createArea4_4(this); break;
-            }
-            break;
-        case 4:
-            switch(stage)
-            {
-            case 0: createArea5_1(this); break;
-            case 1: createArea5_2(this); break;
-            case 2: createArea5_3(this); break;
-            case 3: createArea5_4(this); break;
-            }
-            break;
-        case 5:
-            switch(stage)
-            {
-            case 0: createArea6_1(this); break;
-            case 1: createArea6_2(this); break;
-            case 2: createArea6_3(this); break;
-            case 3: createArea6_4(this); break;
-            }
-            break;
-        case 6:
-            switch(stage)
-            {
-            case 0: createArea7_1(this); break;
-            case 1: createArea7_2(this); break;
-            case 2: createArea7_3(this); break;
-            case 3: createArea7_4(this); break;
-            }
-            break;
-        case 7:
-            switch(stage)
-            {
-            case 0: createArea8_1(this); break;
-            case 1: createArea8_2(this); break;
-            case 2: createArea8_3(this); break;
-            case 3: createArea8_4(this); break;
-            }
-            break;
-        }
+        createArea(world, stage);
 
         createPlayers(this);
         setDefaultCamera(new Camera(getRoot()));
@@ -247,11 +218,12 @@ public:
         switch(game_mode)
         {
         case GameMode::Basic:
-            for(auto& recording : save_game.getStage(world, stage).best_time_recordings)
+            for(auto& recording : save_game.getStage(game_mode, world, stage).best_time_recordings)
                 new GhostReplay(getRoot(), recording, false);
             break;
         case GameMode::MoreAndMore:
-            for(auto& recording : save_game.getStage(world, stage).all_recordings)
+        case GameMode::MoreAndMoreWorld:
+            for(auto& recording : save_game.getStage(game_mode, world, stage).all_recordings)
                 new GhostReplay(getRoot(), recording);
             break;
         }
@@ -363,6 +335,85 @@ private:
             delete child;
     }
 
+    void createArea(int world, int stage)
+    {
+        switch(world)
+        {
+        case 0:
+            switch(stage)
+            {
+            case 0: createArea1_1(this); break;
+            case 1: createArea1_2(this); break;
+            case 2: createArea1_3(this); break;
+            case 3: createArea1_4(this); break;
+            }
+            break;
+        case 1:
+            switch(stage)
+            {
+            case 0: createArea2_1(this); break;
+            case 1: createArea2_2(this); break;
+            case 2: createArea2_3(this); break;
+            case 3: createArea2_4(this); break;
+            }
+            break;
+        case 2:
+            switch(stage)
+            {
+            case 0: createArea3_1(this); break;
+            case 1: createArea3_2(this); break;
+            case 2: createArea3_3(this); break;
+            case 3: createArea3_4(this); break;
+            }
+            break;
+        case 3:
+            switch(stage)
+            {
+            case 0: createArea4_1(this); break;
+            case 1: createArea4_2(this); break;
+            case 2: createArea4_3(this); break;
+            case 3: createArea4_4(this); break;
+            }
+            break;
+        case 4:
+            switch(stage)
+            {
+            case 0: createArea5_1(this); break;
+            case 1: createArea5_2(this); break;
+            case 2: createArea5_3(this); break;
+            case 3: createArea5_4(this); break;
+            }
+            break;
+        case 5:
+            switch(stage)
+            {
+            case 0: createArea6_1(this); break;
+            case 1: createArea6_2(this); break;
+            case 2: createArea6_3(this); break;
+            case 3: createArea6_4(this); break;
+            }
+            break;
+        case 6:
+            switch(stage)
+            {
+            case 0: createArea7_1(this); break;
+            case 1: createArea7_2(this); break;
+            case 2: createArea7_3(this); break;
+            case 3: createArea7_4(this); break;
+            }
+            break;
+        case 7:
+            switch(stage)
+            {
+            case 0: createArea8_1(this); break;
+            case 1: createArea8_2(this); break;
+            case 2: createArea8_3(this); break;
+            case 3: createArea8_4(this); break;
+            }
+            break;
+        }
+    }
+
     void handleGameOver(float delta)
     {
         if (continue_delay == 0.0)
@@ -376,7 +427,7 @@ private:
 
             if (active_world > -1)
             {
-                StageSaveData& save = save_game.getStage(active_world, active_stage);
+                StageSaveData& save = save_game.getStage(game_mode, active_world, active_stage);
                 save.attempts++;
                 save.is_dirty = true;
                 save_game.store();
@@ -418,7 +469,7 @@ private:
             
             if (active_world > -1)
             {
-                StageSaveData& save = save_game.getStage(active_world, active_stage);
+                StageSaveData& save = save_game.getStage(game_mode, active_world, active_stage);
                 save.finished = std::max(save.finished, PlayerPawn::all.size());
                 save.attempts++;
                 if (PlayerPawn::all.size() == save_game.getPlayerCount())
@@ -435,6 +486,7 @@ private:
                         }
                         break;
                     case GameMode::MoreAndMore:
+                    case GameMode::MoreAndMoreWorld:
                         for(auto& e : recorder->entries)
                             save.all_recordings.push_back(e.recording);
                         break;
@@ -468,7 +520,8 @@ private:
     int active_stage;
     GhostRecorder* recorder = nullptr;
     
-    static constexpr float max_play_time = 120;
+    float visible_play_time = 400;
+    float max_play_time = 120;
 };
 
 void loadStage(int world, int stage)
@@ -529,6 +582,65 @@ void destroyPlayers(sp::P<sp::Scene> scene)
     }
 }
 
+#include <sp2/io/http/server.h>
+
+class WebGLRenderer : public sp::Updatable
+{
+public:
+    WebGLRenderer()
+    {
+        (new sp::io::http::Server())->setStaticFilePath("www");
+    }
+
+    virtual void onUpdate(float delta) override
+    {
+        for(sp::Scene* scene : sp::Scene::all())
+        {
+            if (!scene->isEnabled())
+                continue;
+            sp::P<sp::Camera> camera = scene->getCamera();
+            if (!camera)
+                continue;
+            sp::Matrix4x4d camera_matrix = camera->getProjectionMatrix();
+            
+            sp::string output = "{\"camera\":[";
+            for(int n=0; n<16; n++)
+            {
+                if (n > 0)
+                    output += ",";
+                output += sp::string(camera_matrix.data[n], -1);
+            }
+            output += "],\"nodes\": [";
+            addNodeToString(output, scene->getRoot());
+            output += "]}";
+            //LOG(Debug, scene->getName(), output);
+        }
+    }
+
+    void addNodeToString(sp::string& output, sp::P<sp::Node> node)
+    {
+        if (node->render_data.type != sp::RenderData::Type::None && node->render_data.mesh)
+        {
+            sp::Matrix4x4d matrix = node->getGlobalTransform();
+
+            output += "{\"matrix\":[";
+            for(int n=0; n<16; n++)
+            {
+                if (n > 0)
+                    output += ",";
+                output += sp::string(matrix.data[n], -1);
+            }
+            
+            output += "]},";
+        }
+        
+        for(sp::Node* child : node->getChildren())
+            addNodeToString(output, child);
+    }
+    
+    std::unordered_map<uint32_t, std::weak_ptr<sp::MeshData>> meshes;
+};
+
 int main(int argc, char** argv)
 {
     //Create resource providers, so we can load things.
@@ -562,6 +674,7 @@ int main(int argc, char** argv)
     new EditorScene();
     new StageSelectScene();
     
+    new WebGLRenderer();
 #ifdef DEBUG
     //sp::Scene::get("stage_select")->disable();
     //sp::Scene::get("editor")->enable();

@@ -10,7 +10,7 @@ SaveGame save_game;
 bool StageSaveData::isLocked()
 {
 #ifdef DEBUG
-    return false;
+    //return false;
 #endif
     if (isFullyCompleted())
         return false;
@@ -50,6 +50,7 @@ bool StageSaveData::isFullyCompleted()
     case GameMode::Basic:
         return finished >= save_game.getPlayerCount();
     case GameMode::MoreAndMore:
+    case GameMode::MoreAndMoreWorld:
         return all_recordings.size() / save_game.getPlayerCount() >= required_more_and_more_runs_for_completion;
     }
     return false;
@@ -62,6 +63,7 @@ int StageSaveData::completedCount()
     case GameMode::Basic:
         return finished >= save_game.getPlayerCount() ? 1 : 0;
     case GameMode::MoreAndMore:
+    case GameMode::MoreAndMoreWorld:
         return all_recordings.size() / save_game.getPlayerCount();
     }
     return 0;
@@ -81,10 +83,26 @@ SaveGame::SaveGame()
                 stage.world_previous = &stages[(w - 1) * stage_count + s];
         }
     }
+    
+    world_stages.resize(world_count);
+    for(int w=0; w<world_count; w++)
+    {
+        StageSaveData& stage = world_stages[w];
+        if (w > 0)
+            stage.previous = &world_stages[w - 1];
+    }
 }
 
-StageSaveData& SaveGame::getStage(int world, int stage)
+StageSaveData& SaveGame::getStage(GameMode mode, int world, int stage)
 {
+    switch(mode)
+    {
+    case GameMode::Basic:
+    case GameMode::MoreAndMore:
+        return stages[world * stage_count + stage];
+    case GameMode::MoreAndMoreWorld:
+        return world_stages[world];
+    }
     return stages[world * stage_count + stage];
 }
 
@@ -124,10 +142,13 @@ void SaveGame::load(int player_count)
     {
         for(int w=0; w<world_count; w++)
         {
+            sp::io::Serializer serializer_world("save_world_" + sp::string(w) + ".data");
+            serializer_world.read("stage", getStage(GameMode::MoreAndMoreWorld, w, 0));
+
             for(int s=0; s<stage_count; s++)
             {
                 sp::io::Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
-                serializer.read("stage", getStage(w, s));
+                serializer.read("stage", getStage(GameMode::MoreAndMore, w, s));
             }
         }
     }
@@ -156,7 +177,7 @@ void SaveGame::load(int player_count)
                 for(int s=0; s<stage_count; s++)
                 {
                     auto& data = json[sp::string(w) + "-" + sp::string(s)];
-                    StageSaveData& save = getStage(w, s);
+                    StageSaveData& save = getStage(GameMode::MoreAndMore, w, s);
                     save.finished = data["finished"].int_value();
                     save.best_time = data["best_time"].number_value();
                     save.attempts = data["attempts"].int_value();
@@ -194,7 +215,7 @@ void SaveGame::load(int player_count)
         {
             for(int s=0; s<stage_count; s++)
             {
-                getStage(w, s).is_dirty = true;
+                getStage(GameMode::MoreAndMore, w, s).is_dirty = true;
             }
         }
         store();
@@ -210,12 +231,17 @@ void SaveGame::store()
 
     for(int w=0; w<world_count; w++)
     {
+        if (getStage(GameMode::MoreAndMoreWorld, w, 0).is_dirty)
+        {
+            sp::io::Serializer serializer("save_world_" + sp::string(w) + ".data");
+            serializer.write("stage", getStage(GameMode::MoreAndMoreWorld, w, 0));
+        }
         for(int s=0; s<stage_count; s++)
         {
-            if (getStage(w, s).is_dirty)
+            if (getStage(GameMode::MoreAndMore, w, s).is_dirty)
             {
                 sp::io::Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
-                serializer.write("stage", getStage(w, s));
+                serializer.write("stage", getStage(GameMode::MoreAndMore, w, s));
             }
         }
     }

@@ -4,6 +4,7 @@
 #include <sp2/io/serializer.h>
 #include <vector>
 #include "playerGhost.h"
+#include "main.h"
 
 class StageSaveData : public sp::io::ISerializable
 {
@@ -44,7 +45,7 @@ public:
 
     SaveGame();
 
-    StageSaveData& getStage(int world, int stage);
+    StageSaveData& getStage(GameMode mode, int world, int stage);
     int getPlayerCount();
     
     void addCoin();
@@ -63,6 +64,7 @@ private:
     int life_count = 0;
     bool load_stages = false;
     std::vector<StageSaveData> stages;
+    std::vector<StageSaveData> world_stages;
 };
 
 extern SaveGame save_game;

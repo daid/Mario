@@ -68,9 +68,11 @@ void StageSelectScene::onEnable()
     {
         for(int s=0; s<SaveGame::stage_count; s++)
         {
-            StageSaveData& save = save_game.getStage(w, s);
+            StageSaveData& save = save_game.getStage(game_mode, w, s);
             sp::P<sp::gui::Widget> button = gui->getWidgetWithID("STAGE_" + sp::string(w + 1) + "-" + sp::string(s + 1));
             button->setVisible(save.isVisible());
+            if (game_mode == GameMode::MoreAndMoreWorld && s > 0)
+                button->hide();
             if (save.isLocked())
                 button->disable();
             else
@@ -83,13 +85,22 @@ void StageSelectScene::onEnable()
     for(int s=0; s<SaveGame::stage_count; s++)
     {
         sp::P<sp::gui::Widget> button = gui->getWidgetWithID("STAGE_C-" + sp::string(s + 1));
-        button->setVisible(true);
+        button->show();
+        if (game_mode == GameMode::MoreAndMoreWorld)
+            button->hide();
         button->getWidgetWithID("LOCK")->setVisible(false);
         for(int n=1; button->getWidgetWithID("CHECK" + sp::string(n)); n++)
             button->getWidgetWithID("CHECK" + sp::string(n))->setVisible(false);
     }
     
     changeSelection(sp::Vector2d(-1, -1));
+    if (!selection || !selection->isVisible())
+    {
+        selection = gui->getWidgetWithID("STAGE_1-1");
+        changeSelection(sp::Vector2d(-1, -1));
+        indicator->hide();
+        indicator->show();
+    }
 }
 
 void StageSelectScene::onDisable()
@@ -111,6 +122,18 @@ void StageSelectScene::onUpdate(float delta)
         changeSelection(sp::Vector2d(selection->getGlobalPosition2D()) + sp::Vector2d(selection->getRenderSize().x * 0.5, -selection->getRenderSize().y * 0.5));
     if (controller[0].running.getDown() && selection->isEnabled())
         selection->onPointerUp(sp::Vector2d(1, 1), -1);
+    if (controller[0].start.getDown() && game_mode != GameMode::MoreAndMore)
+    {
+        game_mode = GameMode::MoreAndMore;
+        disable();
+        enable();
+    }
+    if (controller[1].start.getDown() && game_mode != GameMode::MoreAndMoreWorld)
+    {
+        game_mode = GameMode::MoreAndMoreWorld;
+        disable();
+        enable();
+    }
 
     if (escape_key.getDown())
         sp::Engine::getInstance()->shutdown();
@@ -202,19 +225,27 @@ void StageSelectScene::changeSelection(sp::Vector2d position)
         gui->getWidgetWithID("STAGE_INFO_GENOCIDE")->hide();
         return;
     }
-    StageSaveData& save = save_game.getStage(world_stage.x, world_stage.y);
+    StageSaveData& save = save_game.getStage(game_mode, world_stage.x, world_stage.y);
 
     gui->getWidgetWithID("STAGE_LOCKED")->setVisible(save.isLocked());
     if (save.isLocked())
     {
         sp::string unlock_info = "LOCKED\n\nFinish:\n";
-        if (world_stage.y > 0)
-            unlock_info += sp::string(world_stage.x + 1) + "-" + sp::string(world_stage.y);
+        if (game_mode != GameMode::MoreAndMoreWorld)
+        {
+            if (world_stage.y > 0)
+                unlock_info += sp::string(world_stage.x + 1) + "-" + sp::string(world_stage.y);
+            else
+                unlock_info += sp::string(world_stage.x) + "-" + sp::string(SaveGame::stage_count);
+            unlock_info += "\nto unlock";
+            if (world_stage.x > 0)
+                unlock_info += "\n\n\nFinish:\n" + sp::string(world_stage.x) + "-" + sp::string(world_stage.y + 1) + " x3\nto unlock";
+        }
         else
-            unlock_info += sp::string(world_stage.x) + "-" + sp::string(SaveGame::stage_count);
-        unlock_info += "\nto unlock";
-        if (world_stage.x > 0)
-            unlock_info += "\n\n\nFinish:\n" + sp::string(world_stage.x) + "-" + sp::string(world_stage.y + 1) + " x3\nto unlock";
+        {
+            unlock_info += sp::string(world_stage.x) + "-" + sp::string(1);
+            unlock_info += "\nto unlock";
+        }
         gui->getWidgetWithID("STAGE_LOCKED")->setAttribute("caption", unlock_info);
         gui->getWidgetWithID("STAGE_INFO_TODO")->hide();
         gui->getWidgetWithID("STAGE_INFO_DONE")->hide();
@@ -235,6 +266,7 @@ void StageSelectScene::changeSelection(sp::Vector2d position)
             gui->getWidgetWithID("STAGE_INFO_TIME")->setAttribute("caption", "BEST " + sp::string(save.best_time));
             break;
         case GameMode::MoreAndMore:
+        case GameMode::MoreAndMoreWorld:
             gui->getWidgetWithID("STAGE_INFO_TIME")->setAttribute("caption", "RUNS " + sp::string(save.all_recordings.size() / save_game.getPlayerCount()));
             break;
         }

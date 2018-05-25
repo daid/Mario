@@ -544,6 +544,15 @@ void PlayerPawn::finish()
     finish_final_x = getPosition2D().x + 1.0 + sp::random(-0.5, 0.5);
 }
 
+void PlayerPawn::resetFinished()
+{
+    if (state == State::Finish)
+    {
+        state = State::Walking;
+        setupCollisionShape();
+    }
+}
+
 bool PlayerPawn::upgrade()
 {
     if (animation_prefix == "")
