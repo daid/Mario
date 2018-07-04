@@ -247,7 +247,7 @@ public:
         float x = tile_index % 16;
         float y = tile_index / 16;
         render_data.mesh = sp::MeshData::createQuad(sp::Vector2f(0.9, 0.9), sp::Vector2f(x / 16, y / 16), sp::Vector2f((x + 1) / 16, (y + 1) / 16));
-        render_data.texture = sp::textureManager.get(texture);
+        render_data.texture = sp::texture_manager.get(texture);
     }
     
     sp::Vector2i position;

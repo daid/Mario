@@ -8,7 +8,7 @@ Vine::Vine(sp::P<sp::Node> parent)
 {
     render_data.type = sp::RenderData::Type::Normal;
     render_data.shader = sp::Shader::get("internal:basic.shader");
-    render_data.texture = sp::textureManager.get("items.png");
+    render_data.texture = sp::texture_manager.get("items.png");
     render_data.order = -1;
 
     size = 0.0;

@@ -647,9 +647,9 @@ int main(int argc, char** argv)
     new sp::io::DirectoryResourceProvider("resources");
 
 #ifndef DEBUG
-    sp::textureManager.setFallbackColors(sp::Color(0,0,0,0), sp::Color(0,0,0,0));
+    sp::texture_manager.setFallbackColors(sp::Color(0,0,0,0), sp::Color(0,0,0,0));
 #endif
-    sp::textureManager.setDefaultSmoothFiltering(false);
+    sp::texture_manager.setDefaultSmoothFiltering(false);
 
     //Create a window to render on, and our engine.
     window = new sp::Window(4.0/3.0);
