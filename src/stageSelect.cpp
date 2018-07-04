@@ -267,7 +267,7 @@ void StageSelectScene::changeSelection(sp::Vector2d position)
             break;
         case GameMode::MoreAndMore:
         case GameMode::MoreAndMoreWorld:
-            gui->getWidgetWithID("STAGE_INFO_TIME")->setAttribute("caption", "RUNS " + sp::string(save.all_recordings.size() / save_game.getPlayerCount()));
+            gui->getWidgetWithID("STAGE_INFO_TIME")->setAttribute("caption", "RUNS " + sp::string(int(save.all_recordings.size() / save_game.getPlayerCount())));
             break;
         }
         gui->getWidgetWithID("STAGE_INFO_ATTEMPTS")->setAttribute("caption", "TRIES " + sp::string(save.attempts));
