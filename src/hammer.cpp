@@ -9,8 +9,8 @@
 Hammer::Hammer(sp::P<sp::Node> parent, double x, double y)
 : sp::Node(parent)
 {
-    animation = sp::SpriteAnimation::load("hammer.txt");
-    animation->play("Default");
+    setAnimation(sp::SpriteAnimation::load("hammer.txt"));
+    animationPlay("Default");
 
     render_data.order = 2;
 

@@ -17,8 +17,8 @@ Fireball2::Fireball2(sp::P<sp::Node> parent, double target_y)
     shape.fixed_rotation = true;
     setCollisionShape(shape);
 
-    animation = sp::SpriteAnimation::load("fireball2.txt");
-    animation->play("Default");
+    setAnimation(sp::SpriteAnimation::load("fireball2.txt"));
+    animationPlay("Default");
 
     render_data.order = 2;
     

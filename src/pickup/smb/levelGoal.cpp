@@ -14,14 +14,14 @@ LevelGoalPickup::LevelGoalPickup(sp::P<sp::Node> parent, Type type)
     shape.fixed_rotation = true;
     setCollisionShape(shape);
 
-    animation = sp::SpriteAnimation::load("upgrade.txt");
+    setAnimation(sp::SpriteAnimation::load("upgrade.txt"));
     switch(type)
     {
     case Type::Toad:
-        animation->play("Toad");
+        animationPlay("Toad");
         break;
     case Type::Princess:
-        animation->play("Princess");
+        animationPlay("Princess");
         break;
     }
     

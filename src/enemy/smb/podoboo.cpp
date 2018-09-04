@@ -18,8 +18,8 @@ Podoboo::Podoboo(sp::P<sp::Node> parent, float x, float y)
     
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("podoboo.txt");
-    animation->play("Default");
+    setAnimation(sp::SpriteAnimation::load("podoboo.txt"));
+    animationPlay("Default");
     
     render_data.order = 1;
 }

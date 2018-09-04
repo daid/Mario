@@ -15,8 +15,8 @@ Blooper::Blooper(sp::P<sp::Node> parent, float x, float y)
     shape.fixed_rotation = true;
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("blooper.txt");
-    animation->play("Idle");
+    setAnimation(sp::SpriteAnimation::load("blooper.txt"));
+    animationPlay("Idle");
 }
 
 void Blooper::onEnemyUpdate()
@@ -62,9 +62,9 @@ void Blooper::onEnemyUpdate()
         }
     }
     if (delay < 40)
-        animation->play("Compress");
+        animationPlay("Compress");
     else
-        animation->play("Idle");
+        animationPlay("Idle");
     
     setLinearVelocity(velocity);
 }

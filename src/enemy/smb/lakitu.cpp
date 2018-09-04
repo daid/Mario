@@ -19,8 +19,8 @@ Lakitu::Lakitu(sp::P<sp::Node> parent, float x, float y)
     shape.fixed_rotation = true;
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("lakitu.txt");
-    animation->play("Default");
+    setAnimation(sp::SpriteAnimation::load("lakitu.txt"));
+    animationPlay("Default");
 }
 
 void Lakitu::onEnemyUpdate()
@@ -46,9 +46,9 @@ void Lakitu::onEnemyUpdate()
         setLinearVelocity(sp::Vector2d(15.5, 0));
     
     if (throw_delay < 40)
-        animation->play("PreFire");
+        animationPlay("PreFire");
     else
-        animation->play("Default");
+        animationPlay("Default");
     
     if (throw_delay > 0)
     {
@@ -67,7 +67,7 @@ void Lakitu::onSideHit(bool left)
 
 bool Lakitu::onPlayerHeadBump()
 {
-    animation->play("Default");
+    animationPlay("Default");
     kill();
     return true;
 }

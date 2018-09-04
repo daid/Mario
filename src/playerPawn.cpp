@@ -37,7 +37,7 @@ PlayerPawn::PlayerPawn(sp::P<sp::Node> parent, InputController& controller, sp::
     
     state = State::Falling;
     
-    animation = sp::SpriteAnimation::load(animation_name);
+    setAnimation(sp::SpriteAnimation::load(animation_name));
     
     all.add(this);
 }
@@ -70,48 +70,48 @@ void PlayerPawn::onUpdate(float delta)
         left = false;
     if (controller.left.get())
         left = true;
-    animation->setFlags(left ? sp::SpriteAnimation::FlipFlag : 0);
+    animationSetFlags(left ? sp::SpriteAnimation::FlipFlag : 0);
     switch(state)
     {
     case State::Death:
-        animation->play("Death");
+        animationPlay("Death");
         break;
     case State::Finish:
         switch(finish_state)
         {
         case FinishSubState::GlidingDownPole:
-            animation->play(animation_prefix + "Climb", 0);
+            animationPlay(animation_prefix + "Climb", 0);
             break;
         case FinishSubState::Walking:
-            animation->play(animation_prefix + "Walk");
+            animationPlay(animation_prefix + "Walk");
             break;
         case FinishSubState::Stopped:
-            animation->play(animation_prefix + "Stand");
+            animationPlay(animation_prefix + "Stand");
             break;
         }
         left = false;
-        animation->setFlags(0);
+        animationSetFlags(0);
         break;
     case State::Swimming:
-        animation->play(animation_prefix + "Swim");
+        animationPlay(animation_prefix + "Swim");
         break;
     case State::EnterPipe:
         if (PipeEntrance::active_entrance && std::abs(PipeEntrance::active_entrance->getPosition2D().x - getPosition2D().x) > 0.1)
-            animation->play(animation_prefix + "Walk");
+            animationPlay(animation_prefix + "Walk");
         else
-            animation->play(animation_prefix + "Stand");
+            animationPlay(animation_prefix + "Stand");
         break;
     case State::Walking:
         if (skidding)
-            animation->play(animation_prefix + "Skid");
+            animationPlay(animation_prefix + "Skid");
         else if (controller.left.get() || controller.right.get())
-            animation->play(animation_prefix + "Walk");
+            animationPlay(animation_prefix + "Walk");
         else
-            animation->play(animation_prefix + "Stand");
+            animationPlay(animation_prefix + "Stand");
         break;
     case State::Falling:
     case State::Jumping:
-        animation->play(animation_prefix + "Jump");
+        animationPlay(animation_prefix + "Jump");
         break;
     }
     
@@ -461,10 +461,10 @@ void PlayerPawn::onCollision(sp::CollisionInfo& info)
                         sp::string animation = "Brick";
                         if (tile_index == 19) animation = "BrickUnderground";
                         if (tile_index == 99) animation = "BrickCastle";
-                        (new BrickPiece(getParent(), x + 0.25, y + 0.25, true, false))->animation->play(animation);
-                        (new BrickPiece(getParent(), x + 0.75, y + 0.25, false, false))->animation->play(animation);
-                        (new BrickPiece(getParent(), x + 0.25, y + 0.75, true, true))->animation->play(animation);
-                        (new BrickPiece(getParent(), x + 0.75, y + 0.75, false, true))->animation->play(animation);
+                        (new BrickPiece(getParent(), x + 0.25, y + 0.25, true, false))->animationPlay(animation);
+                        (new BrickPiece(getParent(), x + 0.75, y + 0.25, false, false))->animationPlay(animation);
+                        (new BrickPiece(getParent(), x + 0.25, y + 0.75, true, true))->animationPlay(animation);
+                        (new BrickPiece(getParent(), x + 0.75, y + 0.75, false, true))->animationPlay(animation);
                         sp::audio::Sound::play("sfx/smb_breakblock.wav");
                         return;
                     }

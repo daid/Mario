@@ -11,8 +11,8 @@
 LifePickup::LifePickup(sp::P<sp::Node> parent)
 : Pickup(parent, Pickup::Movement::Slide)
 {
-    animation = sp::SpriteAnimation::load("upgrade.txt");
-    animation->play("Life");
+    setAnimation(sp::SpriteAnimation::load("upgrade.txt"));
+    animationPlay("Life");
 }
 
 bool LifePickup::onPickup(sp::P<PlayerPawn> player)

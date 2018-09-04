@@ -18,8 +18,8 @@ BullitBill::BullitBill(sp::P<sp::Node> parent, float x, float y)
     shape.fixed_rotation = true;
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("bullitBill.txt");
-    animation->play("Default");
+    setAnimation(sp::SpriteAnimation::load("bullitBill.txt"));
+    animationPlay("Default");
     setLinearVelocity(sp::Vector2d(-4.0, 0));
 }
 

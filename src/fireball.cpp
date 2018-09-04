@@ -18,8 +18,8 @@ Fireball::Fireball(sp::P<sp::Node> parent, bool left)
     shape.setMaskFilterCategory(collision_category_player);
     setCollisionShape(shape);
 
-    animation = sp::SpriteAnimation::load("fireball.txt");
-    animation->play("Default");
+    setAnimation(sp::SpriteAnimation::load("fireball.txt"));
+    animationPlay("Default");
 
     render_data.order = 2;
 }

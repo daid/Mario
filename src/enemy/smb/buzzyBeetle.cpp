@@ -29,8 +29,8 @@ BuzzyBeetle::BuzzyBeetle(sp::P<sp::Node> parent, float x, float y)
     shape.fixed_rotation = true;
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("buzzyBeetle.txt");
-    animation->play("Walk");
+    setAnimation(sp::SpriteAnimation::load("buzzyBeetle.txt"));
+    animationPlay("Walk");
     state = State::Normal;
     
     flip = false;
@@ -65,9 +65,9 @@ void BuzzyBeetle::onEnemyUpdate()
     }
     setLinearVelocity(velocity);
     if (flip)
-        animation->setFlags(sp::SpriteAnimation::FlipFlag);
+        animationSetFlags(sp::SpriteAnimation::FlipFlag);
     else
-        animation->setFlags(0);
+        animationSetFlags(0);
 }
 
 void BuzzyBeetle::onCollision(sp::CollisionInfo& info)
@@ -100,7 +100,7 @@ void BuzzyBeetle::onSideHit(bool left)
 
 bool BuzzyBeetle::onPlayerHeadBump()
 {
-    animation->play("Death");
+    animationPlay("Death");
     if (state == State::Down)
     {
         state = State::Skating;

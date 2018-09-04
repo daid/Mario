@@ -15,8 +15,8 @@ Coin::Coin(sp::P<sp::Node> parent)
     shape.setFilterCategory(collision_category_pickup);
     shape.fixed_rotation = true;
     
-    animation = sp::SpriteAnimation::load("coin.txt");
-    animation->play("Default");
+    setAnimation(sp::SpriteAnimation::load("coin.txt"));
+    animationPlay("Default");
 
     setCollisionShape(shape);
     

@@ -18,8 +18,8 @@ public:
     CoinEffect(sp::P<sp::Node> parent)
     : sp::Node(parent)
     {
-        animation = sp::SpriteAnimation::load("coinEffect.txt");
-        animation->play("Default");
+        setAnimation(sp::SpriteAnimation::load("coinEffect.txt"));
+        animationPlay("Default");
         render_data.order = 2;
         
         velocity = 20.0;
@@ -45,20 +45,20 @@ QuestionBlock::QuestionBlock(sp::P<sp::Tilemap> tilemap, Type type, Contents con
     shape.type = sp::collision::Shape::Type::Static;
     shape.fixed_rotation = true;
     
-    animation = sp::SpriteAnimation::load("question_block.txt");
+    setAnimation(sp::SpriteAnimation::load("question_block.txt"));
     switch(type)
     {
     case Type::Normal:
-        animation->play("Default");
+        animationPlay("Default");
         break;
     case Type::Brick:
-        animation->play("Brick");
+        animationPlay("Brick");
         break;
     case Type::BrickUnderground:
-        animation->play("BrickUnderground");
+        animationPlay("BrickUnderground");
         break;
     case Type::BrickCastle:
-        animation->play("BrickCastle");
+        animationPlay("BrickCastle");
         break;
     case Type::Hidden:
         shape.type = sp::collision::Shape::Type::Sensor;
@@ -116,7 +116,7 @@ void QuestionBlock::onCollision(sp::CollisionInfo& info)
             if (contents == Contents::MultiCoin && multi_coin_count > 0)
                 multi_coin_count--;
             else
-                animation->play("Empty");
+                animationPlay("Empty");
 
             if (type == Type::Hidden)
             {

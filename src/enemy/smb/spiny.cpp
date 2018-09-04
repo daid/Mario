@@ -29,8 +29,8 @@ Spiny::Spiny(sp::P<sp::Node> parent, float x, float y)
     shape.fixed_rotation = true;
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("spiny.txt");
-    animation->play("Fall");
+    setAnimation(sp::SpriteAnimation::load("spiny.txt"));
+    animationPlay("Fall");
     
     setLinearVelocity(sp::Vector2d(0, subpixelToSpeed(0x4000)));
     velocity_y_min = subpixelToSpeed(0x4000);
@@ -47,7 +47,7 @@ void Spiny::onEnemyUpdate()
         if (velocity.y > velocity_y_min)
         {
             falling = false;
-            animation->play("Walk");
+            animationPlay("Walk");
             flip = (getPosition2D().x < getScene()->getCamera()->getPosition2D().x);
         }
         velocity_y_min = std::min(velocity_y_min, velocity.y);
@@ -70,9 +70,9 @@ void Spiny::onEnemyUpdate()
     }
     setLinearVelocity(velocity);
     if (flip)
-        animation->setFlags(sp::SpriteAnimation::FlipFlag);
+        animationSetFlags(sp::SpriteAnimation::FlipFlag);
     else
-        animation->setFlags(0);
+        animationSetFlags(0);
 }
 
 void Spiny::onSideHit(bool left)

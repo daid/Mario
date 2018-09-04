@@ -51,8 +51,8 @@ void GhostRecorder::pipeEnterDone()
 GhostReplay::GhostReplay(sp::P<sp::Node> parent, PlayerGhostRecording& recording, bool solid)
 : sp::Node(parent), recording(recording), solid(solid)
 {
-    animation = sp::SpriteAnimation::load(recording.animation_name);
-    animation->play("Stand");
+    setAnimation(sp::SpriteAnimation::load(recording.animation_name));
+    animationPlay("Stand");
     render_data.color = sp::Color(1, 1, 1, 0.5);
 }
 
@@ -92,43 +92,43 @@ void GhostReplay::onFixedUpdate()
                 animation_prefix = "Fire";
 
             if (e.velocity.x < 0)
-                animation->setFlags(sp::SpriteAnimation::FlipFlag);
+                animationSetFlags(sp::SpriteAnimation::FlipFlag);
             if (e.velocity.x > 0)
-                animation->setFlags(0);
+                animationSetFlags(0);
             switch(e.state)
             {
             case PlayerPawn::State::Death:
-                animation->play("Death");
+                animationPlay("Death");
                 break;
             case PlayerPawn::State::Finish:
                 if (e.velocity.y != 0.0)
-                    animation->play(animation_prefix + "Climb", 0);
+                    animationPlay(animation_prefix + "Climb", 0);
                 else if (e.velocity.x != 0.0)
-                    animation->play(animation_prefix + "Walk");
+                    animationPlay(animation_prefix + "Walk");
                 else
-                    animation->play(animation_prefix + "Stand");
-                animation->setFlags(0);
+                    animationPlay(animation_prefix + "Stand");
+                animationSetFlags(0);
                 break;
             case PlayerPawn::State::Swimming:
-                animation->play(animation_prefix + "Swim");
+                animationPlay(animation_prefix + "Swim");
                 break;
             case PlayerPawn::State::EnterPipe:
                 removeCollisionShape();
                 render_data.order = -2;
                 //if (PipeEntrance::active_entrance && std::abs(PipeEntrance::active_entrance->getPosition2D().x - getPosition2D().x) > 0.1)
-                    animation->play(animation_prefix + "Walk");
+                    animationPlay(animation_prefix + "Walk");
                 //else
-                //    animation->play(animation_prefix + "Stand");
+                //    animationPlay(animation_prefix + "Stand");
                 break;
             case PlayerPawn::State::Walking:
                 if (e.velocity.x != 0.0)
-                    animation->play(animation_prefix + "Walk");
+                    animationPlay(animation_prefix + "Walk");
                 else
-                    animation->play(animation_prefix + "Stand");
+                    animationPlay(animation_prefix + "Stand");
                 break;
             case PlayerPawn::State::Falling:
             case PlayerPawn::State::Jumping:
-                animation->play(animation_prefix + "Jump");
+                animationPlay(animation_prefix + "Jump");
                 break;
             }
             index++;

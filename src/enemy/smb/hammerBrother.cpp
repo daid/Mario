@@ -17,8 +17,8 @@ HammerBrother::HammerBrother(sp::P<sp::Node> parent, float x, float y)
     
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("hammerbro.txt");
-    animation->play("Walk");
+    setAnimation(sp::SpriteAnimation::load("hammerbro.txt"));
+    animationPlay("Walk");
 
     start_x = x;
 }
@@ -36,9 +36,9 @@ void HammerBrother::onEnemyUpdate()
         velocity.x = -velocity.x;
     
     if (fire_delay < 20)
-        animation->play("Walk");
+        animationPlay("Walk");
     else
-        animation->play("PreFire");
+        animationPlay("PreFire");
         
     if (fire_delay > 0)
     {

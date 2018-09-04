@@ -8,8 +8,8 @@
 StarPickup::StarPickup(sp::P<sp::Node> parent)
 : Pickup(parent, Pickup::Movement::Bounce)
 {
-    animation = sp::SpriteAnimation::load("upgrade.txt");
-    animation->play("Star");
+    setAnimation(sp::SpriteAnimation::load("upgrade.txt"));
+    animationPlay("Star");
 }
 
 bool StarPickup::onPickup(sp::P<PlayerPawn> player)

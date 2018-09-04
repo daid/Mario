@@ -28,8 +28,8 @@ Goomba::Goomba(sp::P<sp::Node> parent, float x, float y)
     
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("goomba.txt");
-    animation->play("Walk");
+    setAnimation(sp::SpriteAnimation::load("goomba.txt"));
+    animationPlay("Walk");
     
     flip = false;
     state = State::Normal;
@@ -73,6 +73,6 @@ bool Goomba::onPlayerHeadBump()
 {
     removeCollisionShape();
     state = State::Death;
-    animation->play("Death");
+    animationPlay("Death");
     return true;
 }

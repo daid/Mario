@@ -18,8 +18,8 @@ AxePickup::AxePickup(sp::P<sp::Tilemap> tilemap)
     shape.fixed_rotation = true;
     setCollisionShape(shape);
 
-    animation = sp::SpriteAnimation::load("upgrade.txt");
-    animation->play("Axe");
+    setAnimation(sp::SpriteAnimation::load("upgrade.txt"));
+    animationPlay("Axe");
     
     render_data.order = -2;
 }
@@ -65,7 +65,7 @@ void AxePickup::onCollision(sp::CollisionInfo& info)
         if (player)
         {
             render_data.type = sp::RenderData::Type::None;
-            animation = nullptr;
+            setAnimation(nullptr);
             removeCollisionShape();
             triggered = true;
             

@@ -19,8 +19,8 @@ Bowser::Bowser(sp::P<sp::Node> parent, float x, float y)
     
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("bowser.txt");
-    animation->play("Walk");
+    setAnimation(sp::SpriteAnimation::load("bowser.txt"));
+    animationPlay("Walk");
 }
 
 void Bowser::onEnemyUpdate()
@@ -60,10 +60,10 @@ void Bowser::onEnemyUpdate()
     if (fire_delay > 0)
     {
         if (fire_delay < 60)
-            animation->play("PreFire");
+            animationPlay("PreFire");
         fire_delay--;
     }else{
-        animation->play("Walk");
+        animationPlay("Walk");
         fire_delay = sp::irandom(120, 240);
         
         (new Fireball2(getParent(), start_position.y + sp::random(-1, 3)))->setPosition(position + sp::Vector2d(0, 0.5));

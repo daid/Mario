@@ -18,8 +18,8 @@ PiranhaPlant::PiranhaPlant(sp::P<sp::Node> parent, float x, float y)
     
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("piranhaPlant.txt");
-    animation->play("Default");
+    setAnimation(sp::SpriteAnimation::load("piranhaPlant.txt"));
+    animationPlay("Default");
     
     render_data.order = -2;
 }

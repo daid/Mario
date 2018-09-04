@@ -16,11 +16,11 @@ CheepCheepJump::CheepCheepJump(sp::P<sp::Node> parent, float x, float y)
     shape.fixed_rotation = true;
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("cheepCheep.txt");
-    animation->play("Red");
+    setAnimation(sp::SpriteAnimation::load("cheepCheep.txt"));
+    animationPlay("Red");
     setLinearVelocity(sp::Vector2d(sp::random(-7, 7), 18));
     if (getLinearVelocity2D().x > 0)
-        animation->setFlags(sp::SpriteAnimation::FlipFlag);
+        animationSetFlags(sp::SpriteAnimation::FlipFlag);
 }
 
 void CheepCheepJump::onEnemyUpdate()

@@ -21,11 +21,11 @@ FireBar::FireBar(sp::P<sp::Node> parent, Type type, Size size)
     }
     setRotation(-90);
 
-    animation = sp::SpriteAnimation::load("fireBar.txt");
+    setAnimation(sp::SpriteAnimation::load("fireBar.txt"));
     if (size == Size::Default)
-        animation->play("Default");
+        animationPlay("Default");
     else
-        animation->play("Long");
+        animationPlay("Long");
     
     render_data.order = 1;
 }

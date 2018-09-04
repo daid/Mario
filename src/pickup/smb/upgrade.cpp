@@ -8,14 +8,14 @@
 UpgradePickup::UpgradePickup(sp::P<sp::Node> parent, Type type)
 : Pickup(parent, type == Type::Mushroom ? Pickup::Movement::Slide : Pickup::Movement::Still)
 {
-    animation = sp::SpriteAnimation::load("upgrade.txt");
+    setAnimation(sp::SpriteAnimation::load("upgrade.txt"));
     switch(type)
     {
     case Type::Mushroom:
-        animation->play("Mushroom");
+        animationPlay("Mushroom");
         break;
     case Type::Flower:
-        animation->play("Flower");
+        animationPlay("Flower");
         break;
     }
 }

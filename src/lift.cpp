@@ -8,21 +8,21 @@
 Lift::Lift(sp::P<sp::Node> parent, Type type, Size size)
 : sp::Node(parent), type(type)
 {
-    animation = sp::SpriteAnimation::load("lift.txt");
+    setAnimation(sp::SpriteAnimation::load("lift.txt"));
 
     switch(size)
     {
     case Size::Default:{
         this->size = sp::Vector2d(3.0, 0.5);
-        animation->play("Default");
+        animationPlay("Default");
         }break;
     case Size::Small:{
         this->size = sp::Vector2d(2.0, 0.5);
-        animation->play("Small");
+        animationPlay("Small");
         }break;
     case Size::Tiny:{
         this->size = sp::Vector2d(1.5, 0.5);
-        animation->play("Tiny");
+        animationPlay("Tiny");
         }break;
     }
 

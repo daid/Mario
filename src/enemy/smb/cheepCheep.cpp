@@ -16,15 +16,15 @@ CheepCheep::CheepCheep(sp::P<sp::Node> parent, float x, float y)
     shape.fixed_rotation = true;
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("cheepCheep.txt");
+    setAnimation(sp::SpriteAnimation::load("cheepCheep.txt"));
     if (sp::random(0, 100) < 30)
     {
-        animation->play("Red");
+        animationPlay("Red");
         setLinearVelocity(sp::Vector2d(-1.5, 0));
     }
     else
     {
-        animation->play("Grey");
+        animationPlay("Grey");
         setLinearVelocity(sp::Vector2d(-1, 0));
     }
 }

@@ -33,11 +33,11 @@ Koopa::Koopa(sp::P<sp::Node> parent, float x, float y, Type type, Behaviour beha
     {
     case Type::Red:
     case Type::ParatroopaRed:
-        animation = sp::SpriteAnimation::load("koopaRed.txt");
+        setAnimation(sp::SpriteAnimation::load("koopaRed.txt"));
         break;
     case Type::Green:
     case Type::ParatroopaGreen:
-        animation = sp::SpriteAnimation::load("koopa.txt");
+        setAnimation(sp::SpriteAnimation::load("koopa.txt"));
         break;
     }
     
@@ -45,11 +45,11 @@ Koopa::Koopa(sp::P<sp::Node> parent, float x, float y, Type type, Behaviour beha
     {
     case Type::Red:
     case Type::Green:
-        animation->play("Walk");
+        animationPlay("Walk");
         break;
     case Type::ParatroopaRed:
     case Type::ParatroopaGreen:
-        animation->play("ParatroopaWalk");
+        animationPlay("ParatroopaWalk");
         break;
     }
     state = State::Normal;
@@ -163,9 +163,9 @@ void Koopa::onEnemyUpdate()
     }
     setLinearVelocity(velocity);
     if (flip)
-        animation->setFlags(sp::SpriteAnimation::FlipFlag);
+        animationSetFlags(sp::SpriteAnimation::FlipFlag);
     else
-        animation->setFlags(0);
+        animationSetFlags(0);
 }
 
 void Koopa::onCollision(sp::CollisionInfo& info)
@@ -214,17 +214,17 @@ bool Koopa::onPlayerHeadBump()
     if (type == Type::ParatroopaGreen)
     {
         type = Type::Green;
-        animation->play("Walk");
+        animationPlay("Walk");
         return true;
     }
     if (type == Type::ParatroopaRed)
     {
         type = Type::Red;
-        animation->play("Walk");
+        animationPlay("Walk");
         return true;
     }
     
-    animation->play("Death");
+    animationPlay("Death");
     if (state == State::Down)
     {
         state = State::Skating;

@@ -6,8 +6,8 @@
 BrickPiece::BrickPiece(sp::P<sp::Node> parent, double x, double y, bool left, bool top)
 : sp::Node(parent)
 {
-    animation = sp::SpriteAnimation::load("brick_piece.txt");
-    animation->play("Brick");
+    setAnimation(sp::SpriteAnimation::load("brick_piece.txt"));
+    animationPlay("Brick");
 
     render_data.order = 2;
     
@@ -18,7 +18,7 @@ BrickPiece::BrickPiece(sp::P<sp::Node> parent, double x, double y, bool left, bo
         velocity = sp::Vector2d(-5, 10);
     if (!left)
     {
-        animation->setFlags(sp::SpriteAnimation::FlipFlag);
+        animationSetFlags(sp::SpriteAnimation::FlipFlag);
         velocity.x = -velocity.x;
     }
 }

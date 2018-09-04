@@ -13,8 +13,8 @@ Trampoline::Trampoline(sp::P<sp::Node> parent)
     shape.fixed_rotation = true;
     setCollisionShape(shape);
     
-    animation = sp::SpriteAnimation::load("trampoline.txt");
-    animation->play("Default");
+    setAnimation(sp::SpriteAnimation::load("trampoline.txt"));
+    animationPlay("Default");
 }
 
 void Trampoline::onUpdate(float delta)
@@ -36,11 +36,11 @@ void Trampoline::onUpdate(float delta)
             });
     }
     if (compress_distance < 0.5)
-        animation->play("Compressed");
+        animationPlay("Compressed");
     else if (compress_distance < 1.0)
-        animation->play("Partial");
+        animationPlay("Partial");
     else
-        animation->play("Default");
+        animationPlay("Default");
     
     if (compress_distance < 0.0)
     {
