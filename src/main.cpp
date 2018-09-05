@@ -680,7 +680,9 @@ int main(int argc, char** argv)
     //sp::Scene::get("editor")->enable();
 #endif
 
+    sp::io::Keybinding::loadKeybindings("keys.txt");
     engine->run();
+    sp::io::Keybinding::saveKeybindings("keys.txt");
     
     return 0;
 }
