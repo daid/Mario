@@ -17,7 +17,7 @@ public:
     , extra1(sp::string(index) + "_extra1", "C")
     , extra2(sp::string(index) + "_extra2", "V")
     , extra3(sp::string(index) + "_extra3", "B")
-    , start(sp::string(index) + "_start", "Num1")
+    , start(sp::string(index) + "_start", "1")
     {
         if (index == 1)
         {
@@ -31,7 +31,7 @@ public:
             extra1.setKey("F");
             extra2.setKey("T");
             extra3.setKey("G");
-            start.setKey("Num2");
+            start.setKey("2");
         }
     }
     
