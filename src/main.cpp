@@ -582,65 +582,6 @@ void destroyPlayers(sp::P<sp::Scene> scene)
     }
 }
 
-#include <sp2/io/http/server.h>
-
-class WebGLRenderer : public sp::Updatable
-{
-public:
-    WebGLRenderer()
-    {
-        (new sp::io::http::Server())->setStaticFilePath("www");
-    }
-
-    virtual void onUpdate(float delta) override
-    {
-        for(sp::Scene* scene : sp::Scene::all())
-        {
-            if (!scene->isEnabled())
-                continue;
-            sp::P<sp::Camera> camera = scene->getCamera();
-            if (!camera)
-                continue;
-            sp::Matrix4x4d camera_matrix = camera->getProjectionMatrix();
-            
-            sp::string output = "{\"camera\":[";
-            for(int n=0; n<16; n++)
-            {
-                if (n > 0)
-                    output += ",";
-                output += sp::string(camera_matrix.data[n], -1);
-            }
-            output += "],\"nodes\": [";
-            addNodeToString(output, scene->getRoot());
-            output += "]}";
-            //LOG(Debug, scene->getName(), output);
-        }
-    }
-
-    void addNodeToString(sp::string& output, sp::P<sp::Node> node)
-    {
-        if (node->render_data.type != sp::RenderData::Type::None && node->render_data.mesh)
-        {
-            sp::Matrix4x4d matrix = node->getGlobalTransform();
-
-            output += "{\"matrix\":[";
-            for(int n=0; n<16; n++)
-            {
-                if (n > 0)
-                    output += ",";
-                output += sp::string(matrix.data[n], -1);
-            }
-            
-            output += "]},";
-        }
-        
-        for(sp::Node* child : node->getChildren())
-            addNodeToString(output, child);
-    }
-    
-    std::unordered_map<uint32_t, std::weak_ptr<sp::MeshData>> meshes;
-};
-
 int main(int argc, char** argv)
 {
     sp::P<sp::Engine> engine = new sp::Engine();
@@ -675,7 +616,6 @@ int main(int argc, char** argv)
     new EditorScene();
     new StageSelectScene();
     
-    new WebGLRenderer();
 #ifdef DEBUG
     //sp::Scene::get("stage_select")->disable();
     //sp::Scene::get("editor")->enable();
