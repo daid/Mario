@@ -1,0 +1,6 @@
+[tinyci]
+enabled = True
+
+[repos-daid/SeriousProton2]
+required = True
+
