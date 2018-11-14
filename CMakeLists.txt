@@ -8,3 +8,7 @@ find_package(SeriousProton2 REQUIRED)
 
 file(GLOB_RECURSE SOURCES src/*.cpp)
 serious_proton2_executable(Mario ${SOURCES})
+
+if(WIN32)
+    install(DIRECTORY resources DESTINATION ./)
+endif()
