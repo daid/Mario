@@ -5,7 +5,7 @@ enabled = True
 directory = _build_native
 commands =
     cmake ..
-    make -j 3 -i
+    make -j 3
 
 [repos-daid/SeriousProton2]
 required = True
