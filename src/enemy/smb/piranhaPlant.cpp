@@ -57,10 +57,9 @@ bool PiranhaPlant::onPlayerHeadBump()
 bool PiranhaPlant::playerNear()
 {
     sp::Vector2d position = getPosition2D();
-    sp::Vector2d start(position.x - 1, 0);
-    sp::Vector2d end(position.x + 1, 14);
+    sp::Rect2d area(position.x - 1, 0, 2, 14);
     bool has_player = false;
-    getScene()->queryCollision(start, end, [&has_player](sp::P<sp::Node> object)
+    getScene()->queryCollision(area, [&has_player](sp::P<sp::Node> object)
     {
         if (sp::P<PlayerPawn>(object))
         {

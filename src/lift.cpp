@@ -67,7 +67,7 @@ void Lift::onFixedUpdate()
         break;
     case Type::Fall:{
         bool has_player = false;
-        getScene()->queryCollision(getPosition2D() - size * 0.5 + sp::Vector2d(0, 0.2), getPosition2D() + size * 0.5 + sp::Vector2d(0, 0.2), [&has_player](sp::P<sp::Node> node)
+        getScene()->queryCollision(sp::Rect2d(getPosition2D() - size * 0.5 + sp::Vector2d(0, 0.2), size + sp::Vector2d(0, 0.4)), [&has_player](sp::P<sp::Node> node)
         {
             if (sp::P<PlayerPawn>(node))
             {
@@ -88,7 +88,7 @@ void Lift::onFixedUpdate()
         {
             bool has_player1 = false;
             bool has_player2 = false;
-            getScene()->queryCollision(getPosition2D() - size * 0.5 + sp::Vector2d(0, 0.2), getPosition2D() + size * 0.5 + sp::Vector2d(0, 0.2), [&has_player1](sp::P<sp::Node> node)
+            getScene()->queryCollision(sp::Rect2d(getPosition2D() - size * 0.5 + sp::Vector2d(0, 0.2), size + sp::Vector2d(0, 0.4)), [&has_player1](sp::P<sp::Node> node)
             {
                 if (sp::P<PlayerPawn>(node))
                 {
@@ -97,7 +97,7 @@ void Lift::onFixedUpdate()
                 }
                 return true;
             });
-            getScene()->queryCollision(other->getPosition2D() - other->size * 0.5 + sp::Vector2d(0, 0.2), other->getPosition2D() + other->size * 0.5 + sp::Vector2d(0, 0.2), [&has_player2](sp::P<sp::Node> node)
+            getScene()->queryCollision(sp::Rect2d(other->getPosition2D() - other->size * 0.5 + sp::Vector2d(0, 0.2), other->size + sp::Vector2d(0, 0.4)), [&has_player2](sp::P<sp::Node> node)
             {
                 if (sp::P<PlayerPawn>(node))
                 {
