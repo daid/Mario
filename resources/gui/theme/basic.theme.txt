@@ -4,7 +4,7 @@
     font: gui/theme/basic/font.txt
     size: 4
 
-    [button.label] {
+    [button.forground] {
         color.disabled: #808080
         color.hovered: #808080
     }
