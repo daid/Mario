@@ -13,6 +13,7 @@
 #include <sp2/graphics/scene/collisionrenderpass.h>
 #include <sp2/graphics/spriteAnimation.h>
 #include <sp2/graphics/textureManager.h>
+#include <sp2/graphics/textureAtlas.h>
 #include <sp2/audio/sound.h>
 #include <sp2/scene/scene.h>
 #include <sp2/scene/node.h>
@@ -593,6 +594,7 @@ int main(int argc, char** argv)
     sp::texture_manager.setFallbackColors(sp::Color(0,0,0,0), sp::Color(0,0,0,0));
 #endif
     sp::texture_manager.setDefaultSmoothFiltering(false);
+    sp::SpriteAnimation::setAtlasManager(new sp::AtlasManager(sp::Vector2i(1024, 1024)));
 
     //Create a window to render on, and our engine.
     window = new sp::Window(4.0/3.0);
