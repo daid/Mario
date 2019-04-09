@@ -9,6 +9,15 @@
         text.size: 10
         text_alignment: left
     }
+    [QUIT] {
+        position: 155, 0
+        type: button
+        size: 50, 18
+        text.size: 10
+        margin: 0, 2
+        caption: QUIT
+        tag: QUIT
+    }
     [WORLDS] {
         position: 5, 20
         layout: vertical

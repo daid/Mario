@@ -49,6 +49,12 @@ StageSelectScene::StageSelectScene()
                     loadStage(&level_data);
             });
         }
+
+        sp::P<sp::gui::Widget> button = gui->getWidgetWithID("QUIT");
+        button->setEventCallback([](sp::Variant v)
+        {
+            sp::Engine::getInstance()->shutdown();
+        });
     }
 
     onEnable();
@@ -212,6 +218,19 @@ void StageSelectScene::changeSelection(sp::Vector2d position)
         selection = new_selection;
     
     sp::Vector2i world_stage = sp::stringutil::convert::toVector2i(selection->tag) - sp::Vector2i(1, 1);
+    if (selection->tag == "QUIT")
+    {
+        gui->getWidgetWithID("STAGE_LOCKED")->show();
+        gui->getWidgetWithID("STAGE_LOCKED")->setAttribute("caption", "Quit");
+        gui->getWidgetWithID("STAGE_INFO_TODO")->hide();
+        gui->getWidgetWithID("STAGE_INFO_DONE")->hide();
+        gui->getWidgetWithID("STAGE_INFO_TIME")->hide();
+        gui->getWidgetWithID("STAGE_INFO_ATTEMPTS")->hide();
+        gui->getWidgetWithID("STAGE_INFO_FLAWLESS")->hide();
+        gui->getWidgetWithID("STAGE_INFO_PACIFIST")->hide();
+        gui->getWidgetWithID("STAGE_INFO_GENOCIDE")->hide();
+        return;
+    }
     if (selection->tag.startswith("C"))
     {
         gui->getWidgetWithID("STAGE_LOCKED")->show();
