@@ -468,7 +468,7 @@ void EditorScene::onEnable()
 void EditorScene::onDisable()
 {
     for(auto child : getRoot()->getChildren())
-        delete child;
+        child.destroy();
 }
 
 void EditorScene::save(int index)

@@ -25,9 +25,8 @@ Lakitu::Lakitu(sp::P<sp::Node> parent, float x, float y)
 
 void Lakitu::onEnemyUpdate()
 {
-    for(Node* node : getParent()->getChildren())
+    for(sp::P<Lakitu> lakitu : getParent()->getChildren())
     {
-        sp::P<Lakitu> lakitu = sp::P<sp::Node>(node);
         if (lakitu && lakitu->getPosition2D().x < getPosition2D().x)
         {
             delete this;

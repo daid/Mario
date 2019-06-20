@@ -121,7 +121,7 @@ public:
                     continue;
                 }
                 if (!sp::P<PlayerPawn>(sp::P<sp::Node>(child)))
-                    delete child;
+                    child.destroy();
             }
             func();
             for(auto player : PlayerPawn::all)
@@ -149,8 +149,8 @@ public:
                     {
                         continue;
                     }
-                    if (!sp::P<PlayerPawn>(sp::P<sp::Node>(child)))
-                        delete child;
+                    if (!sp::P<PlayerPawn>(child))
+                        child.destroy();
                 }
                 createArea(active_world, active_stage);
                 for(auto child : getRoot()->getChildren())
@@ -333,7 +333,7 @@ private:
     void clearAll()
     {
         for(auto child : getRoot()->getChildren())
-            delete child;
+            child.destroy();
     }
 
     void createArea(int world, int stage)

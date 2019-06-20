@@ -305,8 +305,8 @@ void StageSelectScene::chooseStage(int world, int stage)
 void StageSelectScene::buildBackgroundLevel()
 {
     for(auto child : getRoot()->getChildren())
-        if (child != *getCamera())
-            delete child;
+        if (child != getCamera())
+            child.destroy();
 
     if (sp::random(0, 100) < 10)
     {
