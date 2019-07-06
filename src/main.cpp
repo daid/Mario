@@ -3,6 +3,7 @@
 #include <sp2/logging.h>
 #include <sp2/random.h>
 #include <sp2/io/directoryResourceProvider.h>
+#include <sp2/io/virtualTouchKeys.h>
 #include <sp2/audio/music.h>
 #include <sp2/graphics/gui/widget/button.h>
 #include <sp2/graphics/gui/scene.h>
@@ -613,7 +614,11 @@ int main(int argc, char** argv)
 #endif
     window->addLayer(scene_layer);
 
+#ifdef ANDROID
+    save_game.load(1);
+#else
     save_game.load(2);
+#endif
     new StageScene();
     new EditorScene();
     new StageSelectScene();
@@ -623,9 +628,23 @@ int main(int argc, char** argv)
     //sp::Scene::get("editor")->enable();
 #endif
 
+#ifdef ANDROID
+    sp::io::VirtualTouchKeyLayer* touch_layer = new sp::io::VirtualTouchKeyLayer(50);
+    touch_layer->addButton(sp::Rect2f(sp::Vector2f(0, 0), sp::Vector2f(0.15, 0.5)), controller[0].running);
+    touch_layer->addButton(sp::Rect2f(sp::Vector2f(0.15, 0), sp::Vector2f(0.15, 0.5)), controller[0].running);
+    controller[0].left.addKey(controller[0].running.getKey(1));
+    controller[0].right.addKey(controller[0].running.getKey(2));
+    touch_layer->addButton(sp::Rect2f(sp::Vector2f(0, 0.5), sp::Vector2f(0.15, 0.5)), controller[0].left);
+    touch_layer->addButton(sp::Rect2f(sp::Vector2f(0.15, 0.5), sp::Vector2f(0.15, 0.5)), controller[0].right);
+    touch_layer->addButton(sp::Rect2f(sp::Vector2f(0.70, 0), sp::Vector2f(0.30, 1.0)), controller[0].jump);
+    window->addLayer(touch_layer);
+#else
     sp::io::Keybinding::loadKeybindings("keys.txt");
+#endif
     engine->run();
+#ifndef ANDROID
     sp::io::Keybinding::saveKeybindings("keys.txt");
+#endif
     
     return 0;
 }
