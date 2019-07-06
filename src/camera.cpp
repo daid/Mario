@@ -3,11 +3,28 @@
 #include "main.h"
 #include "pipeEntrance.h"
 
+#include <sp2/graphics/meshdata.h>
+
 Camera::Camera(sp::P<sp::Node> parent)
 : sp::Camera(parent)
 {
-    setOrtographic(8.0, Direction::Horizontal);
+    setOrtographic(6.0, Direction::Vertical);
     setPosition(sp::Vector2d(8, 0));
+    
+    sp::Node* left_black_bar = new sp::Node(this);
+    left_black_bar->render_data.type = sp::RenderData::Type::Normal;
+    left_black_bar->render_data.shader = sp::Shader::get("internal:color.shader");
+    left_black_bar->render_data.mesh = sp::MeshData::createQuad(sp::Vector2f(12, 12));
+    left_black_bar->render_data.color = sp::Color(0, 0, 0);
+    left_black_bar->render_data.order = 100;
+    left_black_bar->setPosition(sp::Vector2d(-14, 0));
+    sp::Node* right_black_bar = new sp::Node(this);
+    right_black_bar->render_data.type = sp::RenderData::Type::Normal;
+    right_black_bar->render_data.shader = sp::Shader::get("internal:color.shader");
+    right_black_bar->render_data.mesh = sp::MeshData::createQuad(sp::Vector2f(12, 12));
+    right_black_bar->render_data.color = sp::Color(0, 0, 0);
+    right_black_bar->render_data.order = 100;
+    right_black_bar->setPosition(sp::Vector2d(14, 0));
 }
 
 void Camera::onUpdate(float delta)

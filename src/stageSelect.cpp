@@ -117,6 +117,9 @@ void StageSelectScene::onDisable()
 
 void StageSelectScene::onUpdate(float delta)
 {
+#ifdef ANDROID
+    indicator->hide();
+#else
     indicator->setParent(selection);
     if (controller[0].right.getDown())
         changeSelection(sp::Vector2d(selection->getGlobalPosition2D()) + sp::Vector2d(selection->getRenderSize().x * 1.5, selection->getRenderSize().y / 2));
@@ -209,6 +212,7 @@ void StageSelectScene::onUpdate(float delta)
             secret_code = 0;
         break;
     }
+#endif
 }
 
 void StageSelectScene::changeSelection(sp::Vector2d position)
