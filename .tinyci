@@ -12,7 +12,7 @@ directory = _build_android
 commands =
     cmake .. -DCMAKE_TOOLCHAIN_FILE=../../SeriousProton2/cmake/toolchains/android.toolchain
     make -j 3
-artifacts = _build_android/Mario.apk
+artifacts = Mario.apk
 
 [repos-daid/SeriousProton2]
 required = True
