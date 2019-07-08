@@ -48,6 +48,9 @@ StageSelectScene::StageSelectScene()
                 if (sp::io::Serializer("custom_" + sp::string(s) + ".data").read("map", level_data))
                     loadStage(&level_data);
             });
+#ifdef ANDROID
+            button->hide();
+#endif
         }
 
         sp::P<sp::gui::Widget> button = gui->getWidgetWithID("QUIT");
