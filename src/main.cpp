@@ -638,6 +638,8 @@ int main(int argc, char** argv)
     touch_layer->addButton(sp::Rect2f(sp::Vector2f(0.15, 0.5), sp::Vector2f(0.15, 0.5)), controller[0].right);
     touch_layer->addButton(sp::Rect2f(sp::Vector2f(0.70, 0), sp::Vector2f(0.30, 1.0)), controller[0].jump);
     window->addLayer(touch_layer);
+    
+    escape_key.addKey("AC Back");
 #else
     sp::io::Keybinding::loadKeybindings("keys.txt");
 #endif
