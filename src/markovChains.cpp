@@ -9,7 +9,7 @@ MarkovChains::MarkovChains(unsigned int depth)
 void MarkovChains::seed(const std::u32string& s)
 {
     history.clear();
-    for(int n=0; n<max_depth; n++)
+    for(unsigned int n=0; n<max_depth; n++)
         history.push_back(s);
 }
 
@@ -29,7 +29,7 @@ void MarkovChains::addLearning(const std::u32string& s)
 
 std::u32string MarkovChains::getNext(std::mt19937_64& random_engine)
 {
-    for(unsigned int key_size = std::min(max_depth, history.size()); key_size > 0; key_size--)
+    for(unsigned int key_size = std::min(max_depth, (unsigned int)(history.size())); key_size > 0; key_size--)
     {
         std::u32string key;
         for(unsigned int m=0; m<key_size; m++)
