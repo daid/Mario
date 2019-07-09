@@ -51,6 +51,7 @@ bool StageSaveData::isFullyCompleted()
         return finished >= save_game.getPlayerCount();
     case GameMode::MoreAndMore:
     case GameMode::MoreAndMoreWorld:
+    case GameMode::Random:
         return all_recordings.size() / save_game.getPlayerCount() >= required_more_and_more_runs_for_completion;
     }
     return false;
@@ -64,6 +65,7 @@ int StageSaveData::completedCount()
         return finished >= save_game.getPlayerCount() ? 1 : 0;
     case GameMode::MoreAndMore:
     case GameMode::MoreAndMoreWorld:
+    case GameMode::Random:
         return all_recordings.size() / save_game.getPlayerCount();
     }
     return 0;
@@ -72,6 +74,7 @@ int StageSaveData::completedCount()
 SaveGame::SaveGame()
 {
     stages.resize(world_count * stage_count);
+    random_stages.resize(world_count * stage_count);
     for(int w=0; w<world_count; w++)
     {
         for(int s=0; s<stage_count; s++)
@@ -81,6 +84,15 @@ SaveGame::SaveGame()
                 stage.previous = &stages[w * stage_count + s - 1];
             if (w > 0)
                 stage.world_previous = &stages[(w - 1) * stage_count + s];
+        }
+
+        for(int s=0; s<stage_count; s++)
+        {
+            StageSaveData& stage = random_stages[w * stage_count + s];
+            if (w > 0 || s > 0)
+                stage.previous = &random_stages[w * stage_count + s - 1];
+            if (w > 0)
+                stage.world_previous = &random_stages[(w - 1) * stage_count + s];
         }
     }
     
@@ -100,6 +112,8 @@ StageSaveData& SaveGame::getStage(GameMode mode, int world, int stage)
     case GameMode::Basic:
     case GameMode::MoreAndMore:
         return stages[world * stage_count + stage];
+    case GameMode::Random:
+        return random_stages[world * stage_count + stage];
     case GameMode::MoreAndMoreWorld:
         return world_stages[world];
     }
@@ -149,6 +163,9 @@ void SaveGame::load(int player_count)
             {
                 sp::io::Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
                 serializer.read("stage", getStage(GameMode::MoreAndMore, w, s));
+
+                sp::io::Serializer serializer_random("save_random_" + sp::string(w) + "_" + sp::string(s) + ".data");
+                serializer_random.read("stage", getStage(GameMode::Random, w, s));
             }
         }
     }
@@ -241,6 +258,11 @@ void SaveGame::store()
             if (getStage(GameMode::MoreAndMore, w, s).is_dirty)
             {
                 sp::io::Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
+                serializer.write("stage", getStage(GameMode::MoreAndMore, w, s));
+            }
+            if (getStage(GameMode::Random, w, s).is_dirty)
+            {
+                sp::io::Serializer serializer("save_random_" + sp::string(w) + "_" + sp::string(s) + ".data");
                 serializer.write("stage", getStage(GameMode::MoreAndMore, w, s));
             }
         }

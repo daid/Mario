@@ -64,6 +64,7 @@ private:
     int life_count = 0;
     bool load_stages = false;
     std::vector<StageSaveData> stages;
+    std::vector<StageSaveData> random_stages;
     std::vector<StageSaveData> world_stages;
 };
 

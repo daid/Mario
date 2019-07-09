@@ -134,15 +134,15 @@ void StageSelectScene::onUpdate(float delta)
         changeSelection(sp::Vector2d(selection->getGlobalPosition2D()) + sp::Vector2d(selection->getRenderSize().x * 0.5, -selection->getRenderSize().y * 0.5));
     if (controller[0].running.getDown() && selection->isEnabled())
         selection->onPointerUp(sp::Vector2d(1, 1), -1);
-    if (controller[0].start.getDown() && game_mode != GameMode::MoreAndMore)
+    if (controller[0].start.getDown() || controller[1].start.getDown())
     {
-        game_mode = GameMode::MoreAndMore;
-        disable();
-        enable();
-    }
-    if (controller[1].start.getDown() && game_mode != GameMode::MoreAndMoreWorld)
-    {
-        game_mode = GameMode::MoreAndMoreWorld;
+        switch(game_mode)
+        {
+        case GameMode::Basic: game_mode = GameMode::MoreAndMore; break;
+        case GameMode::MoreAndMore: game_mode = GameMode::MoreAndMoreWorld; break;
+        case GameMode::MoreAndMoreWorld: game_mode = GameMode::Random; break;
+        case GameMode::Random: game_mode = GameMode::MoreAndMore; break;
+        }
         disable();
         enable();
     }
@@ -293,6 +293,7 @@ void StageSelectScene::changeSelection(sp::Vector2d position)
             break;
         case GameMode::MoreAndMore:
         case GameMode::MoreAndMoreWorld:
+        case GameMode::Random:
             gui->getWidgetWithID("STAGE_INFO_TIME")->setAttribute("caption", "RUNS " + sp::string(int(save.all_recordings.size() / save_game.getPlayerCount())));
             break;
         }

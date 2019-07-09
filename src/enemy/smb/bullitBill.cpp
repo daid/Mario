@@ -40,6 +40,7 @@ bool BullitBill::onPlayerHeadBump()
 BullitGenerator::BullitGenerator(sp::P<sp::Node> parent, float x, float y)
 : sp::Node(parent), x(x), y(y), spawn_delay(0.5)
 {
+    setPosition(sp::Vector2d(x, y));
 }
 
 void BullitGenerator::onUpdate(float delta)

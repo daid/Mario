@@ -23,6 +23,7 @@
 #include <sp2/io/keybinding.h>
 
 #include "smbLevelBuilder.h"
+#include "randomLevelGenerator.h"
 #include "inputController.h"
 #include "playerPawn.h"
 #include "camera.h"
@@ -52,7 +53,7 @@ sp::P<sp::Window> window;
 InputController controller[2]{{0}, {1}};
 sp::io::Keybinding escape_key{"exit", "Escape"};
 
-GameMode game_mode = GameMode::MoreAndMore;
+GameMode game_mode = GameMode::Random;
 bool return_to_editor = false;
 
 GlobalAreaData global_area_data;
@@ -137,6 +138,7 @@ public:
         {
         case GameMode::Basic:
         case GameMode::MoreAndMore:
+        case GameMode::Random:
             handleVictory(delta);
             break;
         case GameMode::MoreAndMoreWorld:
@@ -225,6 +227,7 @@ public:
             break;
         case GameMode::MoreAndMore:
         case GameMode::MoreAndMoreWorld:
+        case GameMode::Random:
             for(auto& recording : save_game.getStage(game_mode, world, stage).all_recordings)
                 new GhostReplay(getRoot(), recording);
             break;
@@ -339,6 +342,13 @@ private:
 
     void createArea(int world, int stage)
     {
+        if (game_mode == GameMode::Random)
+        {
+            RandomLevelGenerator generator;
+            generator.generate(this, 0x10000 | world << 8 | stage);
+            return;
+        }
+        
         switch(world)
         {
         case 0:
@@ -415,7 +425,7 @@ private:
             break;
         }
     }
-
+    
     void handleGameOver(float delta)
     {
         if (continue_delay == 0.0)
@@ -489,6 +499,7 @@ private:
                         break;
                     case GameMode::MoreAndMore:
                     case GameMode::MoreAndMoreWorld:
+                    case GameMode::Random:
                         for(auto& e : recorder->entries)
                             save.all_recordings.push_back(e.recording);
                         break;
@@ -622,6 +633,7 @@ int main(int argc, char** argv)
     new StageScene();
     new EditorScene();
     new StageSelectScene();
+    //new MarkovChainLearningScene();
     
 #ifdef DEBUG
     //sp::Scene::get("stage_select")->disable();

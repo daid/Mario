@@ -19,7 +19,8 @@ enum class GameMode
 {
     Basic,
     MoreAndMore,
-    MoreAndMoreWorld
+    MoreAndMoreWorld,
+    Random,
 };
 
 extern sp::P<sp::Window> window;

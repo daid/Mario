@@ -27,6 +27,9 @@ public:
 
     QuestionBlock(sp::P<sp::Tilemap> tilemap, Type type=Type::Normal, Contents contents=Contents::Coin);
 
+    Type getType() { return type; }
+    Contents getContents() { return contents; }
+    
     virtual void onCollision(sp::CollisionInfo& info) override;
     virtual void onFixedUpdate() override;
 private:
