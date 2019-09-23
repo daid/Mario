@@ -25,7 +25,7 @@ public:
         velocity = 20.0;
     }
 
-    void onUpdate(float delta)
+    virtual void onUpdate(float delta) override
     {
         velocity -= delta * 60.0;
         setPosition(getPosition2D() + sp::Vector2d(0, velocity * delta));

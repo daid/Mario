@@ -8,7 +8,7 @@ class Coin : public sp::Node
 public:
     Coin(sp::P<sp::Node> parent);
 
-    virtual void onCollision(sp::CollisionInfo& info);
+    virtual void onCollision(sp::CollisionInfo& info) override;
 };
 
 #endif//COIN_H

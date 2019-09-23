@@ -19,9 +19,9 @@ public:
     };
     
     PlayerPawn(sp::P<sp::Node> parent, InputController& controller, sp::string animation_name);
-    virtual void onUpdate(float delta);
-    virtual void onFixedUpdate();
-    virtual void onCollision(sp::CollisionInfo& info);
+    virtual void onUpdate(float delta) override;
+    virtual void onFixedUpdate() override;
+    virtual void onCollision(sp::CollisionInfo& info) override;
 
     double getBottomPosition();
 

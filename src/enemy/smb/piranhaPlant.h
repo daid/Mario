@@ -8,9 +8,9 @@ class PiranhaPlant : public Enemy
 public:
     PiranhaPlant(sp::P<sp::Node> parent, float x, float y);
 
-    virtual void onEnemyUpdate();
-    virtual void onSideHit(bool left);
-    virtual bool onPlayerHeadBump();
+    virtual void onEnemyUpdate() override;
+    virtual void onSideHit(bool left) override;
+    virtual bool onPlayerHeadBump() override;
 
 private:
     sp::Vector2d start_position;

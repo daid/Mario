@@ -14,7 +14,7 @@ public:
     
     UpgradePickup(sp::P<sp::Node> parent, Type type);
     
-    virtual bool onPickup(sp::P<PlayerPawn> player);
+    virtual bool onPickup(sp::P<PlayerPawn> player) override;
 private:
 };
 

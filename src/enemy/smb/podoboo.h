@@ -8,9 +8,9 @@ class Podoboo : public Enemy
 public:
     Podoboo(sp::P<sp::Node> parent, float x, float y);
 
-    virtual void onEnemyUpdate();
-    virtual void onSideHit(bool left);
-    virtual bool onPlayerHeadBump();
+    virtual void onEnemyUpdate() override;
+    virtual void onSideHit(bool left) override;
+    virtual bool onPlayerHeadBump() override;
 };
 
 #endif//ENEMY_SMB_PODOBOO_H

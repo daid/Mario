@@ -8,7 +8,7 @@ class Flagpole : public sp::Node
 public:
     Flagpole(sp::P<sp::Node> parent, double x);
 
-    virtual void onCollision(sp::CollisionInfo& info);
+    virtual void onCollision(sp::CollisionInfo& info) override;
 };
 
 #endif//FLAG_POLE_H

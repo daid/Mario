@@ -8,7 +8,7 @@ class StarPickup : public Pickup
 public:
     StarPickup(sp::P<sp::Node> parent);
     
-    virtual bool onPickup(sp::P<PlayerPawn> player);
+    virtual bool onPickup(sp::P<PlayerPawn> player) override;
 private:
 };
 

@@ -17,7 +17,7 @@ public:
     ContinuousGenerator(sp::P<sp::Node> parent, Type type, double start_x);
     void setEndX(double x);
 
-    virtual void onUpdate(float delta);
+    virtual void onUpdate(float delta) override;
 
 private:
     double start_x;

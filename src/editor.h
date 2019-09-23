@@ -63,7 +63,7 @@ public:
         Type type = Type::Open;
         Contents contents = Contents::None;
         
-        virtual void serialize(sp::io::Serializer::Handler& handler);
+        virtual void serialize(sp::io::Serializer::Handler& handler) override;
     };
     
     LevelData();
@@ -71,7 +71,7 @@ public:
     int getTileIndex(int x, int y);
     bool isTileSolid(int x, int y);
     
-    virtual void serialize(sp::io::Serializer::Handler& handler);
+    virtual void serialize(sp::io::Serializer::Handler& handler) override;
     
     static constexpr int width = 10 * 16;
     static constexpr int height = 13;

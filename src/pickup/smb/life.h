@@ -8,7 +8,7 @@ class LifePickup : public Pickup
 public:
     LifePickup(sp::P<sp::Node> parent);
     
-    virtual bool onPickup(sp::P<PlayerPawn> player);
+    virtual bool onPickup(sp::P<PlayerPawn> player) override;
 private:
 };
 
