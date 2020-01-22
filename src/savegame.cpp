@@ -151,20 +151,20 @@ void SaveGame::load(int player_count)
 
     this->player_count = player_count;
 
-    sp::io::Serializer serializer("save_main.data");
+    Serializer serializer("save_main.data");
     if (serializer.read("main", *this))
     {
         for(int w=0; w<world_count; w++)
         {
-            sp::io::Serializer serializer_world("save_world_" + sp::string(w) + ".data");
+            Serializer serializer_world("save_world_" + sp::string(w) + ".data");
             serializer_world.read("stage", getStage(GameMode::MoreAndMoreWorld, w, 0));
 
             for(int s=0; s<stage_count; s++)
             {
-                sp::io::Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
+                Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
                 serializer.read("stage", getStage(GameMode::MoreAndMore, w, s));
 
-                sp::io::Serializer serializer_random("save_random_" + sp::string(w) + "_" + sp::string(s) + ".data");
+                Serializer serializer_random("save_random_" + sp::string(w) + "_" + sp::string(s) + ".data");
                 serializer_random.read("stage", getStage(GameMode::Random, w, s));
             }
         }
@@ -172,7 +172,7 @@ void SaveGame::load(int player_count)
     else
     {
         load_stages = true;
-        sp::io::Serializer fallback_serializer("save.data");
+        Serializer fallback_serializer("save.data");
         if (!fallback_serializer.read("main", *this))
         {
             std::ifstream file("save.json");
@@ -243,33 +243,33 @@ void SaveGame::store()
 {
     LOG(Info, "Saving result");
 
-    sp::io::Serializer serializer("save_main.data");
+    Serializer serializer("save_main.data");
     serializer.write("main", *this);
 
     for(int w=0; w<world_count; w++)
     {
         if (getStage(GameMode::MoreAndMoreWorld, w, 0).is_dirty)
         {
-            sp::io::Serializer serializer("save_world_" + sp::string(w) + ".data");
+            Serializer serializer("save_world_" + sp::string(w) + ".data");
             serializer.write("stage", getStage(GameMode::MoreAndMoreWorld, w, 0));
         }
         for(int s=0; s<stage_count; s++)
         {
             if (getStage(GameMode::MoreAndMore, w, s).is_dirty)
             {
-                sp::io::Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
+                Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
                 serializer.write("stage", getStage(GameMode::MoreAndMore, w, s));
             }
             if (getStage(GameMode::Random, w, s).is_dirty)
             {
-                sp::io::Serializer serializer("save_random_" + sp::string(w) + "_" + sp::string(s) + ".data");
+                Serializer serializer("save_random_" + sp::string(w) + "_" + sp::string(s) + ".data");
                 serializer.write("stage", getStage(GameMode::MoreAndMore, w, s));
             }
         }
     }
 }
 
-void SaveGame::serialize(sp::io::Serializer::Handler& handler)
+void SaveGame::serialize(Serializer::Handler& handler)
 {
     if (load_stages)
         handler("stages", stages);
@@ -277,7 +277,7 @@ void SaveGame::serialize(sp::io::Serializer::Handler& handler)
     handler("coins", coin_count);
 }
 
-void StageSaveData::serialize(sp::io::Serializer::Handler& handler)
+void StageSaveData::serialize(Serializer::Handler& handler)
 {
     handler("finished", finished);
     handler("attempts", attempts);

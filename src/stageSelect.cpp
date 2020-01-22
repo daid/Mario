@@ -45,7 +45,7 @@ StageSelectScene::StageSelectScene()
             button->setEventCallback([this, s](sp::Variant v)
             {
                 LevelData level_data;
-                if (sp::io::Serializer("custom_" + sp::string(s) + ".data").read("map", level_data))
+                if (Serializer("custom_" + sp::string(s) + ".data").read("map", level_data))
                     loadStage(&level_data);
             });
 #ifdef ANDROID

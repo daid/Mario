@@ -3,12 +3,12 @@
 
 #include <sp2/scene/scene.h>
 #include <sp2/scene/tilemap.h>
-#include <sp2/io/serializer.h>
+#include "serializer.h"
 
-class LevelData : public sp::io::ISerializable
+class LevelData : public ISerializable
 {
 public:
-    class Tile : public sp::io::ISerializable
+    class Tile : public ISerializable
     {
     public:
         enum class Type
@@ -63,7 +63,7 @@ public:
         Type type = Type::Open;
         Contents contents = Contents::None;
         
-        virtual void serialize(sp::io::Serializer::Handler& handler) override;
+        virtual void serialize(Serializer::Handler& handler) override;
     };
     
     LevelData();
@@ -71,7 +71,7 @@ public:
     int getTileIndex(int x, int y);
     bool isTileSolid(int x, int y);
     
-    virtual void serialize(sp::io::Serializer::Handler& handler) override;
+    virtual void serialize(Serializer::Handler& handler) override;
     
     static constexpr int width = 10 * 16;
     static constexpr int height = 13;

@@ -411,7 +411,7 @@ bool LevelData::isTileSolid(int x, int y)
     return false;
 }
 
-void LevelData::serialize(sp::io::Serializer::Handler& handler)
+void LevelData::serialize(Serializer::Handler& handler)
 {
     int w = width;
     int h = height;
@@ -427,7 +427,7 @@ void LevelData::serialize(sp::io::Serializer::Handler& handler)
     }
 }
 
-void LevelData::Tile::serialize(sp::io::Serializer::Handler& handler)
+void LevelData::Tile::serialize(Serializer::Handler& handler)
 {
     handler("type", type);
     handler("contents", contents);
@@ -473,12 +473,12 @@ void EditorScene::onDisable()
 
 void EditorScene::save(int index)
 {
-    sp::io::Serializer("custom_" + sp::string(index) + ".data").write("map", *level_data);
+    Serializer("custom_" + sp::string(index) + ".data").write("map", *level_data);
 }
 
 void EditorScene::load(int index)
 {
-    sp::io::Serializer("custom_" + sp::string(index) + ".data").read("map", *level_data);
+    Serializer("custom_" + sp::string(index) + ".data").read("map", *level_data);
     
     for(int x=0; x<level_data->width; x++)
     {

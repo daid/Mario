@@ -2,13 +2,13 @@
 #define PLAYER_GHOST_H
 
 #include "playerPawn.h"
-#include <sp2/io/serializer.h>
+#include "serializer.h"
 
 
-class PlayerGhostRecording : public sp::io::ISerializable
+class PlayerGhostRecording : public ISerializable
 {
 public:
-    class Entry : public sp::io::ISerializable
+    class Entry : public ISerializable
     {
     public:
         enum class Type
@@ -21,7 +21,7 @@ public:
         int upgrade_level;
         PlayerPawn::State state;
         
-        virtual void serialize(sp::io::Serializer::Handler& handler) override
+        virtual void serialize(Serializer::Handler& handler) override
         {
             //handler("type", type);
             handler("position", position);
@@ -34,7 +34,7 @@ public:
     sp::string animation_name;
     std::vector<Entry> data;
     
-    virtual void serialize(sp::io::Serializer::Handler& handler) override
+    virtual void serialize(Serializer::Handler& handler) override
     {
         handler("animation_name", animation_name);
         handler("data", data);

@@ -1,12 +1,12 @@
 #ifndef SAVEGAME_H
 #define SAVEGAME_H
 
-#include <sp2/io/serializer.h>
+#include "serializer.h"
 #include <vector>
 #include "playerGhost.h"
 #include "main.h"
 
-class StageSaveData : public sp::io::ISerializable
+class StageSaveData : public ISerializable
 {
 public:
     static constexpr int required_more_and_more_runs_for_completion = 3;
@@ -29,7 +29,7 @@ public:
     std::vector<PlayerGhostRecording> best_time_recordings;
     std::vector<PlayerGhostRecording> all_recordings;
 
-    virtual void serialize(sp::io::Serializer::Handler& handler) override;
+    virtual void serialize(Serializer::Handler& handler) override;
 private:
     StageSaveData* previous = nullptr;
     StageSaveData* world_previous = nullptr;
@@ -37,7 +37,7 @@ private:
     friend class SaveGame;
 };
 
-class SaveGame : public sp::io::ISerializable
+class SaveGame : public ISerializable
 {
 public:
     static constexpr int world_count = 8;
@@ -57,7 +57,7 @@ public:
     void load(int player_count);
     void store();
 
-    virtual void serialize(sp::io::Serializer::Handler& handler) override;
+    virtual void serialize(Serializer::Handler& handler) override;
 private:
     int player_count;
     int coin_count = 0;

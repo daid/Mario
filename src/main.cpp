@@ -610,11 +610,11 @@ int main(int argc, char** argv)
 
     //Create a window to render on, and our engine.
     window = new sp::Window(4.0/3.0);
-#ifndef DEBUG
+#if !defined(DEBUG) && !defined(__EMSCRIPTEN__)
     window->setFullScreen(true);
     window->hideCursor();
 #endif
-    
+
     sp::gui::Theme::loadTheme("default", "gui/theme/basic.theme.txt");
     new sp::gui::Scene(sp::Vector2d(256, 192));
 
