@@ -161,8 +161,8 @@ void SaveGame::load(int player_count)
 
             for(int s=0; s<stage_count; s++)
             {
-                Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
-                serializer.read("stage", getStage(GameMode::MoreAndMore, w, s));
+                Serializer serializer_stage("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
+                serializer_stage.read("stage", getStage(GameMode::MoreAndMore, w, s));
 
                 Serializer serializer_random("save_random_" + sp::string(w) + "_" + sp::string(s) + ".data");
                 serializer_random.read("stage", getStage(GameMode::Random, w, s));
