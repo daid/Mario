@@ -250,20 +250,20 @@ void SaveGame::store()
     {
         if (getStage(GameMode::MoreAndMoreWorld, w, 0).is_dirty)
         {
-            Serializer serializer("save_world_" + sp::string(w) + ".data");
-            serializer.write("stage", getStage(GameMode::MoreAndMoreWorld, w, 0));
+            Serializer serializer_world("save_world_" + sp::string(w) + ".data");
+            serializer_world.write("stage", getStage(GameMode::MoreAndMoreWorld, w, 0));
         }
         for(int s=0; s<stage_count; s++)
         {
             if (getStage(GameMode::MoreAndMore, w, s).is_dirty)
             {
-                Serializer serializer("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
-                serializer.write("stage", getStage(GameMode::MoreAndMore, w, s));
+                Serializer serializer_stage("save_" + sp::string(w) + "_" + sp::string(s) + ".data");
+                serializer_stage.write("stage", getStage(GameMode::MoreAndMore, w, s));
             }
             if (getStage(GameMode::Random, w, s).is_dirty)
             {
-                Serializer serializer("save_random_" + sp::string(w) + "_" + sp::string(s) + ".data");
-                serializer.write("stage", getStage(GameMode::MoreAndMore, w, s));
+                Serializer serializer_stage("save_random_" + sp::string(w) + "_" + sp::string(s) + ".data");
+                serializer_stage.write("stage", getStage(GameMode::MoreAndMore, w, s));
             }
         }
     }
