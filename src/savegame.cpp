@@ -2,7 +2,7 @@
 #include "main.h"
 
 #include <sp2/logging.h>
-#include <json11/json11.hpp>
+#include <nlohmann/json.hpp>
 #include <fstream>
 
 SaveGame save_game;
@@ -182,7 +182,7 @@ void SaveGame::load(int player_count)
             data << file.rdbuf();
             sp::string err;
 
-            json11::Json json = json11::Json::parse(data.str(), err);
+            auto json = nlohmann::json::parse(data.str());
             if (err != "")
             {
                 LOG(Warning, "Failed to load save data:", err);
@@ -195,26 +195,26 @@ void SaveGame::load(int player_count)
                 {
                     auto& data = json[sp::string(w) + "-" + sp::string(s)];
                     StageSaveData& save = getStage(GameMode::MoreAndMore, w, s);
-                    save.finished = data["finished"].int_value();
-                    save.best_time = data["best_time"].number_value();
-                    save.attempts = data["attempts"].int_value();
+                    save.finished = data["finished"];
+                    save.best_time = data["best_time"];
+                    save.attempts = data["attempts"];
                     save.all_recordings.clear();
-                    for(auto& recording_data : data["all_recordings"].array_items())
+                    for(auto& recording_data : data["all_recordings"])
                     {
                         save.all_recordings.emplace_back();
                         auto& recording = save.all_recordings.back();
-                        recording.animation_name = recording_data["animation_name"].string_value();
-                        for(auto& e : recording_data["data"].array_items())
+                        recording.animation_name = recording_data["animation_name"];
+                        for(auto& e : recording_data["data"])
                         {
                             recording.data.emplace_back();
                             auto& entry = recording.data.back();
-                            entry.type = PlayerGhostRecording::Entry::Type(e["type"].int_value());
-                            entry.position.x = e["x"].number_value();
-                            entry.position.y = e["y"].number_value();
-                            entry.velocity.x = e["vx"].number_value();
-                            entry.velocity.y = e["vy"].number_value();
-                            entry.upgrade_level = e["u"].int_value();
-                            entry.state = PlayerPawn::State(e["state"].int_value());
+                            entry.type = PlayerGhostRecording::Entry::Type(int(e["type"]));
+                            entry.position.x = e["x"];
+                            entry.position.y = e["y"];
+                            entry.velocity.x = e["vx"];
+                            entry.velocity.y = e["vy"];
+                            entry.upgrade_level = e["u"];
+                            entry.state = PlayerPawn::State((int)e["state"]);
                             recording.data.emplace_back();
                             auto& entry2 = recording.data.back();
                             entry2 = entry;
@@ -223,8 +223,8 @@ void SaveGame::load(int player_count)
                     }
                 }
             }
-            coin_count = json["coins"].int_value();
-            life_count = json["lives"].int_value();
+            coin_count = json["coins"];
+            life_count = json["lives"];
         }
         
         load_stages = false;
