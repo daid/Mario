@@ -261,7 +261,7 @@ public:
                 int tile = level->getTileIndex(x, y);
                 if (tile > -1)
                 {
-                    tilemap->setTile(x, y, tile, level->isTileSolid(x, y) ? sp::Tilemap::Collision::Solid : sp::Tilemap::Collision::Open);
+                    tilemap->setTile({x, y}, tile, level->isTileSolid(x, y) ? sp::Tilemap::Collision::Solid : sp::Tilemap::Collision::Open);
                     if (tile == 128 || tile == 176)
                         new PiranhaPlant(getRoot(), x + 0.5, y);
                     if (tile == 165)
@@ -285,7 +285,7 @@ public:
                     case LevelData::Tile::Contents::Vine: contents = QuestionBlock::Contents::Vine; break;
                     case LevelData::Tile::Contents::Count: break;
                     }
-                    tilemap->setTile(x, y, -1);
+                    tilemap->setTile({x, y}, -1);
                     (new QuestionBlock(tilemap, type, contents))->setPosition(sp::Vector2d(x + 0.5, y + 0.5));
                 }
                 switch(level->tiles[x][y].type)
@@ -318,8 +318,8 @@ public:
                 case LevelData::Tile::Type::Bowser: new Bowser(getRoot(), x, y); break;
                 case LevelData::Tile::Type::Flagpole:
                     for(int n=0; n<7; n++)
-                        tilemap->setTile(x, y + n, 30);
-                    tilemap->setTile(x, y + 7, 14);
+                        tilemap->setTile({x, y + n}, 30);
+                    tilemap->setTile({x, y + 7}, 14);
                     (new Flagpole(getRoot(), x + 0.5))->setPosition(sp::Vector2d(x + 0.5, y));
                     break;
                 case LevelData::Tile::Type::Princess: (new LevelGoalPickup(getRoot(), LevelGoalPickup::Type::Princess))->setPosition(sp::Vector2d(x + 0.5, y + 0.5)); break;

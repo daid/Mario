@@ -98,53 +98,53 @@ void SmbLevelBuilder::hill(int x, int y, int h)
     x += page_index * 16;
     for(int n=0; n<h; n++)
     {
-        if (tilemap->getTileIndex(x + n, y + n) == -1) tilemap->setTile(x + n, y + n, 32);
-        if (tilemap->getTileIndex(x + h * 2 - n, y + n) == -1) tilemap->setTile(x + h * 2 - n, y + n, 34);
+        if (tilemap->getTileIndex({x + n, y + n}) == -1) tilemap->setTile({x + n, y + n}, 32);
+        if (tilemap->getTileIndex({x + h * 2 - n, y + n}) == -1) tilemap->setTile({x + h * 2 - n, y + n}, 34);
         for(int m=n+1; m<h*2-n; m++)
-            if (tilemap->getTileIndex(x + m, y + n) == -1) tilemap->setTile(x + m, y + n, 48 + ((m - n + 2) % 3));
+            if (tilemap->getTileIndex({x + m, y + n}) == -1) tilemap->setTile({x + m, y + n}, 48 + ((m - n + 2) % 3));
     }
-    if (tilemap->getTileIndex(x + h, y + h) == -1) tilemap->setTile(x + h, y + h, 33);
+    if (tilemap->getTileIndex({x + h, y + h}) == -1) tilemap->setTile({x + h, y + h}, 33);
 }
 
 void SmbLevelBuilder::cloud(int x, int y, int w)
 {
     x += page_index * 16;
 
-    if (tilemap->getTileIndex(x, y + 1) == -1) tilemap->setTile(x, y + 1, 64);
-    if (tilemap->getTileIndex(x, y) == -1) tilemap->setTile(x, y, 80);
+    if (tilemap->getTileIndex({x, y + 1}) == -1) tilemap->setTile({x, y + 1}, 64);
+    if (tilemap->getTileIndex({x, y}) == -1) tilemap->setTile({x, y}, 80);
     for(int n=1; n<w-1; n++)
     {
-        if (tilemap->getTileIndex(x + n, y + 1) == -1) tilemap->setTile(x + n, y + 1, 65);
-        if (tilemap->getTileIndex(x + n, y) == -1) tilemap->setTile(x + n, y, 81);
+        if (tilemap->getTileIndex({x + n, y + 1}) == -1) tilemap->setTile({x + n, y + 1}, 65);
+        if (tilemap->getTileIndex({x + n, y}) == -1) tilemap->setTile({x + n, y}, 81);
     }
-    if (tilemap->getTileIndex(x + w - 1, y + 1) == -1) tilemap->setTile(x + w - 1, y + 1, 66);
-    if (tilemap->getTileIndex(x + w - 1, y) == -1) tilemap->setTile(x + w - 1, y, 82);
+    if (tilemap->getTileIndex({x + w - 1, y + 1}) == -1) tilemap->setTile({x + w - 1, y + 1}, 66);
+    if (tilemap->getTileIndex({x + w - 1, y}) == -1) tilemap->setTile({x + w - 1, y}, 82);
 }
 
 void SmbLevelBuilder::bushes(int x, int y, int w)
 {
     x += page_index * 16;
 
-    if (tilemap->getTileIndex(x, y) == -1) tilemap->setTile(x, y, 51);
+    if (tilemap->getTileIndex({x, y}) == -1) tilemap->setTile({x, y}, 51);
     for(int n=1; n<w-1; n++)
-        if (tilemap->getTileIndex(x + n, y) == -1) tilemap->setTile(x + n, y, 52);
-    if (tilemap->getTileIndex(x + w - 1, y) == -1) tilemap->setTile(x + w - 1, y, 53);
+        if (tilemap->getTileIndex({x + n, y}) == -1) tilemap->setTile({x + n, y}, 52);
+    if (tilemap->getTileIndex({x + w - 1, y}) == -1) tilemap->setTile({x + w - 1, y}, 53);
 }
 
 void SmbLevelBuilder::tree(int x, int y, int h)
 {
     x += page_index * 16;
 
-    if (tilemap->getTileIndex(x, y - 1) == -1) return;
-    if (tilemap->getTileIndex(x, y) == -1) tilemap->setTile(x, y, 117);
+    if (tilemap->getTileIndex({x, y - 1}) == -1) return;
+    if (tilemap->getTileIndex({x, y}) == -1) tilemap->setTile({x, y}, 117);
     if (h == 2)
     {
-        if (tilemap->getTileIndex(x, y + 1) == -1) tilemap->setTile(x, y + 1, 101);
+        if (tilemap->getTileIndex({x, y + 1}) == -1) tilemap->setTile({x, y + 1}, 101);
     }
     else
     {
-        if (tilemap->getTileIndex(x, y + 1) == -1) tilemap->setTile(x, y + 1, 118);
-        if (tilemap->getTileIndex(x, y + 2) == -1) tilemap->setTile(x, y + 2, 102);
+        if (tilemap->getTileIndex({x, y + 1}) == -1) tilemap->setTile({x, y + 1}, 118);
+        if (tilemap->getTileIndex({x, y + 2}) == -1) tilemap->setTile({x, y + 2}, 102);
     }
 }
 
@@ -153,15 +153,15 @@ void SmbLevelBuilder::fence(int x, int y, int w)
     x += page_index * 16;
 
     for(int n=0; n<w; n++)
-        if (tilemap->getTileIndex(x + n, y - 1) != -1 && tilemap->getTileIndex(x + n, y) == -1) tilemap->setTile(x + n, y, 54);
+        if (tilemap->getTileIndex({x + n, y - 1}) != -1 && tilemap->getTileIndex({x + n, y}) == -1) tilemap->setTile({x + n, y}, 54);
 }
 
 void SmbLevelBuilder::questionBlock(int x, int y, QuestionBlock::Type type, QuestionBlock::Contents contents)
 {
     basicUpTo(x + 1);
     x += page_index * 16;
-    tilemap->setTile(x, y, -1);
-    //tilemap->setTile(x, y, 3, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x, y}, -1);
+    //tilemap->setTile({x, y, 3, sp::Tilemap::Collision::Solid);
     QuestionBlock* qb = new QuestionBlock(tilemap, type, contents);
     qb->setPosition(sp::Vector2d(x + 0.5, y + 0.5));
 }
@@ -176,7 +176,7 @@ void SmbLevelBuilder::emptyQuestionBlock(int x, int y)
 {
     basicUpTo(x + 1);
     x += page_index * 16;
-    tilemap->setTile(x, y, 3, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x, y}, 3, sp::Tilemap::Collision::Solid);
 }
 
 void SmbLevelBuilder::coins(int x, int y, int w)
@@ -193,21 +193,21 @@ void SmbLevelBuilder::verticalSeaplant(int x, int y, int h)
 {
     x += page_index * 16;
     for(int n=0; n<h; n++)
-        tilemap->setTile(x, y - n, 4, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, y - n}, 4, sp::Tilemap::Collision::Solid);
 }
 
 void SmbLevelBuilder::verticalBricks(int x, int y, int h)
 {
     x += page_index * 16;
     for(int n=0; n<h; n++)
-        tilemap->setTile(x, y - n, brick_tile, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, y - n}, brick_tile, sp::Tilemap::Collision::Solid);
 }
 
 void SmbLevelBuilder::horizontalBricks(int x, int y, int w)
 {
     x += page_index * 16;
     for(int n=0; n<w; n++)
-        tilemap->setTile(x + n, y, brick_tile, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x + n, y}, brick_tile, sp::Tilemap::Collision::Solid);
 }
 
 void SmbLevelBuilder::pipe(int x, int y, int h, PipeColor color)
@@ -217,13 +217,13 @@ void SmbLevelBuilder::pipe(int x, int y, int h, PipeColor color)
     x += page_index * 16;
     if (y < 13)
     {
-        tilemap->setTile(x, y, 128 + tile_offset, sp::Tilemap::Collision::Solid);
-        tilemap->setTile(x + 1, y, 129 + tile_offset, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, y}, 128 + tile_offset, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x + 1, y}, 129 + tile_offset, sp::Tilemap::Collision::Solid);
     }
     for(int n=1; n<h; n++)
     {
-        tilemap->setTile(x, y - n, 128 + 16 + tile_offset, sp::Tilemap::Collision::Solid);
-        tilemap->setTile(x + 1, y - n, 129 + 16 + tile_offset, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, y - n}, 128 + 16 + tile_offset, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x + 1, y - n}, 129 + 16 + tile_offset, sp::Tilemap::Collision::Solid);
     }
 }
 
@@ -233,8 +233,8 @@ void SmbLevelBuilder::sidePipeEntrance(int x, int y, PipeColor color)
     if (color == PipeColor::Red) tile_offset = 48;
     basicUpTo(x + 1);
     x += page_index * 16;
-    tilemap->setTile(x, y, 130 + tile_offset, sp::Tilemap::Collision::Solid);
-    tilemap->setTile(x, y - 1, 146 + tile_offset, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x, y}, 130 + tile_offset, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x, y - 1}, 146 + tile_offset, sp::Tilemap::Collision::Solid);
 }
 
 void SmbLevelBuilder::hole(int x, int w)
@@ -244,7 +244,7 @@ void SmbLevelBuilder::hole(int x, int w)
     for(int n=0; n<w; n++)
     {
         for(int m=0; m<5; m++)
-            tilemap->setTile(x + n, m, -1);
+            tilemap->setTile({x + n, m}, -1);
     }
 }
 
@@ -261,9 +261,9 @@ void SmbLevelBuilder::holeWithWater(int x, int w)
     }
     for(int n=0; n<w; n++)
     {
-        tilemap->setTile(x + n, 2, tile_upper_water);
-        tilemap->setTile(x + n, 1, tile_lower_water);
-        tilemap->setTile(x + n, 0, tile_lower_water);
+        tilemap->setTile({x + n, 2}, tile_upper_water);
+        tilemap->setTile({x + n, 1}, tile_lower_water);
+        tilemap->setTile({x + n, 0}, tile_lower_water);
     }
 }
 
@@ -273,7 +273,7 @@ void SmbLevelBuilder::stairs(int x, int y, int size)
     for(int n=0; n<size; n++)
     {
         for(int m=0; m<=n; m++)
-            tilemap->setTile(x + n, y + m, block_tile, sp::Tilemap::Collision::Solid);
+            tilemap->setTile({x + n, y + m}, block_tile, sp::Tilemap::Collision::Solid);
     }
 }
 
@@ -281,23 +281,23 @@ void SmbLevelBuilder::verticalBlock(int x, int y, int size)
 {
     x += page_index * 16;
     for(int n=0; n<size; n++)
-        tilemap->setTile(x, y - n, block_tile, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, y - n}, block_tile, sp::Tilemap::Collision::Solid);
 }
 
 void SmbLevelBuilder::horizontalBlock(int x, int y, int size)
 {
     x += page_index * 16;
     for(int n=0; n<size; n++)
-        tilemap->setTile(x + n, y, block_tile, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x + n, y}, block_tile, sp::Tilemap::Collision::Solid);
 }
 
 void SmbLevelBuilder::pole(int x, int y)
 {
     x += page_index * 16;
-    tilemap->setTile(x, y, block_tile, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x, y}, block_tile, sp::Tilemap::Collision::Solid);
     for(int n=1; n<8; n++)
-        tilemap->setTile(x, y + n, 30);
-    tilemap->setTile(x, y + 8, 14);
+        tilemap->setTile({x, y + n}, 30);
+    tilemap->setTile({x, y + 8}, 14);
     
     new Flagpole(tilemap->getParent(), x + 0.5);
 }
@@ -307,21 +307,21 @@ void SmbLevelBuilder::castle(int x, int y)
     x += page_index * 16;
     for(int n=0; n<5; n++)
         for(int m=0; m<2; m++)
-            tilemap->setTile(x + n, y + m, 2);
-    tilemap->setTile(x, y + 2, 11);
-    tilemap->setTile(x + 1, y + 2, 27);
-    tilemap->setTile(x + 2, y + 2, 27);
-    tilemap->setTile(x + 3, y + 2, 27);
-    tilemap->setTile(x + 4, y + 2, 11);
-    tilemap->setTile(x + 1, y + 3, 12);
-    tilemap->setTile(x + 2, y + 3, 2);
-    tilemap->setTile(x + 3, y + 3, 13);
-    tilemap->setTile(x + 1, y + 4, 11);
-    tilemap->setTile(x + 2, y + 4, 11);
-    tilemap->setTile(x + 3, y + 4, 11);
+            tilemap->setTile({x + n, y + m}, 2);
+    tilemap->setTile({x, y + 2}, 11);
+    tilemap->setTile({x + 1, y + 2}, 27);
+    tilemap->setTile({x + 2, y + 2}, 27);
+    tilemap->setTile({x + 3, y + 2}, 27);
+    tilemap->setTile({x + 4, y + 2}, 11);
+    tilemap->setTile({x + 1, y + 3}, 12);
+    tilemap->setTile({x + 2, y + 3}, 2);
+    tilemap->setTile({x + 3, y + 3}, 13);
+    tilemap->setTile({x + 1, y + 4}, 11);
+    tilemap->setTile({x + 2, y + 4}, 11);
+    tilemap->setTile({x + 3, y + 4}, 11);
     
-    tilemap->setTile(x + 2, y, 29);
-    tilemap->setTile(x + 2, y + 1, 28);
+    tilemap->setTile({x + 2, y}, 29);
+    tilemap->setTile({x + 2, y + 1}, 28);
 }
 
 void SmbLevelBuilder::largeCastle(int x, int y)
@@ -333,22 +333,22 @@ void SmbLevelBuilder::largeCastle(int x, int y)
         if (x + n - page_index * 16 < 0)
             continue;
         if (n < 2 || n > 7)
-            tilemap->setTile(x + n, y + 5, 11);
+            tilemap->setTile({x + n, y + 5}, 11);
         else
-            tilemap->setTile(x + n, y + 5, 27);
+            tilemap->setTile({x + n, y + 5}, 27);
         for(int m=0; m<5; m++)
-            tilemap->setTile(x + n, y + m, 2);
+            tilemap->setTile({x + n, y + m}, 2);
     }
     
     for(int n=2;n<7; n+= 2)
     {
-        tilemap->setTile(x + n, y, 29);
-        tilemap->setTile(x + n, y + 1, 28);
+        tilemap->setTile({x + n, y}, 29);
+        tilemap->setTile({x + n, y + 1}, 28);
     }
     for(int n=3;n<6; n+= 2)
     {
-        tilemap->setTile(x + n, y + 3, 29);
-        tilemap->setTile(x + n, y + 4, 28);
+        tilemap->setTile({x + n, y + 3}, 29);
+        tilemap->setTile({x + n, y + 4}, 28);
     }
 }
 
@@ -356,13 +356,13 @@ void SmbLevelBuilder::castleBridge(int x, int y, int w)
 {
     x += page_index * 16;
     for(int n=0; n<w; n++)
-        tilemap->setTile(x + n, y, 113, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x + n, y}, 113, sp::Tilemap::Collision::Solid);
 }
 
 void SmbLevelBuilder::bridgeRope(int x, int y)
 {
     x += page_index * 16;
-    tilemap->setTile(x, y, 114);
+    tilemap->setTile({x, y}, 114);
 }
 
 void SmbLevelBuilder::bridgeAxe(int x, int y)
@@ -402,51 +402,51 @@ void SmbLevelBuilder::reverseLPipe(int x, int y, int w, int h, PipeColor color)
     if (color == PipeColor::Red) tile_offset = 48;
     basicUpTo(x + w + 2);
     x += page_index * 16;
-    tilemap->setTile(x, y + 1, 130 + tile_offset, sp::Tilemap::Collision::Solid);
-    tilemap->setTile(x, y, 146 + tile_offset, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x, y + 1}, 130 + tile_offset, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x, y}, 146 + tile_offset, sp::Tilemap::Collision::Solid);
     for(int n=1; n<w; n++)
     {
-        tilemap->setTile(x + n, y + 1, 131 + tile_offset, sp::Tilemap::Collision::Solid);
-        tilemap->setTile(x + n, y, 147 + tile_offset, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x + n, y + 1}, 131 + tile_offset, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x + n, y}, 147 + tile_offset, sp::Tilemap::Collision::Solid);
     }
     pipe(x + w - page_index * 16, y + h + 1, h + 2, color);
-    tilemap->setTile(x + w, y + 1, 132 + tile_offset, sp::Tilemap::Collision::Solid);
-    tilemap->setTile(x + w, y, 148 + tile_offset, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x + w, y + 1}, 132 + tile_offset, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x + w, y}, 148 + tile_offset, sp::Tilemap::Collision::Solid);
 }
 
 void SmbLevelBuilder::island(int x, int y, int w)
 {
     x += page_index * 16;
-    tilemap->setTile(x, y, 133, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x, y}, 133, sp::Tilemap::Collision::Solid);
     for(int n=1; n<w-1; n++)
     {
-        tilemap->setTile(x + n, y, 134, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x + n, y}, 134, sp::Tilemap::Collision::Solid);
         for(int m=0; m<y; m++)
-            if (tilemap->getTileIndex(x + n, m) == -1) tilemap->setTile(x + n, m, 18);
+            if (tilemap->getTileIndex({x + n, m}) == -1) tilemap->setTile({x + n, m}, 18);
     }
-    tilemap->setTile(x + w - 1, y, 135, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x + w - 1, y}, 135, sp::Tilemap::Collision::Solid);
 }
 
 void SmbLevelBuilder::mushroomIsland(int x, int y, int w)
 {
     x += page_index * 16;
-    tilemap->setTile(x, y, 149, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x, y}, 149, sp::Tilemap::Collision::Solid);
     for(int n=1; n<w-1; n++)
-        tilemap->setTile(x + n, y, 150, sp::Tilemap::Collision::Solid);
-    if (tilemap->getTileIndex(x + w / 2, y - 1) == -1) tilemap->setTile(x + w / 2, y - 1, 166);
+        tilemap->setTile({x + n, y}, 150, sp::Tilemap::Collision::Solid);
+    if (tilemap->getTileIndex({x + w / 2, y - 1}) == -1) tilemap->setTile({x + w / 2, y - 1}, 166);
     for(int m=0; m<y; m++)
-        if (tilemap->getTileIndex(x + w / 2, m) == -1) tilemap->setTile(x + w / 2, m, 182);
-    tilemap->setTile(x + w - 1, y, 151, sp::Tilemap::Collision::Solid);
+        if (tilemap->getTileIndex({x + w / 2, m}) == -1) tilemap->setTile({x + w / 2, m}, 182);
+    tilemap->setTile({x + w - 1, y}, 151, sp::Tilemap::Collision::Solid);
 }
 
 void SmbLevelBuilder::bullitTower(int x, int y, int h)
 {
     x += page_index * 16;
     
-    tilemap->setTile(x, y, 165, sp::Tilemap::Collision::Solid);
-    tilemap->setTile(x, y - 1, 181, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x, y}, 165, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({x, y - 1}, 181, sp::Tilemap::Collision::Solid);
     for(int n=2; n<h; n++)
-        tilemap->setTile(x, y - n, 197, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, y - n}, 197, sp::Tilemap::Collision::Solid);
     
     new BullitGenerator(tilemap->getParent(), x, y);
 }
@@ -456,8 +456,8 @@ void SmbLevelBuilder::bridge(int x, int y, int w)
     x += page_index * 16;
     for(int n=0; n<w; n++)
     {
-        tilemap->setTile(x + n, y, 112, sp::Tilemap::Collision::Solid);
-        tilemap->setTile(x + n, y+1, 96);
+        tilemap->setTile({x + n, y}, 112, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x + n, y+1}, 96);
     }
 }
 
@@ -465,7 +465,7 @@ void SmbLevelBuilder::liftRope(int x)
 {
     x += page_index * 16;
     for(int n=0; n<13; n++)
-        tilemap->setTile(x, n, 98);
+        tilemap->setTile({x, n}, 98);
 }
 
 void SmbLevelBuilder::trampoline(int x, int y)
@@ -482,8 +482,8 @@ void SmbLevelBuilder::background()
         int x = page_index * 16;
         for(int n=0; n<16; n++)
         {
-            if (tilemap->getTileIndex(x + n, 1) == -1) tilemap->setTile(x + n, 1, 68);
-            if (tilemap->getTileIndex(x + n, 0) == -1) tilemap->setTile(x + n, 0, 84);
+            if (tilemap->getTileIndex({x + n, 1}) == -1) tilemap->setTile({x + n, 1}, 68);
+            if (tilemap->getTileIndex({x + n, 0}) == -1) tilemap->setTile({x + n, 0}, 84);
         }
         return;
     }
@@ -492,17 +492,17 @@ void SmbLevelBuilder::background()
         int x = page_index * 16;
         for(int n=0; n<16; n++)
         {
-            int idx = tilemap->getTileIndex(x + n, global_area_data.water_level);
+            int idx = tilemap->getTileIndex({x + n, global_area_data.water_level});
             if (idx == -1)
             {
-                tilemap->setTile(x + n, global_area_data.water_level, 85);
+                tilemap->setTile({x + n, global_area_data.water_level}, 85);
                 for(int m=global_area_data.water_level+1; m<16; m++)
-                    if (tilemap->getTileIndex(x + n, m) == -1) tilemap->setTile(x + n, m, 69);
+                    if (tilemap->getTileIndex({x + n, m}) == -1) tilemap->setTile({x + n, m}, 69);
             }
             else
             {
                 for(int m=global_area_data.water_level+1; m<16; m++)
-                    if (tilemap->getTileIndex(x + n, m) == -1) tilemap->setTile(x + n, m, idx, sp::Tilemap::Collision::Solid);
+                    if (tilemap->getTileIndex({x + n, m}) == -1) tilemap->setTile({x + n, m}, idx, sp::Tilemap::Collision::Solid);
             }
         }
         return;
@@ -590,19 +590,19 @@ void SmbLevelBuilder::basic(int x)
 {
     if (surface_size > 0)
     {
-        tilemap->setTile(x, 0, floor_tile, sp::Tilemap::Collision::Solid);
-        tilemap->setTile(x, 1, floor_tile, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, 0}, floor_tile, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, 1}, floor_tile, sp::Tilemap::Collision::Solid);
         for(int n=1; n<surface_size; n++)
-            tilemap->setTile(x, n+1, basic_tile, sp::Tilemap::Collision::Solid);
+            tilemap->setTile({x, n+1}, basic_tile, sp::Tilemap::Collision::Solid);
     }
     for(int n=0; n<ceiling_size; n++)
     {
-        tilemap->setTile(x, 12 - n, basic_tile, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, 12 - n}, basic_tile, sp::Tilemap::Collision::Solid);
     }
 
     for(int n=0; n<middle_size; n++)
     {
-        tilemap->setTile(x, 5 + n, basic_tile, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, 5 + n}, basic_tile, sp::Tilemap::Collision::Solid);
     }
 }
 

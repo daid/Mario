@@ -83,11 +83,22 @@ void RandomLevelGenerator::learn()
         int index = int(child->getPosition2D().x) + int(child->getPosition2D().y) * size.x;
         if (tilemap)
         {
-            size = tilemap->getSize();
+            size = {16, 16};
+            while(true) {
+                bool found = false;
+                for(int x=0; x<16 && !found; x++)
+                    for(int y=0; y<16 && !found; y++)
+                        if (tilemap->getTileIndex({size.x + x, y}) != -1)
+                            found = true;
+                if (!found)
+                    break;
+                size.x += 1;
+            }
+            LOG(Debug, size);
             data.resize(size.x * size.y);
             for(int x=0; x<size.x; x++)
                 for(int y=0; y<size.y; y++)
-                    data[x + y * size.x] = tilemap->getTileCollision(x, y) == sp::Tilemap::Collision::Open ? -1 : tilemap->getTileIndex(x, y);
+                    data[x + y * size.x] = tilemap->getTileCollision({x, y}) == sp::Tilemap::Collision::Open ? -1 : tilemap->getTileIndex({x, y});
         }
         else if (qb)
         {
@@ -161,8 +172,8 @@ void RandomLevelGenerator::generate(sp::P<sp::Scene> scene, int seed)
     chains.seed(start);
     for(int x=0; x<16; x++)
     {
-        tilemap->setTile(x, 0, 0, sp::Tilemap::Collision::Solid);
-        tilemap->setTile(x, 1, 0, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, 0}, 0, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({x, 1}, 0, sp::Tilemap::Collision::Solid);
     }
     int width = 16*16;
     for(int x=16;x<width;x++)
@@ -172,7 +183,7 @@ void RandomLevelGenerator::generate(sp::P<sp::Scene> scene, int seed)
         {
             unsigned int nr = current[current.length() - y - 1];
             if (nr < 256)
-                tilemap->setTile(x, y, nr, sp::Tilemap::Collision::Solid);
+                tilemap->setTile({x, y}, nr, sp::Tilemap::Collision::Solid);
             
             switch(nr)
             {
@@ -199,13 +210,13 @@ void RandomLevelGenerator::generate(sp::P<sp::Scene> scene, int seed)
     width += 1;
     for(int x=0; x<16; x++)
     {
-        tilemap->setTile(width+x, 0, 0, sp::Tilemap::Collision::Solid);
-        tilemap->setTile(width+x, 1, 0, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({width+x, 0}, 0, sp::Tilemap::Collision::Solid);
+        tilemap->setTile({width+x, 1}, 0, sp::Tilemap::Collision::Solid);
     }
-    tilemap->setTile(width, 2, 1, sp::Tilemap::Collision::Solid);
+    tilemap->setTile({width, 2}, 1, sp::Tilemap::Collision::Solid);
     for(int n=1; n<8; n++)
-        tilemap->setTile(width, 2 + n, 30);
-    tilemap->setTile(width, 2 + 8, 14);
+        tilemap->setTile({width, 2 + n}, 30);
+    tilemap->setTile({width, 2 + 8}, 14);
     
     new Flagpole(tilemap->getParent(), width + 0.5);
 }

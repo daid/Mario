@@ -38,9 +38,9 @@ void AxePickup::onFixedUpdate()
             {
                 for(int n=0; n<16; n++)
                 {
-                    if (tilemap->getTileIndex(remove_x, n) == 113 || tilemap->getTileIndex(remove_x, n) == 114)
+                    if (tilemap->getTileIndex({remove_x, n}) == 113 || tilemap->getTileIndex({remove_x, n}) == 114)
                     {
-                        tilemap->setTile(remove_x, n, -1);
+                        tilemap->setTile({remove_x, n}, -1);
                         did_remove = true;
                     }
                 }

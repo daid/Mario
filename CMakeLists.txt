@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.8)
 project(Mario)
 
 set(SP2_PATH "../SeriousProton2" CACHE STRING "Path to SeriousProton2 sources")

@@ -452,12 +452,12 @@ void PlayerPawn::onCollision(sp::CollisionInfo& info)
                 sp::P<sp::Tilemap> tilemap = info.other;
                 if (tilemap)
                 {
-                    int tile_index = tilemap->getTileIndex(info.position.x, info.position.y + 0.5);
+                    int tile_index = tilemap->getTileIndex({info.position.x, info.position.y + 0.5});
                     if (tile_index == 1 || tile_index == 19 || tile_index == 99)
                     {
                         int x = info.position.x;
                         int y = info.position.y + 0.5;
-                        tilemap->setTile(x, y, -1);
+                        tilemap->setTile({x, y}, -1);
                         sp::string animation = "Brick";
                         if (tile_index == 19) animation = "BrickUnderground";
                         if (tile_index == 99) animation = "BrickCastle";

@@ -523,53 +523,53 @@ void EditorScene::adjustTile(int x, int y)
 
 void EditorScene::updateTilemap(int x, int y)
 {
-    main_tilemap->setTile(x, y, level_data->getTileIndex(x, y));
-    overlay_tilemap->setTile(x, y, -1);
+    main_tilemap->setTile({x, y}, level_data->getTileIndex(x, y));
+    overlay_tilemap->setTile({x, y}, -1);
     switch(level_data->tiles[x][y].type)
     {
     case LevelData::Tile::Type::Open:
         if (level_data->tiles[x][y].contents != LevelData::Tile::Contents::None)
-            main_tilemap->setTile(x, y, 5);
+            main_tilemap->setTile({x, y}, 5);
         break;
     case LevelData::Tile::Type::Brick: break;
     case LevelData::Tile::Type::Ground: break;
     case LevelData::Tile::Type::Block: break;
-    case LevelData::Tile::Type::Coin: overlay_tilemap->setTile(x, y, 17); break;
-    case LevelData::Tile::Type::QuestionBlock: main_tilemap->setTile(x, y, 3); break;
+    case LevelData::Tile::Type::Coin: overlay_tilemap->setTile({x, y}, 17); break;
+    case LevelData::Tile::Type::QuestionBlock: main_tilemap->setTile({x, y}, 3); break;
             
     case LevelData::Tile::Type::Pipe: break;
     case LevelData::Tile::Type::PipeRed: break;
     case LevelData::Tile::Type::Island: break;
     case LevelData::Tile::Type::MushroomIsland: break;
-    case LevelData::Tile::Type::Trampoline: overlay_tilemap->setTile(x, y, 18); break;
+    case LevelData::Tile::Type::Trampoline: overlay_tilemap->setTile({x, y}, 18); break;
     case LevelData::Tile::Type::BullitTower: break;
-    case LevelData::Tile::Type::FirebarLeft: overlay_tilemap->setTile(x, y, 43); break;
-    case LevelData::Tile::Type::FirebarRight: overlay_tilemap->setTile(x, y, 44); break;
+    case LevelData::Tile::Type::FirebarLeft: overlay_tilemap->setTile({x, y}, 43); break;
+    case LevelData::Tile::Type::FirebarRight: overlay_tilemap->setTile({x, y}, 44); break;
     
-    case LevelData::Tile::Type::Goomba: overlay_tilemap->setTile(x, y, 8); break;
-    case LevelData::Tile::Type::KoopaGreen: overlay_tilemap->setTile(x, y, 9); break;
-    case LevelData::Tile::Type::KoopaRed: overlay_tilemap->setTile(x, y, 25); break;
-    case LevelData::Tile::Type::KoopaParatrooperGreen: overlay_tilemap->setTile(x, y, 11); break;
-    case LevelData::Tile::Type::KoopaParatrooperRed: overlay_tilemap->setTile(x, y, 27); break;
-    case LevelData::Tile::Type::Blooper: overlay_tilemap->setTile(x, y, 40); break;
-    case LevelData::Tile::Type::Podoboo: overlay_tilemap->setTile(x, y, 10); break;
-    case LevelData::Tile::Type::HammerBrother: overlay_tilemap->setTile(x, y, 41); break;
-    case LevelData::Tile::Type::Lakitu: overlay_tilemap->setTile(x, y, 42); break;
-    case LevelData::Tile::Type::BuzzyBeetle: overlay_tilemap->setTile(x, y, 24); break;
-    case LevelData::Tile::Type::Bowser: overlay_tilemap->setTile(x, y, 26); break;
-    case LevelData::Tile::Type::Flagpole: overlay_tilemap->setTile(x, y, 32); break;
-    case LevelData::Tile::Type::Princess: overlay_tilemap->setTile(x, y, 2); break;
+    case LevelData::Tile::Type::Goomba: overlay_tilemap->setTile({x, y}, 8); break;
+    case LevelData::Tile::Type::KoopaGreen: overlay_tilemap->setTile({x, y}, 9); break;
+    case LevelData::Tile::Type::KoopaRed: overlay_tilemap->setTile({x, y}, 25); break;
+    case LevelData::Tile::Type::KoopaParatrooperGreen: overlay_tilemap->setTile({x, y}, 11); break;
+    case LevelData::Tile::Type::KoopaParatrooperRed: overlay_tilemap->setTile({x, y}, 27); break;
+    case LevelData::Tile::Type::Blooper: overlay_tilemap->setTile({x, y}, 40); break;
+    case LevelData::Tile::Type::Podoboo: overlay_tilemap->setTile({x, y}, 10); break;
+    case LevelData::Tile::Type::HammerBrother: overlay_tilemap->setTile({x, y}, 41); break;
+    case LevelData::Tile::Type::Lakitu: overlay_tilemap->setTile({x, y}, 42); break;
+    case LevelData::Tile::Type::BuzzyBeetle: overlay_tilemap->setTile({x, y}, 24); break;
+    case LevelData::Tile::Type::Bowser: overlay_tilemap->setTile({x, y}, 26); break;
+    case LevelData::Tile::Type::Flagpole: overlay_tilemap->setTile({x, y}, 32); break;
+    case LevelData::Tile::Type::Princess: overlay_tilemap->setTile({x, y}, 2); break;
     case LevelData::Tile::Type::Count: break;
     }
     switch(level_data->tiles[x][y].contents)
     {
     case LevelData::Tile::Contents::None: break;
-    case LevelData::Tile::Contents::Coin: overlay_tilemap->setTile(x, y, 17); break;
-    case LevelData::Tile::Contents::MultiCoin: overlay_tilemap->setTile(x, y, 33); break;
-    case LevelData::Tile::Contents::Upgrade: overlay_tilemap->setTile(x, y, 0); break;
-    case LevelData::Tile::Contents::Star: overlay_tilemap->setTile(x, y, 48); break;
-    case LevelData::Tile::Contents::Life: overlay_tilemap->setTile(x, y, 16); break;
-    case LevelData::Tile::Contents::Vine: overlay_tilemap->setTile(x, y, 34); break;
+    case LevelData::Tile::Contents::Coin: overlay_tilemap->setTile({x, y}, 17); break;
+    case LevelData::Tile::Contents::MultiCoin: overlay_tilemap->setTile({x, y}, 33); break;
+    case LevelData::Tile::Contents::Upgrade: overlay_tilemap->setTile({x, y}, 0); break;
+    case LevelData::Tile::Contents::Star: overlay_tilemap->setTile({x, y}, 48); break;
+    case LevelData::Tile::Contents::Life: overlay_tilemap->setTile({x, y}, 16); break;
+    case LevelData::Tile::Contents::Vine: overlay_tilemap->setTile({x, y}, 34); break;
     case LevelData::Tile::Contents::Count: break;
     }
 }
