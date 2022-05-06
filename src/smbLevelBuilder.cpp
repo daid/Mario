@@ -492,10 +492,10 @@ void SmbLevelBuilder::background()
         int x = page_index * 16;
         for(int n=0; n<16; n++)
         {
-            int idx = tilemap->getTileIndex({x + n, global_area_data.water_level});
+            int idx = tilemap->getTileIndex({x + n, int(global_area_data.water_level)});
             if (idx == -1)
             {
-                tilemap->setTile({x + n, global_area_data.water_level}, 85);
+                tilemap->setTile({x + n, int(global_area_data.water_level)}, 85);
                 for(int m=global_area_data.water_level+1; m<16; m++)
                     if (tilemap->getTileIndex({x + n, m}) == -1) tilemap->setTile({x + n, m}, 69);
             }
