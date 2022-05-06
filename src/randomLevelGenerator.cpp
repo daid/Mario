@@ -183,7 +183,7 @@ void RandomLevelGenerator::generate(sp::P<sp::Scene> scene, int seed)
         {
             unsigned int nr = current[current.length() - y - 1];
             if (nr < 256)
-                tilemap->setTile({x, y}, nr, sp::Tilemap::Collision::Solid);
+                tilemap->setTile({x, int(y)}, nr, sp::Tilemap::Collision::Solid);
             
             switch(nr)
             {

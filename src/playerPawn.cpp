@@ -452,7 +452,7 @@ void PlayerPawn::onCollision(sp::CollisionInfo& info)
                 sp::P<sp::Tilemap> tilemap = info.other;
                 if (tilemap)
                 {
-                    int tile_index = tilemap->getTileIndex({info.position.x, info.position.y + 0.5});
+                    int tile_index = tilemap->getTileIndex({int(info.position.x), int(info.position.y + 0.5)});
                     if (tile_index == 1 || tile_index == 19 || tile_index == 99)
                     {
                         int x = info.position.x;

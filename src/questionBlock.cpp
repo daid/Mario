@@ -142,7 +142,7 @@ void QuestionBlock::onFixedUpdate()
             position = start_position;
             if (contents != Contents::MultiCoin || multi_coin_count < 1)
             {
-                tilemap->setTile({getPosition2D().x, getPosition2D().y}, 3, sp::Tilemap::Collision::Solid);
+                tilemap->setTile({int(getPosition2D().x), int(getPosition2D().y)}, 3, sp::Tilemap::Collision::Solid);
                 state = State::Destroy;
                 return;
             }
