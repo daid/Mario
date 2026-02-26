@@ -61,10 +61,10 @@ StageSelectScene::StageSelectScene()
         });
     }
 
-    onEnable();
+    onEnable(sp::Scene::FlagEnableUpdate | sp::Scene::FlagEnableRender | sp::Scene::FlagEnableInput);
 }
 
-void StageSelectScene::onEnable()
+void StageSelectScene::onEnable(uint32_t flags)
 {
     gui->show();
 
@@ -113,7 +113,7 @@ void StageSelectScene::onEnable()
     }
 }
 
-void StageSelectScene::onDisable()
+void StageSelectScene::onDisable(uint32_t flags)
 {
     gui->hide();
     destroyPlayers(this);

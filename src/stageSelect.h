@@ -8,8 +8,8 @@ class StageSelectScene : public sp::Scene
 {
 public:
     StageSelectScene();
-    virtual void onEnable() override;
-    virtual void onDisable() override;
+    virtual void onEnable(uint32_t flags) override;
+    virtual void onDisable(uint32_t flags) override;
     virtual void onUpdate(float delta) override;
 
 private:

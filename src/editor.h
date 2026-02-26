@@ -83,8 +83,8 @@ class EditorScene : public sp::Scene
 public:
     EditorScene();
 
-    virtual void onEnable() override;
-    virtual void onDisable() override;
+    virtual void onEnable(uint32_t flags) override;
+    virtual void onDisable(uint32_t flags) override;
     
     LevelData* level_data = nullptr;
     
