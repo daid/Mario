@@ -441,7 +441,7 @@ EditorScene::EditorScene()
     level_data = new LevelData();
 }
 
-void EditorScene::onEnable()
+void EditorScene::onEnable(uint32_t flags)
 {
     window->setClearColor(sp::Color(107/255.0f, 136/255.0f, 255/255.0f));
     
@@ -465,7 +465,7 @@ void EditorScene::onEnable()
         new EditorCursor(getRoot(), controller[n], *this);
 }
 
-void EditorScene::onDisable()
+void EditorScene::onDisable(uint32_t flags)
 {
     for(auto child : getRoot()->getChildren())
         child.destroy();
