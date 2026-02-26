@@ -181,7 +181,7 @@ public:
             recorder->update();
     }
     
-    virtual void onDisable() override
+    virtual void onDisable(uint32_t flags) override
     {
         gameover->hide();
         victory->hide();
